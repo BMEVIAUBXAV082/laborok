@@ -1,0 +1,1851 @@
+<!DOCTYPE html><html lang="hu" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Pomázi Krisztián">
+      
+      
+      
+      
+      <link rel="icon" href="../../../favicon.ico">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.14">
+    
+    
+      
+        <title>Adatforrások, adatgenerálás - BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.113286f1.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../css/timeago.css">
+    
+      <link rel="stylesheet" href="../../../extra-material-theme.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="aut" data-md-color-primary="red" data-md-color-accent="red">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#adatforrasok-adatgeneralas" class="md-skip">
+          Kihagyás
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Élőfej">
+    <a href="../../.." title="BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok" class="md-header__button md-logo" aria-label="BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok" data-md-component="logo">
+      
+  <img src="../../../logo-bme-aut.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Adatforrások, adatgenerálás
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="aut" data-md-color-primary="red" data-md-color-accent="red" aria-label="Váltás sötét témára" type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Váltás sötét témára" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"></path></svg>
+            </label>
+          
+        
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="" aria-label="Váltás világos témára" type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Váltás világos témára" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"></path></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Keresés" placeholder="Keresés" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Keresés">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Törlés" aria-label="Törlés" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Keresés inicializálása
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/viaubxav082/laborok" title="Főoldalra ugrás" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    viaubxav082/laborok
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Lapok" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        Tudnivalók
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link">
+        Lab1
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigáció" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok" class="md-nav__button md-logo" aria-label="BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok" data-md-component="logo">
+      
+  <img src="../../../logo-bme-aut.png" alt="logo">
+
+    </a>
+    BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/viaubxav082/laborok" title="Főoldalra ugrás" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    viaubxav082/laborok
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1">
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+          Tudnivalók
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Tudnivalók
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Tárgy ismertető
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tudnivalok/github/GitHub/" class="md-nav__link">
+        Feladatok beadása (GitHub)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tudnivalok/github/GitHub-Actions/" class="md-nav__link">
+        GitHub Actions ismertető
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tudnivalok/github/GitHub-credentials/" class="md-nav__link">
+        Egyetemi laborokban: GitHub belépés
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tudnivalok/github/contributing/" class="md-nav__link">
+        Hozzájárulás az anyaghoz
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Lab1
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Lab1
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        Batch adatfeldolgozó pipeline
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1/" class="md-nav__link">
+        1. feladat: Szintetikus webshop adatok generálása
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2/" class="md-nav__link">
+        2. feladat: Adatbázis betöltés és Extract
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3/" class="md-nav__link">
+        3. feladat: DuckDB transzformációk – Staging, Cleaned, Aggregated
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4/" class="md-nav__link">
+        4. feladat: SCD Type 2 – Ügyfél dimenzió
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../5/" class="md-nav__link">
+        5. feladat: Gold réteg és teljesítménymérés
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../6/" class="md-nav__link">
+        6. feladat: Adatminőség validáció
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../7/" class="md-nav__link">
+        7. feladat: Particionált Parquet és predicate pushdown
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tartalomjegyzék">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tartalomjegyzék
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#elokeszulet" class="md-nav__link">
+    Előkészület
+  </a>
+  
+    <nav class="md-nav" aria-label="Előkészület">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#git-repository-letrehozasa-es-letoltese" class="md-nav__link">
+    Git repository létrehozása és letöltése
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#virtualis-kornyezet-letrehozasa" class="md-nav__link">
+    Virtuális környezet létrehozása
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-feladat-adatformatumok" class="md-nav__link">
+    1. feladat: Adatformátumok
+  </a>
+  
+    <nav class="md-nav" aria-label="1. feladat: Adatformátumok">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fuggosegek-telepitese" class="md-nav__link">
+    Függőségek telepítése
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mintaadatok-letrehozasa" class="md-nav__link">
+    Mintaadatok létrehozása
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mentes-kulonbozo-formatumokban" class="md-nav__link">
+    Mentés különböző formátumokban
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fajlmeret-osszehasonlitas" class="md-nav__link">
+    Fájlméret összehasonlítás
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visszaolvasas-es-sebesseg-meres" class="md-nav__link">
+    Visszaolvasás és sebesség mérés
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parquet-sema-vizsgalat" class="md-nav__link">
+    Parquet séma vizsgálat
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beadando" class="md-nav__link">
+    Beadandó
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-feladat-adatkinyeres-rest-api-bol" class="md-nav__link">
+    2. feladat: Adatkinyerés REST API-ból
+  </a>
+  
+    <nav class="md-nav" aria-label="2. feladat: Adatkinyerés REST API-ból">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#egyszeru-api-lekerdezes" class="md-nav__link">
+    Egyszerű API lekérdezés
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#valasz-feldolgozasa" class="md-nav__link">
+    Válasz feldolgozása
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tobb-varos-lekerdezese" class="md-nav__link">
+    Több város lekérdezése
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#historikus-adatok-lekerese" class="md-nav__link">
+    Historikus adatok lekérése
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adatok-mentese" class="md-nav__link">
+    Adatok mentése
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beadando_1" class="md-nav__link">
+    Beadandó
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-feladat-adatkinyeres-adatbazisbol" class="md-nav__link">
+    3. feladat: Adatkinyerés adatbázisból
+  </a>
+  
+    <nav class="md-nav" aria-label="3. feladat: Adatkinyerés adatbázisból">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#postgresql-inditasa-docker-ben" class="md-nav__link">
+    PostgreSQL indítása Docker-ben
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kapcsolodas-python-bol" class="md-nav__link">
+    Kapcsolódás Python-ból
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adatok-betoltese" class="md-nav__link">
+    Adatok betöltése
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sql-lekerdezesek" class="md-nav__link">
+    SQL lekérdezések
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adatok-exportalasa" class="md-nav__link">
+    Adatok exportálása
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beadando_2" class="md-nav__link">
+    Beadandó
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-feladat-szintetikus-adatgeneralas" class="md-nav__link">
+    4. feladat: Szintetikus adatgenerálás
+  </a>
+  
+    <nav class="md-nav" aria-label="4. feladat: Szintetikus adatgenerálás">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#faker-alapok" class="md-nav__link">
+    Faker alapok
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#magyar-lokalizacio" class="md-nav__link">
+    Magyar lokalizáció
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#egyedi-adatgenerator" class="md-nav__link">
+    Egyedi adatgenerátor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nagymeretu-adathalmaz-generalasa" class="md-nav__link">
+    Nagyméretű adathalmaz generálása
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ismetelhetoseg" class="md-nav__link">
+    Ismételhetőség
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adatok-betoltese-az-adatbazisba" class="md-nav__link">
+    Adatok betöltése az adatbázisba
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beadando_3" class="md-nav__link">
+    Beadandó
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-feladat-web-scraping" class="md-nav__link">
+    5. feladat: Web scraping
+  </a>
+  
+    <nav class="md-nav" aria-label="5. feladat: Web scraping">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#beautiful-soup-telepitese" class="md-nav__link">
+    Beautiful Soup telepítése
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#html-oldal-letoltese-es-elemzese" class="md-nav__link">
+    HTML oldal letöltése és elemzése
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adatok-kinyerese" class="md-nav__link">
+    Adatok kinyerése
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tobb-oldal-feldolgozasa" class="md-nav__link">
+    Több oldal feldolgozása
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adatok-tisztitasa-es-mentese" class="md-nav__link">
+    Adatok tisztítása és mentése
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#beadando_4" class="md-nav__link">
+    Beadandó
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="adatforrasok-adatgeneralas">Adatforrások, adatgenerálás<a class="headerlink" href="#adatforrasok-adatgeneralas" title="Permanent link">¶</a></h1>
+<p>A labor során megismerkedsz a leggyakoribb adatforrásokkal és adatformátumokkal, gyakorlatot szerzel adatkinyerésben különböző forrásokból, valamint megtanulod, hogyan lehet valósághű szintetikus adatokat generálni. A labor célja, hogy tapasztalatot szerezz a data engineering gyakorlati alkalmazásában.</p>
+<h2 id="elokeszulet">Előkészület<a class="headerlink" href="#elokeszulet" title="Permanent link">¶</a></h2>
+<p>A feladatok megoldásához az alábbi telepített szoftverekre van szükség (alternatívaként használhatjuk a <a href="https://cloud.bme.hu/">BME Cloud</a> egyik virtuális gépét):</p>
+<ul>
+<li><a href="https://www.docker.com/products/docker-desktop/">Docker Desktop</a> vagy egyéb Docker-konténer futtatására alkalmas környezet</li>
+<li><a href="https://www.python.org/">Python</a> futtatókörnyezet (3.12-es verzió)</li>
+<li><a href="https://code.visualstudio.com/">VS Code</a> vagy egyéb kódszerkesztő</li>
+<li><a href="https://git-scm.com/">Git</a></li>
+<li><a href="https://python-poetry.org/">Poetry</a> vagy egyéb függőségkezelő (opcionális, de erősen javasolt)</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Technológiák</p>
+<p>A labor során több (számodra akár teljesen új) technológiával is kell dolgoznod. A data engineering világában a fejlesztők rendszeresen találkoznak különböző adatforrásokkal, formátumokkal és eszközökkel, amelyekhez gyorsan kell alkalmazkodniuk. Előfordulhat, hogy bizonyos lépések értelmét csak később látod meg, de így könnyebben megérted majd, hogyan működik egy valós adatfeldolgozó rendszer.</p>
+</div>
+<p>A feladatok megoldása során ne felejtsd el követni a feladatbeadás folyamatát, amiről <a href="../../../tudnivalok/github/GitHub/">itt olvashatsz részletesen</a>.</p>
+<h3 id="git-repository-letrehozasa-es-letoltese">Git repository létrehozása és letöltése<a class="headerlink" href="#git-repository-letrehozasa-es-letoltese" title="Permanent link">¶</a></h3>
+<ol>
+<li>Moodle-ben keresd meg a laborhoz tartozó meghívó URL-jét, és annak segítségével hozd létre a saját repository-dat.</li>
+<li>Várd meg, míg elkészül a repository, majd checkout-old ki.</li>
+<li>Hozz létre egy új ágat <code>megoldas</code> néven, és ezen az ágon dolgozz.</li>
+<li>A neptun.txt fájlba írd bele a Neptun-kódodat. A fájlban semmi más ne szerepeljen, csak egyetlen sorban a Neptun-kód 6 karaktere.</li>
+</ol>
+<h3 id="virtualis-kornyezet-letrehozasa">Virtuális környezet létrehozása<a class="headerlink" href="#virtualis-kornyezet-letrehozasa" title="Permanent link">¶</a></h3>
+<p>Már most érdemes létrehozni egy virtuális környezetet a projekt gyökerében, és azt aktiválni. A virtuális környezet célja, hogy a Python csomagokat, amiket használni fogsz, ne globálisan kelljen feltelepíteni, hanem csak az adott projektre vonatkozóan.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tipp</p>
+<p>A virtuális környezet létrehozásához az alábbi leírás a <code>poetry</code>-t javasolja. Ettől saját felelősségre el lehet térni, de erősen ajánlott ennek használata. Ha elakadnátok, bátran kérjetek segítséget.</p>
+</div>
+<ol>
+<li>
+<p>Nyiss meg egy parancssort a projekt gyökerében. Mivel a projektet üresen hoztuk létre, elsőként inicializáljuk a Poetry-t:</p>
+<div class="highlight"><pre><span></span><code><span class="n">PS</span><span class="p">&gt;</span> <span class="n">poetry</span> <span class="n">init</span> <span class="p">-</span><span class="n">-no-interaction</span> <span class="p">-</span><span class="n">-python</span> <span class="s2">"^3.12"</span>
+</code></pre></div>
+<p>Ez létrehozza a <code>pyproject.toml</code> konfigurációs fájlt.</p>
+</li>
+<li>
+<p>Hozd létre a virtuális környezetet és aktiváld:</p>
+<div class="highlight"><pre><span></span><code><span class="n">PS</span><span class="p">&gt;</span> <span class="n">poetry</span> <span class="n">install</span>
+<span class="n">PS</span><span class="p">&gt;</span> <span class="p">.\.</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">activate</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Megjegyzés</p>
+<p>A parancssoros környezettől függően ez eltérő lehet, tájékozódjunk az opciókról a <a href="https://python-poetry.org/docs/managing-environments/#activating-the-environment">dokumentációban</a>. Az útmutató példái Windows-on PowerShell használatára építenek, ezeket az utasításokat mindig a projekt gyökerében kell kiadni. Ha a <code>PS&gt;</code> előtagot látjátok, az a parancssorra utal, ezt nem kell beírni.</p>
+</div>
+</li>
+<li>
+<p>Sikeres aktiváció után a parancssorban megjelenik a virtuális környezet neve a sor elején.</p>
+</li>
+<li>
+<p>Ezután minden parancsot ebben a parancssorban adjunk ki, különben egyes komponenseket lehet, hogy nem fog megtalálni a rendszer.</p>
+</li>
+<li>
+<p>Hozz létre egy <code>data</code> mappát a projekt gyökerében, ide fogjuk menteni az adatfájlokat.</p>
+<div class="highlight"><pre><span></span><code><span class="n">PS</span><span class="p">&gt;</span> <span class="n">mkdir</span> <span class="n">data</span>
+</code></pre></div>
+</li>
+</ol>
+<h2 id="1-feladat-adatformatumok">1. feladat: Adatformátumok<a class="headerlink" href="#1-feladat-adatformatumok" title="Permanent link">¶</a></h2>
+<p>A data engineering egyik alapvető feladata az adatok különböző formátumokban való kezelése. Ebben a feladatban megismerkedsz a három legelterjedtebb adatformátummal: CSV, JSON és Parquet. Megtanulod, hogyan lehet közöttük konvertálni, és megérted, mikor melyiket érdemes használni.</p>
+<h3 id="fuggosegek-telepitese">Függőségek telepítése<a class="headerlink" href="#fuggosegek-telepitese" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Telepítsd a szükséges csomagokat:</p>
+<div class="highlight"><pre><span></span><code><span class="n">PS</span><span class="p">&gt;</span> <span class="n">poetry</span> <span class="n">add</span> <span class="n">pandas</span> <span class="n">pyarrow</span>
+</code></pre></div>
+<ul>
+<li>A <a href="https://pandas.pydata.org/"><code>pandas</code></a> a Python legelterjedtebb adatkezelő könyvtára.</li>
+<li>A <a href="https://arrow.apache.org/docs/python/"><code>pyarrow</code></a> az Apache Arrow Python implementációja, amely a Parquet formátum kezeléséhez szükséges.</li>
+</ul>
+</li>
+</ol>
+<h3 id="mintaadatok-letrehozasa">Mintaadatok létrehozása<a class="headerlink" href="#mintaadatok-letrehozasa" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Hozz létre egy <code>formats.py</code> fájlt a projekt gyökerében. Ebben a fájlban fogunk dolgozni az adatformátumokkal.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># Ide kerül a logika</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+</li>
+<li>
+<p>Készíts egy minta adatkészletet <code>pandas</code> segítségével. Legyen ez egy egyszerű termékadatbázis:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"id"</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">),</span>
+    <span class="s2">"name"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">"Laptop"</span><span class="p">,</span> <span class="s2">"Egér"</span><span class="p">,</span> <span class="s2">"Billentyűzet"</span><span class="p">,</span> <span class="s2">"Monitor"</span><span class="p">,</span> <span class="s2">"Webkamera"</span><span class="p">,</span>
+        <span class="s2">"Fejhallgató"</span><span class="p">,</span> <span class="s2">"USB Hub"</span><span class="p">,</span> <span class="s2">"Pendrive"</span><span class="p">,</span> <span class="s2">"SSD"</span><span class="p">,</span> <span class="s2">"Nyomtató"</span>
+    <span class="p">],</span>
+    <span class="s2">"category"</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">"Számítógép"</span><span class="p">,</span> <span class="s2">"Periféria"</span><span class="p">,</span> <span class="s2">"Periféria"</span><span class="p">,</span> <span class="s2">"Kijelző"</span><span class="p">,</span> <span class="s2">"Periféria"</span><span class="p">,</span>
+        <span class="s2">"Audio"</span><span class="p">,</span> <span class="s2">"Periféria"</span><span class="p">,</span> <span class="s2">"Tárolás"</span><span class="p">,</span> <span class="s2">"Tárolás"</span><span class="p">,</span> <span class="s2">"Periféria"</span>
+    <span class="p">],</span>
+    <span class="s2">"price"</span><span class="p">:</span> <span class="p">[</span><span class="mi">350000</span><span class="p">,</span> <span class="mi">8500</span><span class="p">,</span> <span class="mi">15000</span><span class="p">,</span> <span class="mi">120000</span><span class="p">,</span> <span class="mi">12000</span><span class="p">,</span> <span class="mi">25000</span><span class="p">,</span> <span class="mi">5500</span><span class="p">,</span> <span class="mi">3200</span><span class="p">,</span> <span class="mi">28000</span><span class="p">,</span> <span class="mi">45000</span><span class="p">],</span>
+    <span class="s2">"stock"</span><span class="p">:</span> <span class="p">[</span><span class="mi">15</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">85</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>
+    <span class="s2">"created_at"</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s2">"2025-01-01"</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s2">"D"</span><span class="p">),</span>
+<span class="p">}</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Adattípusok:</span><span class="se">\n</span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>Futtasd a scriptet és ellenőrizd a kimenetet:</p>
+<div class="highlight"><pre><span></span><code><span class="n">PS</span><span class="p">&gt;</span> <span class="n">python</span> <span class="n">formats</span><span class="p">.</span><span class="n">py</span>
+</code></pre></div>
+</li>
+</ol>
+<h3 id="mentes-kulonbozo-formatumokban">Mentés különböző formátumokban<a class="headerlink" href="#mentes-kulonbozo-formatumokban" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Mentsd el az adatokat CSV, JSON és Parquet formátumban:</p>
+<div class="highlight"><pre><span></span><code><span class="n">csv_path</span> <span class="o">=</span> <span class="s2">"data/products.csv"</span>
+<span class="n">json_path</span> <span class="o">=</span> <span class="s2">"data/products.json"</span>
+<span class="n">parquet_path</span> <span class="o">=</span> <span class="s2">"data/products.parquet"</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">csv_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_json</span><span class="p">(</span><span class="n">json_path</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s2">"records"</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">force_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">parquet_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">JSON orient paraméter</p>
+<p>A <code>to_json()</code> metódus <code>orient</code> paramétere határozza meg a JSON struktúrát. A <code>"records"</code> érték egy listát hoz létre, ahol minden elem egy-egy sor. Más lehetőségek: <code>"columns"</code> (oszlopok szerinti csoportosítás), <code>"index"</code> (index szerinti), <code>"split"</code> (külön fejléc és adat). A <code>force_ascii=False</code> paraméter biztosítja, hogy az ékezetes karakterek helyesen jelenjenek meg.</p>
+</div>
+</li>
+</ol>
+<h3 id="fajlmeret-osszehasonlitas">Fájlméret összehasonlítás<a class="headerlink" href="#fajlmeret-osszehasonlitas" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Hasonlítsd össze a három formátum fájlméretét:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">fmt</span> <span class="ow">in</span> <span class="p">[(</span><span class="n">csv_path</span><span class="p">,</span> <span class="s2">"CSV"</span><span class="p">),</span> <span class="p">(</span><span class="n">json_path</span><span class="p">,</span> <span class="s2">"JSON"</span><span class="p">),</span> <span class="p">(</span><span class="n">parquet_path</span><span class="p">,</span> <span class="s2">"Parquet"</span><span class="p">)]:</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getsize</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">fmt</span><span class="si">:</span><span class="s2">&gt;10</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">size</span><span class="si">:</span><span class="s2">&gt;6</span><span class="si">}</span><span class="s2"> byte"</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Miért különböznek a méretek?</p>
+<p>A CSV egyszerű szöveges formátum, a JSON szöveges de strukturáltabb (emiatt általában nagyobb), a Parquet pedig bináris, oszlopos formátum, ami tömörítést is alkalmaz. Kis adathalmazoknál a különbség nem feltűnő, de nagy (millió+ soros) adatkészleteknél a Parquet akár 10x-es méretcsökkenést is eredményezhet a CSV-hez képest.</p>
+</div>
+</li>
+</ol>
+<h3 id="visszaolvasas-es-sebesseg-meres">Visszaolvasás és sebesség mérés<a class="headerlink" href="#visszaolvasas-es-sebesseg-meres" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Olvasd vissza az adatokat mindhárom formátumból, és mérd meg az olvasási sebességet:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">def</span> <span class="nf">measure_read</span><span class="p">(</span><span class="n">read_func</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">read_func</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">elapsed</span> <span class="o">=</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">/</span> <span class="n">n</span> <span class="o">*</span> <span class="mi">1000</span>
+    <span class="k">return</span> <span class="n">elapsed</span>
+
+<span class="n">csv_time</span> <span class="o">=</span> <span class="n">measure_read</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">,</span> <span class="n">csv_path</span><span class="p">)</span>
+<span class="n">json_time</span> <span class="o">=</span> <span class="n">measure_read</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">,</span> <span class="n">json_path</span><span class="p">)</span>
+<span class="n">parquet_time</span> <span class="o">=</span> <span class="n">measure_read</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">,</span> <span class="n">parquet_path</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Átlagos olvasási idő (</span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> iteráció):"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  CSV:     </span><span class="si">{</span><span class="n">csv_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> ms"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  JSON:    </span><span class="si">{</span><span class="n">json_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> ms"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Parquet: </span><span class="si">{</span><span class="n">parquet_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> ms"</span><span class="p">)</span>
+</code></pre></div>
+</li>
+</ol>
+<h3 id="parquet-sema-vizsgalat">Parquet séma vizsgálat<a class="headerlink" href="#parquet-sema-vizsgalat" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Vizsgáld meg a Parquet fájl sémáját:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pyarrow.parquet</span> <span class="k">as</span> <span class="nn">pq</span>
+
+<span class="n">schema</span> <span class="o">=</span> <span class="n">pq</span><span class="o">.</span><span class="n">read_schema</span><span class="p">(</span><span class="n">parquet_path</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Parquet séma:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Metaadatok: </span><span class="si">{</span><span class="n">schema</span><span class="o">.</span><span class="n">metadata</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Mikor melyik formátumot használjuk?</p>
+<ul>
+<li><strong>CSV</strong>: Egyszerű, emberileg olvasható, univerzálisan támogatott. Ideális kis adathalmazokhoz és adatcseréhez. Hátránya, hogy nem tartalmaz típusinformációt és nem tömörít.</li>
+<li><strong>JSON</strong>: Hierarchikus adatok tárolására alkalmas, API-k alapértelmezett formátuma. Hátránya, hogy a redundáns kulcsnevek miatt nagyobb fájlméretet eredményez.</li>
+<li><strong>Parquet</strong>: Oszlopos, bináris formátum tömörítéssel és séma-információval. Ideális nagy adathalmazokhoz és analitikai lekérdezésekhez. Hátránya, hogy nem emberileg olvasható.</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Commitold a változtatásokat.</p>
+</li>
+</ol>
+<h3 id="beadando">Beadandó<a class="headerlink" href="#beadando" title="Permanent link">¶</a></h3>
+<div class="admonition example">
+<p class="admonition-title">1. feladat beadandó</p>
+<ul>
+<li>Commitold a változtatásokat.</li>
+<li>Készíts egy képernyőképet a fájlméret-összehasonlítás és olvasási sebesség kimenetéről, és mentsd el a repository gyökerébe <strong><code>f1.png</code></strong> néven.</li>
+</ul>
+</div>
+<h2 id="2-feladat-adatkinyeres-rest-api-bol">2. feladat: Adatkinyerés REST API-ból<a class="headerlink" href="#2-feladat-adatkinyeres-rest-api-bol" title="Permanent link">¶</a></h2>
+<p>Az adatforrások jelentős része ma már REST API-kon keresztül érhető el. Ebben a feladatban az <a href="https://open-meteo.com/">Open-Meteo</a> ingyenes időjárás API-t fogod használni, amely regisztráció nélkül elérhető. Megtanulod, hogyan kell API-hoz kapcsolódni, a válaszokat feldolgozni, és az adatokat elmenteni.</p>
+<h3 id="egyszeru-api-lekerdezes">Egyszerű API lekérdezés<a class="headerlink" href="#egyszeru-api-lekerdezes" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Telepítsd a <code>requests</code> csomagot:</p>
+<div class="highlight"><pre><span></span><code><span class="n">PS</span><span class="p">&gt;</span> <span class="n">poetry</span> <span class="n">add</span> <span class="n">requests</span>
+</code></pre></div>
+</li>
+<li>
+<p>Hozz létre egy <code>api_extract.py</code> fájlt a projekt gyökerében:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># Ide kerül a logika</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+</li>
+<li>
+<p>Kérdezd le Budapest óránkénti időjárási adatait egy hétre:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">"https://api.open-meteo.com/v1/forecast"</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"latitude"</span><span class="p">:</span> <span class="mf">47.4979</span><span class="p">,</span>
+    <span class="s2">"longitude"</span><span class="p">:</span> <span class="mf">19.0402</span><span class="p">,</span>
+    <span class="s2">"hourly"</span><span class="p">:</span> <span class="s2">"temperature_2m,precipitation,wind_speed_10m"</span><span class="p">,</span>
+    <span class="s2">"start_date"</span><span class="p">:</span> <span class="s2">"2025-01-01"</span><span class="p">,</span>
+    <span class="s2">"end_date"</span><span class="p">:</span> <span class="s2">"2025-01-07"</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">API paraméterek</p>
+<p>Az Open-Meteo API számos paramétert támogat. A <code>latitude</code> és <code>longitude</code> a lekérdezni kívánt helyszín koordinátái, a <code>hourly</code> a kívánt mérési értékek (hőmérséklet, csapadék, szélsebesség), a <code>start_date</code> és <code>end_date</code> pedig az időtartomány. A teljes API dokumentáció elérhető a <a href="https://open-meteo.com/en/docs">https://open-meteo.com/en/docs</a> címen.</p>
+</div>
+</li>
+<li>
+<p>Vizsgáld meg a válasz struktúráját:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">json</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)[:</span><span class="mi">500</span><span class="p">])</span>
+</code></pre></div>
+</li>
+</ol>
+<h3 id="valasz-feldolgozasa">Válasz feldolgozása<a class="headerlink" href="#valasz-feldolgozasa" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Alakítsd a válaszban kapott adatokat <code>pandas</code> DataFrame-mé:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">hourly</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">"hourly"</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">"time"</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">hourly</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]),</span>
+    <span class="s2">"temperature_c"</span><span class="p">:</span> <span class="n">hourly</span><span class="p">[</span><span class="s2">"temperature_2m"</span><span class="p">],</span>
+    <span class="s2">"precipitation_mm"</span><span class="p">:</span> <span class="n">hourly</span><span class="p">[</span><span class="s2">"precipitation"</span><span class="p">],</span>
+    <span class="s2">"wind_speed_kmh"</span><span class="p">:</span> <span class="n">hourly</span><span class="p">[</span><span class="s2">"wind_speed_10m"</span><span class="p">],</span>
+<span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Összesen </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2"> óránkénti mérés."</span><span class="p">)</span>
+</code></pre></div>
+</li>
+</ol>
+<h3 id="tobb-varos-lekerdezese">Több város lekérdezése<a class="headerlink" href="#tobb-varos-lekerdezese" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Kérdezd le több közép-európai város adatait is. Definiálj egy városlistát, és iterálj végig rajta:</p>
+<div class="highlight"><pre><span></span><code><span class="n">cities</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"Budapest"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"latitude"</span><span class="p">:</span> <span class="mf">47.4979</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">:</span> <span class="mf">19.0402</span><span class="p">},</span>
+    <span class="s2">"Bécs"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"latitude"</span><span class="p">:</span> <span class="mf">48.2082</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">:</span> <span class="mf">16.3738</span><span class="p">},</span>
+    <span class="s2">"Prága"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"latitude"</span><span class="p">:</span> <span class="mf">50.0755</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">:</span> <span class="mf">14.4378</span><span class="p">},</span>
+    <span class="s2">"Pozsony"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"latitude"</span><span class="p">:</span> <span class="mf">48.1486</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">:</span> <span class="mf">17.1077</span><span class="p">},</span>
+    <span class="s2">"Zágráb"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"latitude"</span><span class="p">:</span> <span class="mf">45.8150</span><span class="p">,</span> <span class="s2">"longitude"</span><span class="p">:</span> <span class="mf">15.9819</span><span class="p">},</span>
+<span class="p">}</span>
+
+<span class="n">all_data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">city_name</span><span class="p">,</span> <span class="n">coords</span> <span class="ow">in</span> <span class="n">cities</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="o">**</span><span class="n">coords</span><span class="p">,</span>
+        <span class="s2">"hourly"</span><span class="p">:</span> <span class="s2">"temperature_2m,precipitation,wind_speed_10m"</span><span class="p">,</span>
+        <span class="s2">"start_date"</span><span class="p">:</span> <span class="s2">"2025-01-01"</span><span class="p">,</span>
+        <span class="s2">"end_date"</span><span class="p">:</span> <span class="s2">"2025-01-07"</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+    <span class="n">city_data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+    <span class="n">hourly</span> <span class="o">=</span> <span class="n">city_data</span><span class="p">[</span><span class="s2">"hourly"</span><span class="p">]</span>
+    <span class="n">city_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+        <span class="s2">"city"</span><span class="p">:</span> <span class="n">city_name</span><span class="p">,</span>
+        <span class="s2">"time"</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">hourly</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]),</span>
+        <span class="s2">"temperature_c"</span><span class="p">:</span> <span class="n">hourly</span><span class="p">[</span><span class="s2">"temperature_2m"</span><span class="p">],</span>
+        <span class="s2">"precipitation_mm"</span><span class="p">:</span> <span class="n">hourly</span><span class="p">[</span><span class="s2">"precipitation"</span><span class="p">],</span>
+        <span class="s2">"wind_speed_kmh"</span><span class="p">:</span> <span class="n">hourly</span><span class="p">[</span><span class="s2">"wind_speed_10m"</span><span class="p">],</span>
+    <span class="p">})</span>
+    <span class="n">all_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">city_df</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">city_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">city_df</span><span class="p">)</span><span class="si">}</span><span class="s2"> mérés lekérdezve."</span><span class="p">)</span>
+
+<span class="n">combined_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">all_data</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Összesített adathalmaz: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">combined_df</span><span class="p">)</span><span class="si">}</span><span class="s2"> sor"</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">API rate limiting</p>
+<p>Bár az Open-Meteo API nagyvonalú limitekkel rendelkezik, éles környezetben mindig figyeljünk az API rate limitjeire. Érdemes késleltetést (pl. <code>time.sleep(0.5)</code>) beiktatni a kérések közé, ha sok lekérdezést végzünk egymás után. Az API válaszában található HTTP fejlécek gyakran tartalmazzák a hátralévő kérések számát.</p>
+</div>
+</li>
+</ol>
+<h3 id="historikus-adatok-lekerese">Historikus adatok lekérése<a class="headerlink" href="#historikus-adatok-lekerese" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Az Open-Meteo rendelkezik egy Archive API-val is, amellyel historikus adatokat lehet lekérni. Kérdezd le Budapest 2024-es éves hőmérsékleti adatait:</p>
+<div class="highlight"><pre><span></span><code><span class="n">archive_url</span> <span class="o">=</span> <span class="s2">"https://archive-api.open-meteo.com/v1/archive"</span>
+<span class="n">archive_params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"latitude"</span><span class="p">:</span> <span class="mf">47.4979</span><span class="p">,</span>
+    <span class="s2">"longitude"</span><span class="p">:</span> <span class="mf">19.0402</span><span class="p">,</span>
+    <span class="s2">"daily"</span><span class="p">:</span> <span class="s2">"temperature_2m_max,temperature_2m_min,precipitation_sum"</span><span class="p">,</span>
+    <span class="s2">"start_date"</span><span class="p">:</span> <span class="s2">"2024-01-01"</span><span class="p">,</span>
+    <span class="s2">"end_date"</span><span class="p">:</span> <span class="s2">"2024-12-31"</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">archive_url</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">archive_params</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+<span class="n">archive_data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+<span class="n">daily</span> <span class="o">=</span> <span class="n">archive_data</span><span class="p">[</span><span class="s2">"daily"</span><span class="p">]</span>
+<span class="n">archive_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s2">"date"</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">daily</span><span class="p">[</span><span class="s2">"time"</span><span class="p">]),</span>
+    <span class="s2">"temp_max_c"</span><span class="p">:</span> <span class="n">daily</span><span class="p">[</span><span class="s2">"temperature_2m_max"</span><span class="p">],</span>
+    <span class="s2">"temp_min_c"</span><span class="p">:</span> <span class="n">daily</span><span class="p">[</span><span class="s2">"temperature_2m_min"</span><span class="p">],</span>
+    <span class="s2">"precipitation_mm"</span><span class="p">:</span> <span class="n">daily</span><span class="p">[</span><span class="s2">"precipitation_sum"</span><span class="p">],</span>
+<span class="p">})</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Historikus adatok: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">archive_df</span><span class="p">)</span><span class="si">}</span><span class="s2"> nap"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">archive_df</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+</code></pre></div>
+</li>
+</ol>
+<h3 id="adatok-mentese">Adatok mentése<a class="headerlink" href="#adatok-mentese" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Mentsd el az összegyűjtött adatokat az 1. feladatban megismert formátumokban:</p>
+<div class="highlight"><pre><span></span><code><span class="n">combined_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">"data/weather_cities.csv"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">combined_df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="s2">"data/weather_cities.parquet"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">archive_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">"data/weather_budapest_2024.csv"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">archive_df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="s2">"data/weather_budapest_2024.parquet"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Best practice: API lekérdezések</p>
+<ul>
+<li>Mindig állíts be <code>timeout</code> paramétert a <code>requests.get()</code> hívásban, hogy a program ne akadjon meg, ha az API nem válaszol.</li>
+<li>Használd a <code>response.raise_for_status()</code> metódust a HTTP hibakódok automatikus kezelésére.</li>
+<li>Éles környezetben érdemes <code>requests.Session()</code> objektumot használni, ami újrahasznosítja a kapcsolatot, így gyorsabb lesz a kommunikáció.</li>
+<li>Az API válaszokat érdemes lokálisan cache-elni, hogy ne kelljen minden alkalommal újra lekérdezni.</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Commitold a változtatásokat.</p>
+</li>
+</ol>
+<h3 id="beadando_1">Beadandó<a class="headerlink" href="#beadando_1" title="Permanent link">¶</a></h3>
+<div class="admonition example">
+<p class="admonition-title">2. feladat beadandó</p>
+<ul>
+<li>Commitold a változtatásokat.</li>
+<li>Készíts egy képernyőképet a több városból összegyűjtött adatokat tartalmazó DataFrame-ről, és mentsd el a repository gyökerébe <strong><code>f2.png</code></strong> néven.</li>
+</ul>
+</div>
+<h2 id="3-feladat-adatkinyeres-adatbazisbol">3. feladat: Adatkinyerés adatbázisból<a class="headerlink" href="#3-feladat-adatkinyeres-adatbazisbol" title="Permanent link">¶</a></h2>
+<p>A vállalati környezetben az adatok jelentős része relációs adatbázisokban található. Ebben a feladatban egy PostgreSQL adatbázist fogsz futtatni Docker konténerben, adatokat töltesz bele, és Python segítségével kérdezel le belőle.</p>
+<h3 id="postgresql-inditasa-docker-ben">PostgreSQL indítása Docker-ben<a class="headerlink" href="#postgresql-inditasa-docker-ben" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Hozz létre egy <code>docker-compose.yaml</code> fájlt a projekt gyökerében az alábbi tartalommal:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">postgres</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres:16</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">POSTGRES_USER</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dataeng</span>
+<span class="w">      </span><span class="nt">POSTGRES_PASSWORD</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dataeng</span>
+<span class="w">      </span><span class="nt">POSTGRES_DB</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">labor</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"5432:5432"</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgdata:/var/lib/postgresql/data</span>
+
+<span class="nt">volumes</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pgdata</span><span class="p">:</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Docker Compose</p>
+<p>A Docker Compose lehetővé teszi, hogy egy YAML fájlban definiáljuk a szükséges szolgáltatásokat, és egyetlen paranccsal elindítsuk őket. A <code>volumes</code> bejegyzés biztosítja, hogy az adatbázis tartalma megmaradjon a konténer újraindítása után is. A <code>ports</code> bejegyzés a konténer belső portját teszi elérhetővé a gazda gépen.</p>
+</div>
+</li>
+<li>
+<p>Indítsd el a Docker Desktop alkalmazást, majd indítsd el az adatbázis konténert:</p>
+<div class="highlight"><pre><span></span><code><span class="n">PS</span><span class="p">&gt;</span> <span class="n">docker-compose</span> <span class="n">up</span> <span class="n">-d</span> <span class="n">postgres</span>
+</code></pre></div>
+</li>
+<li>
+<p>Ellenőrizd, hogy a konténer fut:</p>
+<div class="highlight"><pre><span></span><code><span class="n">PS</span><span class="p">&gt;</span> <span class="n">docker-compose</span> <span class="nb">ps</span>
+</code></pre></div>
+</li>
+</ol>
+<h3 id="kapcsolodas-python-bol">Kapcsolódás Python-ból<a class="headerlink" href="#kapcsolodas-python-bol" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Telepítsd a szükséges csomagokat:</p>
+<div class="highlight"><pre><span></span><code><span class="n">PS</span><span class="p">&gt;</span> <span class="n">poetry</span> <span class="n">add</span> <span class="n">psycopg2-binary</span> <span class="n">sqlalchemy</span>
+</code></pre></div>
+<ul>
+<li>A <a href="https://www.psycopg.org/"><code>psycopg2</code></a> a PostgreSQL Python adaptere.</li>
+<li>Az <a href="https://www.sqlalchemy.org/"><code>SQLAlchemy</code></a> egy Python SQL toolkit és ORM, ami egységes interfészt biztosít különböző adatbázisokhoz.</li>
+</ul>
+</li>
+<li>
+<p>Hozz létre egy <code>db_extract.py</code> fájlt a projekt gyökerében:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># Ide kerül a logika</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+</li>
+<li>
+<p>Kapcsolódj az adatbázishoz SQLAlchemy segítségével:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
+
+<span class="n">connection_string</span> <span class="o">=</span> <span class="s2">"postgresql://dataeng:dataeng@localhost:5432/labor"</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">connection_string</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Connection string</p>
+<p>A connection string felépítése: <code>driver://felhasználónév:jelszó@host:port/adatbázisnév</code>. Ez az formátum univerzális, szinte minden adatbázis-kezelő rendszerrel használható (MySQL, SQLite, Oracle stb.), csak a driver neve változik.</p>
+</div>
+</li>
+</ol>
+<h3 id="adatok-betoltese">Adatok betöltése<a class="headerlink" href="#adatok-betoltese" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Töltsd be a korábban létrehozott termékadatokat az adatbázisba:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"data/products.csv"</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="s2">"products"</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s2">"replace"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2"> sor betöltve a 'products' táblába."</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>Töltsd be az időjárási adatokat is:</p>
+<div class="highlight"><pre><span></span><code><span class="n">weather_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">"data/weather_cities.csv"</span><span class="p">)</span>
+<span class="n">weather_df</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="s2">"weather"</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s2">"replace"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">weather_df</span><span class="p">)</span><span class="si">}</span><span class="s2"> sor betöltve a 'weather' táblába."</span><span class="p">)</span>
+</code></pre></div>
+</li>
+</ol>
+<h3 id="sql-lekerdezesek">SQL lekérdezések<a class="headerlink" href="#sql-lekerdezesek" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Végezz SQL lekérdezéseket Python-ból a <code>pandas.read_sql()</code> segítségével:</p>
+<ol>
+<li>
+<p>Egyszerű SELECT — az összes termék lekérdezése:</p>
+<div class="highlight"><pre><span></span><code><span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s2">"SELECT * FROM products"</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>Szűrés (WHERE) — 20 000 Ft feletti termékek:</p>
+<div class="highlight"><pre><span></span><code><span class="n">expensive</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
+    <span class="s2">"SELECT name, price, category FROM products WHERE price &gt; 20000 ORDER BY price DESC"</span><span class="p">,</span>
+    <span class="n">engine</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">20 000 Ft feletti termékek:</span><span class="se">\n</span><span class="si">{</span><span class="n">expensive</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>Aggregáció (GROUP BY) — kategóriánkénti átlagár és darabszám:</p>
+<div class="highlight"><pre><span></span><code><span class="n">stats</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">    SELECT</span>
+<span class="s2">        category,</span>
+<span class="s2">        COUNT(*) as count,</span>
+<span class="s2">        ROUND(AVG(price)) as avg_price,</span>
+<span class="s2">        SUM(stock) as total_stock</span>
+<span class="s2">    FROM products</span>
+<span class="s2">    GROUP BY category</span>
+<span class="s2">    ORDER BY avg_price DESC</span>
+<span class="s2">"""</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Kategória statisztikák:</span><span class="se">\n</span><span class="si">{</span><span class="n">stats</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>Időjárási aggregáció — városonkénti átlaghőmérséklet:</p>
+<div class="highlight"><pre><span></span><code><span class="n">weather_stats</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">    SELECT</span>
+<span class="s2">        city,</span>
+<span class="s2">        ROUND(AVG(temperature_c)::numeric, 1) as avg_temp,</span>
+<span class="s2">        ROUND(MAX(temperature_c)::numeric, 1) as max_temp,</span>
+<span class="s2">        ROUND(MIN(temperature_c)::numeric, 1) as min_temp,</span>
+<span class="s2">        ROUND(SUM(precipitation_mm)::numeric, 1) as total_precipitation</span>
+<span class="s2">    FROM weather</span>
+<span class="s2">    GROUP BY city</span>
+<span class="s2">    ORDER BY avg_temp DESC</span>
+<span class="s2">"""</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Városok időjárási összesítése:</span><span class="se">\n</span><span class="si">{</span><span class="n">weather_stats</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">SQL és pandas</p>
+<p>A <code>pd.read_sql()</code> metódus közvetlenül DataFrame-be tölti a lekérdezés eredményét, így az SQL erejét és a pandas adatelemző képességeit együtt tudjuk használni. Nagyobb adathalmazok esetén érdemes a szűrést és aggregációt SQL oldalon elvégezni (WHERE, GROUP BY), és csak az eredményt betölteni Python-ba.</p>
+</div>
+</li>
+</ol>
+<h3 id="adatok-exportalasa">Adatok exportálása<a class="headerlink" href="#adatok-exportalasa" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Exportáld az egyik lekérdezés eredményét Parquet formátumba:</p>
+<div class="highlight"><pre><span></span><code><span class="n">weather_stats</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="s2">"data/weather_stats.parquet"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Exportálva: data/weather_stats.parquet"</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>Commitold a változtatásokat.</p>
+</li>
+</ol>
+<h3 id="beadando_2">Beadandó<a class="headerlink" href="#beadando_2" title="Permanent link">¶</a></h3>
+<div class="admonition example">
+<p class="admonition-title">3. feladat beadandó</p>
+<ul>
+<li>Commitold a változtatásokat.</li>
+<li>Készíts egy képernyőképet egy SQL lekérdezés eredményéről (DataFrame formátumban), és mentsd el a repository gyökerébe <strong><code>f3.png</code></strong> néven.</li>
+</ul>
+</div>
+<h2 id="4-feladat-szintetikus-adatgeneralas">4. feladat: Szintetikus adatgenerálás<a class="headerlink" href="#4-feladat-szintetikus-adatgeneralas" title="Permanent link">¶</a></h2>
+<p>Fejlesztés és tesztelés során gyakran van szükség nagy mennyiségű valósághű adatra. Valós adatok használata sokszor nem lehetséges (adatvédelem, GDPR), vagy egyszerűen nem áll rendelkezésre elegendő adat. Ilyenkor szintetikus adatgenerálást alkalmazunk. Ebben a feladatban a <a href="https://faker.readthedocs.io/">Faker</a> könyvtárat fogod használni.</p>
+<h3 id="faker-alapok">Faker alapok<a class="headerlink" href="#faker-alapok" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Telepítsd a Faker csomagot:</p>
+<div class="highlight"><pre><span></span><code><span class="n">PS</span><span class="p">&gt;</span> <span class="n">poetry</span> <span class="n">add</span> <span class="n">faker</span>
+</code></pre></div>
+</li>
+<li>
+<p>Hozz létre egy <code>generate.py</code> fájlt a projekt gyökerében:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># Ide kerül a logika</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+</li>
+<li>
+<p>Ismerkedj meg az alapvető generátorokkal:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+
+<span class="n">fake</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Név:      </span><span class="si">{</span><span class="n">fake</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Cím:      </span><span class="si">{</span><span class="n">fake</span><span class="o">.</span><span class="n">address</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Email:    </span><span class="si">{</span><span class="n">fake</span><span class="o">.</span><span class="n">email</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Dátum:    </span><span class="si">{</span><span class="n">fake</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Cég:      </span><span class="si">{</span><span class="n">fake</span><span class="o">.</span><span class="n">company</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Szöveg:   </span><span class="si">{</span><span class="n">fake</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">max_nb_chars</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+</li>
+</ol>
+<h3 id="magyar-lokalizacio">Magyar lokalizáció<a class="headerlink" href="#magyar-lokalizacio" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>A Faker támogat lokalizációt, így magyar nyelvű adatokat is tudunk generálni:</p>
+<div class="highlight"><pre><span></span><code><span class="n">fake_hu</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">(</span><span class="s2">"hu_HU"</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Magyar név:    </span><span class="si">{</span><span class="n">fake_hu</span><span class="o">.</span><span class="n">name</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Magyar cím:    </span><span class="si">{</span><span class="n">fake_hu</span><span class="o">.</span><span class="n">address</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Telefonszám:   </span><span class="si">{</span><span class="n">fake_hu</span><span class="o">.</span><span class="n">phone_number</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Lokalizáció</p>
+<p>A <code>Faker("hu_HU")</code> konstruktor magyar nyelvi beállítással hoz létre egy generátort. A nevek, címek és egyéb adatok az adott nyelvi és kulturális sajátosságoknak megfelelően generálódnak. Az elérhető lokalizációk listája a <a href="https://faker.readthedocs.io/en/master/locales.html">Faker dokumentációban</a> található.</p>
+</div>
+</li>
+</ol>
+<h3 id="egyedi-adatgenerator">Egyedi adatgenerátor<a class="headerlink" href="#egyedi-adatgenerator" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Készíts egy függvényt, ami megadott számú felhasználó rekordot generál:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="k">def</span> <span class="nf">generate_users</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">fake</span><span class="p">):</span>
+    <span class="n">records</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">records</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="n">fake</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span>
+            <span class="s2">"email"</span><span class="p">:</span> <span class="n">fake</span><span class="o">.</span><span class="n">email</span><span class="p">(),</span>
+            <span class="s2">"phone"</span><span class="p">:</span> <span class="n">fake</span><span class="o">.</span><span class="n">phone_number</span><span class="p">(),</span>
+            <span class="s2">"city"</span><span class="p">:</span> <span class="n">fake</span><span class="o">.</span><span class="n">city</span><span class="p">(),</span>
+            <span class="s2">"birth_date"</span><span class="p">:</span> <span class="n">fake</span><span class="o">.</span><span class="n">date_of_birth</span><span class="p">(</span><span class="n">minimum_age</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">maximum_age</span><span class="o">=</span><span class="mi">80</span><span class="p">),</span>
+            <span class="s2">"registered_at"</span><span class="p">:</span> <span class="n">fake</span><span class="o">.</span><span class="n">date_time_between</span><span class="p">(</span>
+                <span class="n">start_date</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2020</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="n">end_date</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="p">),</span>
+        <span class="p">})</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">records</span><span class="p">)</span>
+
+<span class="n">users_df</span> <span class="o">=</span> <span class="n">generate_users</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">fake_hu</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">users_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</code></pre></div>
+</li>
+<li>
+<p>Készíts egy másik generátort tranzakciós adatokhoz:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">random</span>
+
+<span class="k">def</span> <span class="nf">generate_transactions</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">fake</span><span class="p">,</span> <span class="n">user_ids</span><span class="p">):</span>
+    <span class="n">categories</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Élelmiszer"</span><span class="p">,</span> <span class="s2">"Elektronika"</span><span class="p">,</span> <span class="s2">"Ruházat"</span><span class="p">,</span> <span class="s2">"Sport"</span><span class="p">,</span> <span class="s2">"Könyv"</span><span class="p">,</span> <span class="s2">"Egyéb"</span><span class="p">]</span>
+    <span class="n">records</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">records</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s2">"transaction_id"</span><span class="p">:</span> <span class="n">fake</span><span class="o">.</span><span class="n">uuid4</span><span class="p">(),</span>
+            <span class="s2">"user_id"</span><span class="p">:</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">user_ids</span><span class="p">),</span>
+            <span class="s2">"amount"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">150000</span><span class="p">),</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="s2">"category"</span><span class="p">:</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">categories</span><span class="p">),</span>
+            <span class="s2">"timestamp"</span><span class="p">:</span> <span class="n">fake</span><span class="o">.</span><span class="n">date_time_between</span><span class="p">(</span>
+                <span class="n">start_date</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                <span class="n">end_date</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="p">),</span>
+        <span class="p">})</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">records</span><span class="p">)</span>
+
+<span class="n">user_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">21</span><span class="p">))</span>
+<span class="n">transactions_df</span> <span class="o">=</span> <span class="n">generate_transactions</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">fake_hu</span><span class="p">,</span> <span class="n">user_ids</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Tranzakciók:</span><span class="se">\n</span><span class="si">{</span><span class="n">transactions_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+</li>
+</ol>
+<h3 id="nagymeretu-adathalmaz-generalasa">Nagyméretű adathalmaz generálása<a class="headerlink" href="#nagymeretu-adathalmaz-generalasa" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Generálj nagyobb mennyiségű adatot, és mentsd el:</p>
+<div class="highlight"><pre><span></span><code><span class="n">large_users</span> <span class="o">=</span> <span class="n">generate_users</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="n">fake_hu</span><span class="p">)</span>
+<span class="n">large_transactions</span> <span class="o">=</span> <span class="n">generate_transactions</span><span class="p">(</span><span class="mi">50000</span><span class="p">,</span> <span class="n">fake_hu</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10001</span><span class="p">)))</span>
+
+<span class="n">large_users</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">"data/users.csv"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">large_users</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="s2">"data/users.parquet"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">large_transactions</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="s2">"data/transactions.parquet"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Generált felhasználók: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">large_users</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Generált tranzakciók: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">large_transactions</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Mikor használjunk szintetikus adatot?</p>
+<ul>
+<li><strong>Fejlesztés és tesztelés</strong>: A fejlesztők reális méretű és formátumú adatokkal tudják tesztelni a kódjukat.</li>
+<li><strong>Adatvédelem (GDPR)</strong>: Valós személyes adatok helyett szintetikus adatokat használunk, így nem kockáztatjuk az adatvédelmi szabályok megsértését.</li>
+<li><strong>Prototípusok</strong>: Amikor az alkalmazás még fejlesztés alatt áll, és a valós adat még nem elérhető.</li>
+<li><strong>Terheléstesztelés</strong>: Nagy mennyiségű adat generálásával tesztelhetjük a rendszer teljesítményét.</li>
+</ul>
+</div>
+</li>
+</ol>
+<h3 id="ismetelhetoseg">Ismételhetőség<a class="headerlink" href="#ismetelhetoseg" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Állíts be seed értéket, hogy a generált adatok reprodukálhatók legyenek:</p>
+<div class="highlight"><pre><span></span><code><span class="n">Faker</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">reproducible_users</span> <span class="o">=</span> <span class="n">generate_users</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">fake_hu</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Reprodukálható adatok:</span><span class="se">\n</span><span class="si">{</span><span class="n">reproducible_users</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Ismételhetőség fontossága</p>
+<p>Ha a generált adatokat tesztekhez vagy bemutatókhoz használod, elengedhetetlen, hogy a seed értéket beállítsd. Így minden futtatáskor ugyanazokat az adatokat kapod, ami reprodukálhatóvá teszi az eredményeket.</p>
+</div>
+</li>
+</ol>
+<h3 id="adatok-betoltese-az-adatbazisba">Adatok betöltése az adatbázisba<a class="headerlink" href="#adatok-betoltese-az-adatbazisba" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Töltsd be a generált adatokat a korábban létrehozott PostgreSQL adatbázisba:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
+
+<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s2">"postgresql://dataeng:dataeng@localhost:5432/labor"</span><span class="p">)</span>
+
+<span class="n">large_users</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="s2">"users"</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s2">"replace"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">large_transactions</span><span class="o">.</span><span class="n">to_sql</span><span class="p">(</span><span class="s2">"transactions"</span><span class="p">,</span> <span class="n">engine</span><span class="p">,</span> <span class="n">if_exists</span><span class="o">=</span><span class="s2">"replace"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Betöltve az adatbázisba:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  users: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">large_users</span><span class="p">)</span><span class="si">}</span><span class="s2"> sor"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  transactions: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">large_transactions</span><span class="p">)</span><span class="si">}</span><span class="s2"> sor"</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>Ellenőrizd egy gyors lekérdezéssel:</p>
+<div class="highlight"><pre><span></span><code><span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">    SELECT u.city, COUNT(*) as trx_count, ROUND(AVG(t.amount)::numeric, 0) as avg_amount</span>
+<span class="s2">    FROM transactions t</span>
+<span class="s2">    JOIN users u ON t.user_id = (u.ctid::text::point)[0]::int</span>
+<span class="s2">    GROUP BY u.city</span>
+<span class="s2">    ORDER BY trx_count DESC</span>
+<span class="s2">    LIMIT 10</span>
+<span class="s2">"""</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Top 10 város tranzakciók szerint:</span><span class="se">\n</span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>Commitold a változtatásokat.</p>
+</li>
+</ol>
+<h3 id="beadando_3">Beadandó<a class="headerlink" href="#beadando_3" title="Permanent link">¶</a></h3>
+<div class="admonition example">
+<p class="admonition-title">4. feladat beadandó</p>
+<ul>
+<li>Commitold a változtatásokat.</li>
+<li>Készíts egy képernyőképet a generált adathalmaz első néhány soráról és az összesítő statisztikáról, és mentsd el a repository gyökerébe <strong><code>f4.png</code></strong> néven.</li>
+</ul>
+</div>
+<h2 id="5-feladat-web-scraping">5. feladat: Web scraping<a class="headerlink" href="#5-feladat-web-scraping" title="Permanent link">¶</a></h2>
+<p>Nem minden adat érhető el API-n vagy adatbázisból. Gyakran weboldalakról kell adatokat kinyernünk strukturált formába. Ebben a feladatban a <a href="https://www.crummy.com/software/BeautifulSoup/">Beautiful Soup</a> könyvtárat fogod használni HTML oldalak elemzésére.</p>
+<div class="admonition warning">
+<p class="admonition-title">Etikus web scraping</p>
+<p>Mielőtt bármilyen weboldalról adatot gyűjtenél, mindig ellenőrizd:</p>
+<ul>
+<li>A weboldal <strong><code>robots.txt</code></strong> fájlját (pl. <code>https://example.com/robots.txt</code>), ami meghatározza, mely oldalak scrape-elhetők.</li>
+<li>A weboldal <strong>Felhasználási feltételeit</strong> (Terms of Service), ami tilthatja az automatikus adatgyűjtést.</li>
+<li>Tarts be <strong>illedelmesen rövid szüneteket</strong> a kérések között, hogy ne terheld túl a szervert.</li>
+<li>Mindig azonosítsd magad a <code>User-Agent</code> fejléccel.</li>
+</ul>
+</div>
+<h3 id="beautiful-soup-telepitese">Beautiful Soup telepítése<a class="headerlink" href="#beautiful-soup-telepitese" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Telepítsd a szükséges csomagot:</p>
+<div class="highlight"><pre><span></span><code><span class="n">PS</span><span class="p">&gt;</span> <span class="n">poetry</span> <span class="n">add</span> <span class="n">beautifulsoup4</span>
+</code></pre></div>
+</li>
+<li>
+<p>Hozz létre egy <code>scraper.py</code> fájlt a projekt gyökerében:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># Ide kerül a logika</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">'__main__'</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+</li>
+</ol>
+<h3 id="html-oldal-letoltese-es-elemzese">HTML oldal letöltése és elemzése<a class="headerlink" href="#html-oldal-letoltese-es-elemzese" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Ebben a példában a <a href="https://books.toscrape.com/">Books to Scrape</a> weboldalt fogjuk használni, ami kifejezetten web scraping gyakorláshoz készült.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">bs4</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">"https://books.toscrape.com/"</span>
+<span class="n">headers</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"User-Agent"</span><span class="p">:</span> <span class="s2">"DataEngLab/1.0 (university project)"</span><span class="p">}</span>
+
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+
+<span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s2">"html.parser"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Oldal címe: </span><span class="si">{</span><span class="n">soup</span><span class="o">.</span><span class="n">title</span><span class="o">.</span><span class="n">string</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">HTML parser</p>
+<p>A <code>BeautifulSoup</code> konstruktor második paramétere a használni kívánt parser. A <code>"html.parser"</code> a Python beépített parsere, ami a legtöbb esetben elegendő. Komplexebb oldalakhoz érdemes a <code>"lxml"</code> parsert használni (külön telepítés szükséges).</p>
+</div>
+</li>
+</ol>
+<h3 id="adatok-kinyerese">Adatok kinyerése<a class="headerlink" href="#adatok-kinyerese" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Keresd meg az oldalon található könyveket, és nyerd ki a nevüket, árukat és értékelésüket:</p>
+<div class="highlight"><pre><span></span><code><span class="n">books</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">articles</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s2">"article"</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s2">"product_pod"</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">article</span> <span class="ow">in</span> <span class="n">articles</span><span class="p">:</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">article</span><span class="o">.</span><span class="n">h3</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="s2">"title"</span><span class="p">]</span>
+    <span class="n">price</span> <span class="o">=</span> <span class="n">article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">"p"</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s2">"price_color"</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+    <span class="n">rating_class</span> <span class="o">=</span> <span class="n">article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">"p"</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s2">"star-rating"</span><span class="p">)[</span><span class="s2">"class"</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">books</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s2">"title"</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
+        <span class="s2">"price"</span><span class="p">:</span> <span class="n">price</span><span class="p">,</span>
+        <span class="s2">"rating"</span><span class="p">:</span> <span class="n">rating_class</span><span class="p">,</span>
+    <span class="p">})</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Talált könyvek száma: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">books</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">book</span> <span class="ow">in</span> <span class="n">books</span><span class="p">[:</span><span class="mi">5</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'title'</span><span class="p">][:</span><span class="mi">40</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;40</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'price'</span><span class="p">]</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="n">book</span><span class="p">[</span><span class="s1">'rating'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>Tisztítsd meg az áradatot, hogy numerikus értékké alakítsd:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">books</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">"price_numeric"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"price"</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"£"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="n">rating_map</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"One"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"Two"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">"Three"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">"Four"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">"Five"</span><span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">"rating_numeric"</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">"rating"</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">rating_map</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Tisztított adatok:</span><span class="se">\n</span><span class="si">{</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</code></pre></div>
+</li>
+</ol>
+<h3 id="tobb-oldal-feldolgozasa">Több oldal feldolgozása<a class="headerlink" href="#tobb-oldal-feldolgozasa" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>A weboldal lapozott. Gyűjtsd össze az első 5 oldal könyveinek adatait:</p>
+<div class="highlight"><pre><span></span><code><span class="n">all_books</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">page</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">page_url</span> <span class="o">=</span> <span class="s2">"https://books.toscrape.com/"</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">page_url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"https://books.toscrape.com/catalogue/page-</span><span class="si">{</span><span class="n">page</span><span class="si">}</span><span class="s2">.html"</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">page_url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">response</span><span class="o">.</span><span class="n">raise_for_status</span><span class="p">()</span>
+    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s2">"html.parser"</span><span class="p">)</span>
+
+    <span class="n">articles</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s2">"article"</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s2">"product_pod"</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">article</span> <span class="ow">in</span> <span class="n">articles</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">article</span><span class="o">.</span><span class="n">h3</span><span class="o">.</span><span class="n">a</span><span class="p">[</span><span class="s2">"title"</span><span class="p">]</span>
+        <span class="n">price</span> <span class="o">=</span> <span class="n">article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">"p"</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s2">"price_color"</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+        <span class="n">rating_class</span> <span class="o">=</span> <span class="n">article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">"p"</span><span class="p">,</span> <span class="n">class_</span><span class="o">=</span><span class="s2">"star-rating"</span><span class="p">)[</span><span class="s2">"class"</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">all_books</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s2">"title"</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span>
+            <span class="s2">"price"</span><span class="p">:</span> <span class="n">price</span><span class="p">,</span>
+            <span class="s2">"rating"</span><span class="p">:</span> <span class="n">rating_class</span><span class="p">,</span>
+        <span class="p">})</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Oldal </span><span class="si">{</span><span class="n">page</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">articles</span><span class="p">)</span><span class="si">}</span><span class="s2"> könyv feldolgozva."</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Lapozás kezelése</p>
+<p>Lapozott weboldalaknál figyeld meg az URL struktúrát. A legtöbb esetben az oldalszám az URL-ben jelenik meg (pl. <code>page-2.html</code>, <code>?page=2</code>). Mindig ellenőrizd, hogy van-e következő oldal, mielőtt továbblépnél. A <code>soup.find("li", class_="next")</code> segítségével ellenőrizheted, hogy létezik-e következő oldal.</p>
+</div>
+</li>
+</ol>
+<h3 id="adatok-tisztitasa-es-mentese">Adatok tisztítása és mentése<a class="headerlink" href="#adatok-tisztitasa-es-mentese" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Tisztítsd és mentsd el az összegyűjtött adatokat:</p>
+<div class="highlight"><pre><span></span><code><span class="n">full_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">all_books</span><span class="p">)</span>
+<span class="n">full_df</span><span class="p">[</span><span class="s2">"price_numeric"</span><span class="p">]</span> <span class="o">=</span> <span class="n">full_df</span><span class="p">[</span><span class="s2">"price"</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"£"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="n">rating_map</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"One"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"Two"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">"Three"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">"Four"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">"Five"</span><span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
+<span class="n">full_df</span><span class="p">[</span><span class="s2">"rating_numeric"</span><span class="p">]</span> <span class="o">=</span> <span class="n">full_df</span><span class="p">[</span><span class="s2">"rating"</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">rating_map</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Összegyűjtött könyvek: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">full_df</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Statisztikák:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Átlagos ár: £</span><span class="si">{</span><span class="n">full_df</span><span class="p">[</span><span class="s1">'price_numeric'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Átlagos értékelés: </span><span class="si">{</span><span class="n">full_df</span><span class="p">[</span><span class="s1">'rating_numeric'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> / 5"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Legdrágább: </span><span class="si">{</span><span class="n">full_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">full_df</span><span class="p">[</span><span class="s1">'price_numeric'</span><span class="p">]</span><span class="o">.</span><span class="n">idxmax</span><span class="p">(),</span><span class="w"> </span><span class="s1">'title'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">full_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">"data/books.csv"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">full_df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="s2">"data/books.parquet"</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Adatok mentve: data/books.csv, data/books.parquet"</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>Commitold a változtatásokat.</p>
+</li>
+</ol>
+<h3 id="beadando_4">Beadandó<a class="headerlink" href="#beadando_4" title="Permanent link">¶</a></h3>
+<div class="admonition example">
+<p class="admonition-title">5. feladat beadandó</p>
+<ul>
+<li>Commitold a változtatásokat.</li>
+<li>Készíts egy képernyőképet a webről kinyert és DataFrame-be rendezett adatokról, és mentsd el a repository gyökerébe <strong><code>f5.png</code></strong> néven.</li>
+</ul>
+</div>
+
+    <hr>
+  <div class="md-source-file">
+    <span class="md-source-file__fact"> <span class="md-icon" title="Utolsó frissítés"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z">
+          </path>
+        </svg>
+      </span>
+      <span title="2026. március 2. 14:07:44">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. március 2. 14:07:44 CET"><span class="timeago" datetime="2026-03-02T14:07:44+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. március 2. 14:07:44 CET">2026-03-02</span>
+      </span>
+    </span>
+
+    
+
+    <span class="md-source-file__fact">
+      <span class="md-icon" title="Szerzők">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z">
+          </path>
+        </svg>
+      </span>
+      <span>Szerzők</span>
+      <nav></nav>      
+    </span>
+  </div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"></path></svg>
+            Vissza a tetejére
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © BME VIK AUT
+    </div>
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.top", "search.suggest"], "search": "../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "V\u00e1g\u00f3lapra m\u00e1solva", "clipboard.copy": "M\u00e1sol\u00e1s v\u00e1g\u00f3lapra", "search.result.more.one": "1 tov\u00e1bbi tal\u00e1lat az oldalon", "search.result.more.other": "# tov\u00e1bbi tal\u00e1lat az oldalon", "search.result.none": "Nincs tal\u00e1lat", "search.result.one": "1 egyez\u0151 dokumentum", "search.result.other": "# egyez\u0151 dokumentum", "search.result.placeholder": "Keres\u00e9shez \u00edrj ide valamit", "search.result.term.missing": "\u00dcres", "select.version": "Verzi\u00f3v\u00e1lt\u00e1s"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.2a6f1dda.min.js"></script>
+      
+        <script src="../../../js/timeago.min.js"></script>
+      
+        <script src="../../../js/timeago_mkdocs_material.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
