@@ -1,0 +1,97 @@
+site_name: BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok
+site_author: Pomázi Krisztián
+copyright: Copyright &copy; BME VIK AUT
+repo_name: viaubxav082/laborok
+repo_url: https://github.com/viaubxav082/laborok
+
+theme:
+  name: material
+  custom_dir: overrides
+  language: hu
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: aut
+      primary: red
+      accent: red
+      toggle:
+        icon: material/lightbulb-outline
+        name: Váltás sötét témára
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: red
+      toggle:
+        icon: material/lightbulb
+        name: Váltás világos témára
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - navigation.tabs
+    - navigation.instant
+    - navigation.top
+    - search.suggest
+  logo: logo-bme-aut.png
+  favicon: favicon.ico
+
+extra_css:
+  - extra-material-theme.css
+
+extra:
+  generator: false
+
+markdown_extensions:
+  - admonition
+  - meta
+  - toc:
+      permalink: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tabbed
+  - pymdownx.tilde
+  - md_in_html
+  - pymdownx.keys
+  - attr_list
+  
+plugins:
+  - search:
+      prebuild_index: true
+  - glightbox
+  - git-revision-date-localized:
+      enable_creation_date: false
+      type: timeago
+      timezone: Europe/Budapest
+      locale: hu
+  - git-committers:
+      repository: viaubxav082/laborok
+      branch: main
+
+nav:
+  - "Tudnivalók":
+      - index.md
+      - tudnivalok/github/GitHub.md
+      - tudnivalok/github/GitHub-Actions.md
+      - tudnivalok/github/GitHub-credentials.md
+      - tudnivalok/github/contributing.md
+  - "Lab1":
+      - laborok/1/index.md
+      - laborok/1/1.md
+      - laborok/1/2.md
+      - laborok/1/3.md
+      - laborok/1/4.md
+      - laborok/1/5.md
+      - laborok/1/6.md
+      - laborok/1/7.md

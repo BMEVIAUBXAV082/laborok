@@ -1,0 +1,3 @@
+# Megajánlott jegy információk
+
+TODO
