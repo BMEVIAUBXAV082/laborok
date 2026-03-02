@@ -2,7 +2,7 @@
 
 [BMEVIAUBXAV082 - Data Engineering a gyakorlatban](https://www.aut.bme.hu/Course/VIAUBXAV082) tárgy laborfeladatai.
 
-A jegyzetek MkDocs segítségével készülnek és GitHub Pages-en kerülnek publikálásra: <https://viaubxav082.github.io/laborok/>
+A jegyzetek MkDocs segítségével készülnek és GitHub Pages-en kerülnek publikálásra: <https://bmeviaubxav082.github.io/laborok/>
 
 Az MKDocs használatához [a hivatalos dokumentáció](https://squidfunk.github.io/mkdocs-material/creating-your-site/) segítségedre lehet.
 
