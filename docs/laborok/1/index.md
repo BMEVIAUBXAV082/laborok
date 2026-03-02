@@ -13,6 +13,9 @@ A feladatok megoldásához az alábbi telepített szoftverekre van szükség:
 !!! warning "Fontos"
     Ezen a laboron **nem kell Python-t** telepíteni a saját gépünkre. Minden kód Docker-ben futó JupyterLab-ban fut. A Python csomagokat a notebookban telepítjük, közvetlenül az első cellában.
 
+!!! info "SQL"
+    A laborfeladatok során Python és SQL nyelveket használunk. A tárgy kereteibe nem fér bele ezen nyelvek alapszintű elsajátítása, de korábbi tapasztalat nélkül is elvégezhetők a laborok. Az SQL-lel való ismerkedéshez egy hasznos interaktív gyorstalpalót lehet találni [ezen az oldalon](https://sqlbolt.com/).
+
 A feladatok megoldása során ne felejtsük el követni a feladatbeadás folyamatát, amiről [itt olvashatsz részletesen](../../tudnivalok/github/GitHub.md).
 
 ### Git repository létrehozása és letöltése
