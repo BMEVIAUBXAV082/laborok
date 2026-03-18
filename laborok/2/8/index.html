@@ -18,7 +18,7 @@
     
     
       
-        <title>8 - BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok</title>
+        <title>8. feladat – End-to-end streaming pipeline - BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok</title>
       
     
     
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              8
+              8. feladat – End-to-end streaming pipeline
             
           </span>
         </div>
@@ -620,7 +620,7 @@
   
     <li class="md-nav__item">
       <a href="../1/" class="md-nav__link">
-        1
+        1. feladat – Kafka környezet és első producer
       </a>
     </li>
   
@@ -634,7 +634,7 @@
   
     <li class="md-nav__item">
       <a href="../2/" class="md-nav__link">
-        2
+        2. feladat – Consumer és JSON üzenetek
       </a>
     </li>
   
@@ -648,7 +648,7 @@
   
     <li class="md-nav__item">
       <a href="../3/" class="md-nav__link">
-        3
+        3. feladat – Sémavalidáció
       </a>
     </li>
   
@@ -662,7 +662,7 @@
   
     <li class="md-nav__item">
       <a href="../4/" class="md-nav__link">
-        4
+        4. feladat – Consumer groups
       </a>
     </li>
   
@@ -676,7 +676,7 @@
   
     <li class="md-nav__item">
       <a href="../5/" class="md-nav__link">
-        5
+        5. feladat – Stream windowing és aggregáció
       </a>
     </li>
   
@@ -690,7 +690,7 @@
   
     <li class="md-nav__item">
       <a href="../6/" class="md-nav__link">
-        6
+        6. feladat – Dead Letter Queue
       </a>
     </li>
   
@@ -704,7 +704,7 @@
   
     <li class="md-nav__item">
       <a href="../7/" class="md-nav__link">
-        7
+        7. feladat – Parquet export streamből
       </a>
     </li>
   
@@ -723,14 +723,16 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          8
+          8. feladat – End-to-end streaming pipeline
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        8
+        8. feladat – End-to-end streaming pipeline
       </a>
       
         
@@ -738,6 +740,8 @@
 <nav class="md-nav md-nav--secondary" aria-label="Tartalomjegyzék">
   
   
+  
+    
   
   
     <label class="md-nav__title" for="__toc">
@@ -747,22 +751,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#8-feladat-end-to-end-streaming-pipeline" class="md-nav__link">
-    8. feladat – End-to-end streaming pipeline
-  </a>
-  
-    <nav class="md-nav" aria-label="8. feladat – End-to-end streaming pipeline">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#notebook-letrehozasa" class="md-nav__link">
     Notebook létrehozása
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -847,6 +838,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -855,22 +848,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#8-feladat-end-to-end-streaming-pipeline" class="md-nav__link">
-    8. feladat – End-to-end streaming pipeline
-  </a>
-  
-    <nav class="md-nav" aria-label="8. feladat – End-to-end streaming pipeline">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#notebook-letrehozasa" class="md-nav__link">
     Notebook létrehozása
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -892,9 +872,7 @@
   
 
 
-  <h1>8</h1>
-
-<h2 id="8-feladat-end-to-end-streaming-pipeline">8. feladat – End-to-end streaming pipeline<a class="headerlink" href="#8-feladat-end-to-end-streaming-pipeline" title="Permanent link">¶</a></h2>
+<h1 id="8-feladat-end-to-end-streaming-pipeline">8. feladat – End-to-end streaming pipeline<a class="headerlink" href="#8-feladat-end-to-end-streaming-pipeline" title="Permanent link">¶</a></h1>
 <p>Az előző feladatokban az egyes komponenseket – producert, validátort, windowing aggregátort, DLQ kezelőt, Parquet exportálót – külön-külön implementáltuk. Ebben a zárófeladatban ezeket egyetlen <code>StreamingPipeline</code> osztályba kell összefogni. A pipeline önállóan fut, és 200 üzenet feldolgozása után leáll.</p>
 <div class="admonition warning">
 <p class="admonition-title">Önálló feladat</p>
@@ -1135,8 +1113,8 @@
           </path>
         </svg>
       </span>
-      <span title="2026. március 18. 16:04:30">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. március 18. 16:04:30 CET"><span class="timeago" datetime="2026-03-18T16:04:30+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. március 18. 16:04:30 CET">2026-03-18</span>
+      <span title="2026. március 18. 16:07:05">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. március 18. 16:07:05 CET"><span class="timeago" datetime="2026-03-18T16:07:05+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. március 18. 16:07:05 CET">2026-03-18</span>
       </span>
     </span>
 
