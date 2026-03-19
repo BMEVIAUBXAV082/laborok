@@ -1091,7 +1091,7 @@
     <span class="n">group_id</span><span class="o">=</span><span class="s2">"dlq-consumer"</span><span class="p">,</span>
     <span class="n">auto_offset_reset</span><span class="o">=</span><span class="s2">"earliest"</span><span class="p">,</span>
     <span class="n">enable_auto_commit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">value_deserializer</span><span class="o">=</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">)),</span>
+    <span class="n">value_deserializer</span><span class="o">=</span><span class="n">safe_deserialize</span><span class="p">,</span>
     <span class="n">consumer_timeout_ms</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span>
 <span class="p">)</span>
 
@@ -1138,7 +1138,7 @@
     <span class="s2">"orders-dlq"</span><span class="p">,</span>
     <span class="n">bootstrap_servers</span><span class="o">=</span><span class="n">BOOTSTRAP</span><span class="p">,</span>
     <span class="n">auto_offset_reset</span><span class="o">=</span><span class="s2">"earliest"</span><span class="p">,</span>
-    <span class="n">value_deserializer</span><span class="o">=</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">)),</span>
+    <span class="n">value_deserializer</span><span class="o">=</span><span class="n">safe_deserialize</span><span class="p">,</span>
     <span class="n">consumer_timeout_ms</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span>
 <span class="p">)</span>
 
@@ -1182,8 +1182,8 @@
           </path>
         </svg>
       </span>
-      <span title="2026. március 18. 16:07:05">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. március 18. 16:07:05 CET"><span class="timeago" datetime="2026-03-18T16:07:05+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. március 18. 16:07:05 CET">2026-03-18</span>
+      <span title="2026. március 19. 09:42:53">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. március 19. 09:42:53 CET"><span class="timeago" datetime="2026-03-19T09:42:53+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. március 19. 09:42:53 CET">2026-03-19</span>
       </span>
     </span>
 

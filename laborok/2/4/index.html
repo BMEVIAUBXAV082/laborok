@@ -956,6 +956,15 @@
 <div class="highlight"><pre><span></span><code><span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>                           <span class="c1"># Közös lista, ahova mindkét consumer ír</span>
 <span class="n">results_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>        <span class="c1"># Mutex: egyszerre csak egy szál írhat a listába</span>
 
+<span class="k">def</span> <span class="nf">safe_deserialize</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Bytes → Python objektum; ha nem JSON, visszaadja a nyers stringet."""</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">))</span>
+    <span class="k">except</span> <span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">,</span> <span class="ne">UnicodeDecodeError</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"replace"</span><span class="p">)</span>
+
 <span class="k">def</span> <span class="nf">run_consumer</span><span class="p">(</span><span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">consumer_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="c1"># TODO: Hozzunk létre egy KafkaConsumer-t az alábbi paraméterekkel:</span>
     <span class="c1">#   - topic: "orders"</span>
@@ -963,7 +972,7 @@
     <span class="c1">#   - group_id: a paraméterként kapott group_id</span>
     <span class="c1">#   - auto_offset_reset: "earliest"</span>
     <span class="c1">#   - enable_auto_commit: True</span>
-    <span class="c1">#   - value_deserializer: JSON decode (json.loads(v.decode("utf-8")))</span>
+    <span class="c1">#   - value_deserializer: safe_deserialize</span>
     <span class="c1">#   - consumer_timeout_ms: 4000</span>
     <span class="c1">#</span>
     <span class="c1"># Olvassuk végig az üzeneteket. Minden üzenetnél, ha msg.value dict típusú:</span>
@@ -989,7 +998,7 @@
         <span class="n">group_id</span><span class="o">=</span><span class="n">group_id</span><span class="p">,</span>                 <span class="c1"># Ez azonosítja a csoportot</span>
         <span class="n">auto_offset_reset</span><span class="o">=</span><span class="s2">"earliest"</span><span class="p">,</span>      <span class="c1"># Az elejéről olvassa, ha nincs korábbi pozíció</span>
         <span class="n">enable_auto_commit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>           <span class="c1"># Offset mentése automatikusan</span>
-        <span class="n">value_deserializer</span><span class="o">=</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">)),</span>
+        <span class="n">value_deserializer</span><span class="o">=</span><span class="n">safe_deserialize</span><span class="p">,</span>
         <span class="n">consumer_timeout_ms</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span>          <span class="c1"># 4 mp után leáll, ha nincs új üzenet</span>
     <span class="p">)</span>
     <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1069,8 +1078,8 @@
           </path>
         </svg>
       </span>
-      <span title="2026. március 18. 16:07:05">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. március 18. 16:07:05 CET"><span class="timeago" datetime="2026-03-18T16:07:05+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. március 18. 16:07:05 CET">2026-03-18</span>
+      <span title="2026. március 19. 09:42:53">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. március 19. 09:42:53 CET"><span class="timeago" datetime="2026-03-19T09:42:53+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. március 19. 09:42:53 CET">2026-03-19</span>
       </span>
     </span>
 

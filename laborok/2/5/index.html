@@ -1088,11 +1088,20 @@
 </code></pre></div>
 <details class="tip">
 <summary>Megoldási útmutató – kattints a tippekért</summary>
-<div class="highlight"><pre><span></span><code><span class="n">consumer</span> <span class="o">=</span> <span class="n">KafkaConsumer</span><span class="p">(</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">safe_deserialize</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Bytes → Python objektum; ha nem JSON, visszaadja a nyers stringet."""</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">v</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">))</span>
+    <span class="k">except</span> <span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">,</span> <span class="ne">UnicodeDecodeError</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"replace"</span><span class="p">)</span>
+
+<span class="n">consumer</span> <span class="o">=</span> <span class="n">KafkaConsumer</span><span class="p">(</span>
     <span class="s2">"orders-windowed"</span><span class="p">,</span>
     <span class="n">bootstrap_servers</span><span class="o">=</span><span class="n">BOOTSTRAP</span><span class="p">,</span>
     <span class="n">auto_offset_reset</span><span class="o">=</span><span class="s2">"earliest"</span><span class="p">,</span>
-    <span class="n">value_deserializer</span><span class="o">=</span><span class="k">lambda</span> <span class="n">v</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">"utf-8"</span><span class="p">)),</span>
+    <span class="n">value_deserializer</span><span class="o">=</span><span class="n">safe_deserialize</span><span class="p">,</span>
     <span class="n">consumer_timeout_ms</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span>
 <span class="p">)</span>
 
@@ -1132,8 +1141,8 @@
           </path>
         </svg>
       </span>
-      <span title="2026. március 18. 16:07:05">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. március 18. 16:07:05 CET"><span class="timeago" datetime="2026-03-18T16:07:05+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. március 18. 16:07:05 CET">2026-03-18</span>
+      <span title="2026. március 19. 09:42:53">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. március 19. 09:42:53 CET"><span class="timeago" datetime="2026-03-19T09:42:53+01:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. március 19. 09:42:53 CET">2026-03-19</span>
       </span>
     </span>
 
