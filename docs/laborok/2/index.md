@@ -27,33 +27,29 @@ A feladatok megoldása során ne felejtsük el követni a feladatbeadás folyama
 5. Hozzunk létre egy `docker-compose.yaml` fájlt a repository gyökerében az alábbi tartalommal:
 
     ```yaml
-    version: "3.9"
-
     services:
 
-      zookeeper:
-        image: bitnami/zookeeper:3.9       # Kafka koordinátor service; tárolja, melyik broker él
-        container_name: labor03-zookeeper
-        environment:
-          ALLOW_ANONYMOUS_LOGIN: "yes"     # Hitelesítés nélküli hozzáférés engedélyezése (csak fejlesztéshez!)
-        ports:
-          - "2181:2181"                    # A Zookeeper alapértelmezett portja
-
       kafka:
-        image: bitnami/kafka:3.6
+        image: apache/kafka:3.9.2
         container_name: labor03-kafka
-        depends_on:
-          - zookeeper                      # Kafka csak Zookeeper után indulhat el
         environment:
-          KAFKA_CFG_ZOOKEEPER_CONNECT: zookeeper:2181      # Zookeeper elérési útja a Docker hálózaton belül
-          KAFKA_CFG_LISTENERS: PLAINTEXT://:9092           # Milyen protokollon és porton hallgat a broker
-          KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092  # Ezt a címet hirdeti a clientek felé
-          ALLOW_PLAINTEXT_LISTENER: "yes"                  # Titkosítatlan kapcsolat engedélyezése
-          KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: "true"      # Topic automatikus létrehozása küldéskor
+          # KRaft mód – Zookeeper nélküli, beépített konszenzus-mechanizmus
+          KAFKA_NODE_ID: 1
+          KAFKA_PROCESS_ROLES: broker,controller              # Ez a node egyszerre broker és controller
+          KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093       # A controller cluster tagjai
+          # Listenerek
+          KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+          KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092  # Ezt a címet hirdeti a clientek felé
+          KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+          KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+          KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+          KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"             # Topic automatikus létrehozása küldéskor
+          KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+          KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
         ports:
           - "9092:9092"                    # Kafka broker portja – erre csatlakoznak a producerek és consumerek
         healthcheck:
-          test: ["CMD-SHELL", "kafka-topics.sh --bootstrap-server localhost:9092 --list"]
+          test: ["CMD-SHELL", "/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list"]
           interval: 15s                    # 15 másodpercenként ellenőrzi, hogy a broker válaszol-e
           timeout: 10s
           retries: 5
@@ -85,9 +81,8 @@ A feladatok megoldása során ne felejtsük el követni a feladatbeadás folyama
           - ./notebooks:/home/jovyan/work  # A helyi notebooks/ mappa megjelenik a konténer /work mappájaként
     ```
 
-    !!! note "A négy service szerepe"
-        * **zookeeper** – Kafka metaadat-koordinátora. Nyilvántartja, melyik broker él, melyik partíciónak mi a leadere. Kafka 3.x-től már nem kötelező (KRaft mód), de a bitnami image-ek még Zookeepert használnak.
-        * **kafka** – Az üzenetközvetítő broker. A producerek ide küldik az üzeneteket, a consumerek innen olvassák őket. Egy topic több broker között is elosztható (replication), de itt csak 1 brokerünk van.
+    !!! note "A három service szerepe"
+        * **kafka** – Az üzenetközvetítő broker. Az Apache Software Foundation hivatalos `apache/kafka` image-ét használja. KRaft módban fut, vagyis Zookeeper nélkül, beépített konszenzus-mechanizmussal koordinálja saját magát. A producerek ide küldik az üzeneteket, a consumerek innen olvassák őket.
         * **kafka-ui** – Webes adminisztrációs felület. Böngészőből nyomon követhetjük a topicokat, üzeneteket, consumer group-okat és offset-eket.
         * **jupyter** – JupyterLab notebookkörnyezet. A Python kódunkat itt írjuk és futtatjuk interaktívan.
 
@@ -99,7 +94,7 @@ A feladatok megoldása során ne felejtsük el követni a feladatbeadás folyama
 
     A `-d` (detached) kapcsoló háttérben indítja a konténereket, így a terminálunk szabadon marad. Az első indítás tovább tarthat, mert le kell tölteni a Docker image-eket.
 
-7. Ellenőrizzük, hogy mind a négy konténer fut:
+7. Ellenőrizzük, hogy mind a három konténer fut:
 
     ```powershell
     PS> docker compose ps
