@@ -1,0 +1,1488 @@
+<!DOCTYPE html><html lang="hu" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Pomázi Krisztián">
+      
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../2/">
+      
+      <link rel="icon" href="../../../favicon.ico">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.14">
+    
+    
+      
+        <title>1. feladat – PostgreSQL OLTP forrás és csillag séma ETL - BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.113286f1.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../css/timeago.css">
+    
+      <link rel="stylesheet" href="../../../extra-material-theme.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="aut" data-md-color-primary="red" data-md-color-accent="red">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1-feladat-postgresql-oltp-forras-es-csillag-sema-etl" class="md-skip">
+          Kihagyás
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Élőfej">
+    <a href="../../.." title="BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok" class="md-header__button md-logo" aria-label="BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok" data-md-component="logo">
+      
+  <img src="../../../logo-bme-aut.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1. feladat – PostgreSQL OLTP forrás és csillag séma ETL
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="aut" data-md-color-primary="red" data-md-color-accent="red" aria-label="Váltás sötét témára" type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Váltás sötét témára" for="__palette_2" hidden="">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"></path></svg>
+            </label>
+          
+        
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="" aria-label="Váltás világos témára" type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Váltás világos témára" for="__palette_1" hidden="">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"></path></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Keresés" placeholder="Keresés" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Keresés">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Törlés" aria-label="Törlés" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Keresés inicializálása
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/viaubxav082/laborok" title="Főoldalra ugrás" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    viaubxav082/laborok
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Lapok" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        Tudnivalók
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../1/" class="md-tabs__link">
+        Lab1
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../2/" class="md-tabs__link">
+        Lab2
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link md-tabs__link--active">
+        Lab3
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../hf/" class="md-tabs__link">
+        Házi
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigáció" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok" class="md-nav__button md-logo" aria-label="BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok" data-md-component="logo">
+      
+  <img src="../../../logo-bme-aut.png" alt="logo">
+
+    </a>
+    BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/viaubxav082/laborok" title="Főoldalra ugrás" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    viaubxav082/laborok
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1">
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+          Tudnivalók
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Tudnivalók
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix="">
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Tárgy ismertető
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tudnivalok/github/GitHub/" class="md-nav__link">
+        Feladatok beadása (GitHub)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tudnivalok/github/GitHub-Actions/" class="md-nav__link">
+        GitHub Actions ismertető
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tudnivalok/github/GitHub-credentials/" class="md-nav__link">
+        Egyetemi laborokban: GitHub belépés
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tudnivalok/github/contributing/" class="md-nav__link">
+        Hozzájárulás az anyaghoz
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Lab1
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Lab1
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix="">
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/" class="md-nav__link">
+        Batch adatfeldolgozó pipeline
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/1/" class="md-nav__link">
+        1. feladat: Szintetikus webshop adatok generálása
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/2/" class="md-nav__link">
+        2. feladat: Adatbázis betöltés és Extract
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/3/" class="md-nav__link">
+        3. feladat: DuckDB transzformációk – Staging, Cleaned, Aggregated
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/4/" class="md-nav__link">
+        4. feladat: SCD Type 2 – Ügyfél dimenzió
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/5/" class="md-nav__link">
+        5. feladat: Gold réteg és teljesítménymérés
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/6/" class="md-nav__link">
+        6. feladat: Adatminőség validáció
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/7/" class="md-nav__link">
+        7. feladat: Particionált Parquet és predicate pushdown
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Lab2
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Lab2
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix="">
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/" class="md-nav__link">
+        Streaming alapú adatfeldolgozás
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/1/" class="md-nav__link">
+        1. feladat – Kafka környezet és első producer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/2/" class="md-nav__link">
+        2. feladat – Consumer és JSON üzenetek
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/3/" class="md-nav__link">
+        3. feladat – Sémavalidáció
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/4/" class="md-nav__link">
+        4. feladat – Consumer groups
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/5/" class="md-nav__link">
+        5. feladat – Stream windowing és aggregáció
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/6/" class="md-nav__link">
+        6. feladat – Dead Letter Queue
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/7/" class="md-nav__link">
+        7. feladat – Parquet export streamből
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/8/" class="md-nav__link">
+        8. feladat – End-to-end streaming pipeline
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked="">
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Lab3
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Lab3
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix="">
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        Adatmodellezés és adattárolási absztrakciók
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          1. feladat – PostgreSQL OLTP forrás és csillag séma ETL
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        1. feladat – PostgreSQL OLTP forrás és csillag séma ETL
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tartalomjegyzék">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tartalomjegyzék
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#notebook-letrehozasa" class="md-nav__link">
+    Notebook létrehozása
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-oltp-sema-feltoltese" class="md-nav__link">
+    PostgreSQL OLTP séma feltöltése
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#duckdb-csillag-sema-feltoltese" class="md-nav__link">
+    DuckDB csillag séma feltöltése
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-tenytabla-feltoltese" class="md-nav__link">
+    A ténytábla feltöltése
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2/" class="md-nav__link">
+        2. feladat – SCD Type 2 (Slowly Changing Dimensions)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3/" class="md-nav__link">
+        3. feladat – Medallion Lakehouse Delta Lake-kel
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4/" class="md-nav__link">
+        4. feladat – dbt ELT pipeline
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Házi
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Házi
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix="">
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hf/" class="md-nav__link">
+        Opcionális Házi Feladat
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tartalomjegyzék">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tartalomjegyzék
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#notebook-letrehozasa" class="md-nav__link">
+    Notebook létrehozása
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#postgresql-oltp-sema-feltoltese" class="md-nav__link">
+    PostgreSQL OLTP séma feltöltése
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#duckdb-csillag-sema-feltoltese" class="md-nav__link">
+    DuckDB csillag séma feltöltése
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-tenytabla-feltoltese" class="md-nav__link">
+    A ténytábla feltöltése
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="1-feladat-postgresql-oltp-forras-es-csillag-sema-etl">1. feladat – PostgreSQL OLTP forrás és csillag séma ETL<a class="headerlink" href="#1-feladat-postgresql-oltp-forras-es-csillag-sema-etl" title="Permanent link">¶</a></h1>
+<p>Az adattárházak (Data Warehouse) kiindulópontja mindig egy OLTP (Online Transaction Processing) forrásrendszer, amely normalizált, tranzakcióra optimalizált sémában tárolja az adatokat. Az analitikai lekérdezések számára azonban a normalizált séma hátrányos: sok JOIN-t igényel, és sok kis táblát kell bejárni. Ezért az adatokat egy <strong>csillag sémába</strong> (star schema) transzformáljuk: egy ténytáblából (fact table) és néhány dimenzió táblából (dimension tables) áll, amelyek sugarasan csatlakoznak – innen a neve.</p>
+<div class="admonition note">
+<p class="admonition-title">Csillag séma alapfogalmak</p>
+<ul>
+<li><strong>Grain</strong> – a ténytábla egy sorának pontos jelentése. Mindig deklarálni kell! Példa: „egy sor = egy rendelési tétel, egy adott napon, egy adott ügyfélnek, egy adott termékből."</li>
+<li><strong>Surrogate key (szurrogált kulcs)</strong> – a DWH által generált technikai azonosító (pl. <code>customer_key = 1, 2, 3...</code>). Független a forrásrendszertől – akkor is stabil marad, ha az OLTP ID-k változnak.</li>
+<li><strong>Natural key (természetes kulcs)</strong> – a forrásrendszer eredeti azonosítója (pl. <code>customer_id = 42</code>). Megőrizzük referenciaként, de JOIN-okhoz a surrogate key-t használjuk.</li>
+<li><strong>Fact tábla</strong> – mérőszámokat (mennyiség, ár, összeg) és FK hivatkozásokat tartalmaz a dimenziókra. Sok sor, kevés oszlop.</li>
+<li><strong>Dim tábla</strong> – leíró attribútumok (név, város, kategória). Ritkán változik, ezért külön tároljuk.</li>
+</ul>
+</div>
+<h3 id="notebook-letrehozasa">Notebook létrehozása<a class="headerlink" href="#notebook-letrehozasa" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>A JupyterLab-ban hozzunk létre egy új notebookot <code>01_star_schema.ipynb</code> néven a <code>work/</code> mappában.</p>
+</li>
+<li>
+<p>Az első cellában telepítsük a szükséges csomagokat:</p>
+<div class="highlight"><pre><span></span><code><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="n">psycopg2</span><span class="o">-</span><span class="n">binary</span> <span class="n">duckdb</span> <span class="n">pandas</span> <span class="n">faker</span> <span class="n">sqlalchemy</span>
+</code></pre></div>
+<p>A <code>-q</code> (quiet) kapcsoló csökkenti a telepítési kimenetet. A <code>psycopg2-binary</code> a PostgreSQL Python kliens, a <code>faker</code> szintetikus adatok generálásához kell, a <code>sqlalchemy</code> pedig a <code>pd.read_sql()</code> híváson keresztül teszi kényelmessé az adatbeolvasást.</p>
+<div class="admonition note">
+<p class="admonition-title">pip a notebookban</p>
+<p>A telepítés csak az aktuális Docker session-re érvényes. A konténer újraindítása után újra le kell futtatni az első cellát. Ez azért van, mert a konténer filesystem-je nem perzisztens – a <code>volumes:</code> bejegyzés csak a <code>./notebooks</code> mappát menti el.</p>
+</div>
+</li>
+</ol>
+<h3 id="postgresql-oltp-sema-feltoltese">PostgreSQL OLTP séma feltöltése<a class="headerlink" href="#postgresql-oltp-sema-feltoltese" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>A második cellában hozzuk létre az OLTP táblákat és töltsük fel szintetikus adatokkal:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">psycopg2</span>                         <span class="c1"># PostgreSQL Python kliens könyvtár</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">duckdb</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+
+<span class="c1"># Kapcsolódás a PostgreSQL konténerhez</span>
+<span class="c1"># A 'postgres' hostnév a Docker hálózaton belül a labor04-postgres konténert jelenti</span>
+<span class="c1"># A saját gépünkről (kívülről) localhost:5432-n érnénk el, de konténerből konténerbe a service névvel</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+    <span class="n">host</span><span class="o">=</span><span class="s2">"postgres"</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5432</span><span class="p">,</span>
+    <span class="n">user</span><span class="o">=</span><span class="s2">"labor"</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s2">"labor"</span><span class="p">,</span>
+    <span class="n">dbname</span><span class="o">=</span><span class="s2">"oltp_source"</span>
+<span class="p">)</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">autocommit</span> <span class="o">=</span> <span class="kc">True</span>   <span class="c1"># Minden SQL utasítás automatikusan COMMIT-olódik</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+<span class="c1"># Korábbi futtatások maradványainak eltávolítása – idempotens újrafuttatáshoz</span>
+<span class="c1"># CASCADE: az order_items táblát is törli, amely customers és products-ra hivatkozik</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"DROP TABLE IF EXISTS order_items CASCADE"</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"DROP TABLE IF EXISTS orders CASCADE"</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"DROP TABLE IF EXISTS products CASCADE"</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"DROP TABLE IF EXISTS customers CASCADE"</span><span class="p">)</span>
+
+<span class="c1"># OLTP séma: 3NF (harmadik normálalak) – minden adat pontosan egy helyen tárolódik</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">    CREATE TABLE customers (</span>
+<span class="s2">        id         SERIAL PRIMARY KEY,    -- AUTO INCREMENT azonosító</span>
+<span class="s2">        name       TEXT NOT NULL,</span>
+<span class="s2">        email      TEXT,</span>
+<span class="s2">        city       TEXT,</span>
+<span class="s2">        country    TEXT DEFAULT 'Hungary',</span>
+<span class="s2">        created_at DATE DEFAULT CURRENT_DATE</span>
+<span class="s2">    )</span>
+<span class="s2">"""</span><span class="p">)</span>
+
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">    CREATE TABLE products (</span>
+<span class="s2">        id         SERIAL PRIMARY KEY,</span>
+<span class="s2">        name       TEXT NOT NULL,</span>
+<span class="s2">        category   TEXT,</span>
+<span class="s2">        unit_price NUMERIC(10, 2) NOT NULL,  -- 10 jegyű, ebből 2 tizedes</span>
+<span class="s2">        created_at DATE DEFAULT CURRENT_DATE</span>
+<span class="s2">    )</span>
+<span class="s2">"""</span><span class="p">)</span>
+
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">    CREATE TABLE orders (</span>
+<span class="s2">        id          SERIAL PRIMARY KEY,</span>
+<span class="s2">        customer_id INTEGER REFERENCES customers(id),   -- FK a customers táblára</span>
+<span class="s2">        order_date  DATE NOT NULL,</span>
+<span class="s2">        status      TEXT DEFAULT 'completed'</span>
+<span class="s2">    )</span>
+<span class="s2">"""</span><span class="p">)</span>
+
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">    CREATE TABLE order_items (</span>
+<span class="s2">        id         SERIAL PRIMARY KEY,</span>
+<span class="s2">        order_id   INTEGER REFERENCES orders(id),       -- FK az orders táblára</span>
+<span class="s2">        product_id INTEGER REFERENCES products(id),     -- FK a products táblára</span>
+<span class="s2">        quantity   INTEGER NOT NULL,</span>
+<span class="s2">        unit_price NUMERIC(10, 2) NOT NULL              -- Tranzakció idejebeli ár (nem a jelenlegi!)</span>
+<span class="s2">    )</span>
+<span class="s2">"""</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"OLTP séma létrehozva: customers, products, orders, order_items"</span><span class="p">)</span>
+
+<span class="c1"># Szintetikus adatgenerálás Faker-rel</span>
+<span class="n">fake</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">(</span><span class="s1">'hu_HU'</span><span class="p">)</span>    <span class="c1"># Magyar neveket és városokat generál</span>
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>          <span class="c1"># Reprodukálható eredmények – ugyanaz az adat minden futásnál</span>
+
+<span class="n">cities</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Budapest'</span><span class="p">,</span> <span class="s1">'Debrecen'</span><span class="p">,</span> <span class="s1">'Miskolc'</span><span class="p">,</span> <span class="s1">'Pécs'</span><span class="p">,</span> <span class="s1">'Győr'</span><span class="p">,</span> <span class="s1">'Szeged'</span><span class="p">,</span> <span class="s1">'Nyíregyháza'</span><span class="p">]</span>
+
+<span class="c1"># 200 ügyfél generálása</span>
+<span class="n">customer_rows</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="n">fake</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span> <span class="n">fake</span><span class="o">.</span><span class="n">email</span><span class="p">(),</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">cities</span><span class="p">),</span> <span class="s1">'Hungary'</span><span class="p">,</span>
+     <span class="n">date</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">730</span><span class="p">)))</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+<span class="p">]</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span>
+    <span class="s2">"INSERT INTO customers (name, email, city, country, created_at) VALUES (</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span>
+    <span class="n">customer_rows</span>
+<span class="p">)</span>
+
+<span class="c1"># 25 termék, 5 kategóriában</span>
+<span class="n">product_catalog</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'Elektronika'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'Laptop'</span><span class="p">,</span> <span class="s1">'Monitor'</span><span class="p">,</span> <span class="s1">'Billentyűzet'</span><span class="p">,</span> <span class="s1">'Egér'</span><span class="p">,</span> <span class="s1">'Headset'</span><span class="p">],</span>
+    <span class="s1">'Bútor'</span><span class="p">:</span>       <span class="p">[</span><span class="s1">'Íróasztal'</span><span class="p">,</span> <span class="s1">'Forgószék'</span><span class="p">,</span> <span class="s1">'Könyvespolc'</span><span class="p">,</span> <span class="s1">'Szekrény'</span><span class="p">,</span> <span class="s1">'Kanapé'</span><span class="p">],</span>
+    <span class="s1">'Irodaszer'</span><span class="p">:</span>   <span class="p">[</span><span class="s1">'Tűzőgép'</span><span class="p">,</span> <span class="s1">'Iratrendező'</span><span class="p">,</span> <span class="s1">'Toll készlet'</span><span class="p">,</span> <span class="s1">'Jelölőcetli'</span><span class="p">,</span> <span class="s1">'Ollók'</span><span class="p">],</span>
+    <span class="s1">'Élelmiszer'</span><span class="p">:</span>  <span class="p">[</span><span class="s1">'Kávé 500g'</span><span class="p">,</span> <span class="s1">'Tea mix'</span><span class="p">,</span> <span class="s1">'Ásványvíz 6×'</span><span class="p">,</span> <span class="s1">'Energia szelet'</span><span class="p">,</span> <span class="s1">'Müzliszelet'</span><span class="p">],</span>
+    <span class="s1">'Sport'</span><span class="p">:</span>       <span class="p">[</span><span class="s1">'Jóga szőnyeg'</span><span class="p">,</span> <span class="s1">'Kézisúlyzó'</span><span class="p">,</span> <span class="s1">'Ugrálókötél'</span><span class="p">,</span> <span class="s1">'Rezisztencia szalag'</span><span class="p">,</span> <span class="s1">'Tornazsák'</span><span class="p">],</span>
+<span class="p">}</span>
+<span class="n">product_rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">cat</span><span class="p">,</span> <span class="n">names</span> <span class="ow">in</span> <span class="n">product_catalog</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">pname</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+        <span class="n">price</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">80000</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">product_rows</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">pname</span><span class="p">,</span> <span class="n">cat</span><span class="p">,</span> <span class="n">price</span><span class="p">,</span> <span class="n">date</span><span class="p">(</span><span class="mi">2022</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span>
+    <span class="s2">"INSERT INTO products (name, category, unit_price, created_at) VALUES (</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span>
+    <span class="n">product_rows</span>
+<span class="p">)</span>
+
+<span class="c1"># 500 rendelés és ~1500 rendelési tétel</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"SELECT id FROM customers"</span><span class="p">)</span>
+<span class="n">cust_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()]</span>          <span class="c1"># Összes ügyfél ID listája</span>
+
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"SELECT id, unit_price FROM products"</span><span class="p">)</span>
+<span class="n">prod_data</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>                          <span class="c1"># [(product_id, unit_price), ...]</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span>
+    <span class="n">cust_id</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">cust_ids</span><span class="p">)</span>
+    <span class="n">odate</span>   <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="mi">2023</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">364</span><span class="p">))</span>
+    <span class="c1"># Szándékosan vegyes státusz – az ETL csak a 'completed' rendeléseket veszi át</span>
+    <span class="n">status</span>  <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s1">'completed'</span><span class="p">,</span> <span class="s1">'completed'</span><span class="p">,</span> <span class="s1">'completed'</span><span class="p">,</span> <span class="s1">'pending'</span><span class="p">,</span> <span class="s1">'cancelled'</span><span class="p">])</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="s2">"INSERT INTO orders (customer_id, order_date, status) VALUES (</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">) RETURNING id"</span><span class="p">,</span>
+        <span class="p">(</span><span class="n">cust_id</span><span class="p">,</span> <span class="n">odate</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">order_id</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>   <span class="c1"># A RETURNING id visszaadja az újonnan létrejött sort</span>
+
+    <span class="c1"># 1–4 tétel rendelésenként</span>
+    <span class="k">for</span> <span class="n">prod_id</span><span class="p">,</span> <span class="n">base_price</span> <span class="ow">in</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">prod_data</span><span class="p">,</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)):</span>
+        <span class="n">qty</span>   <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="n">price</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">base_price</span><span class="p">)</span> <span class="o">*</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># ±10% áringadozás</span>
+        <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+            <span class="s2">"INSERT INTO order_items (order_id, product_id, quantity, unit_price) VALUES (</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">order_id</span><span class="p">,</span> <span class="n">prod_id</span><span class="p">,</span> <span class="n">qty</span><span class="p">,</span> <span class="n">price</span><span class="p">)</span>
+        <span class="p">)</span>
+
+<span class="c1"># Összesítés</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Szintetikus adatok betöltve:"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">table</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'customers'</span><span class="p">,</span> <span class="s1">'products'</span><span class="p">,</span> <span class="s1">'orders'</span><span class="p">,</span> <span class="s1">'order_items'</span><span class="p">]:</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">"SELECT COUNT(*) FROM </span><span class="si">{</span><span class="n">table</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">table</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">cur</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> sor"</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Miért SERIAL és REFERENCES?</p>
+<p>A <code>SERIAL</code> típus automatikusan növekvő egész számot generál – ez az OLTP természetes kulcsa. A <code>REFERENCES</code> idegen kulcs (FK) kényszert deklarál: az <code>order_items.product_id</code> csak olyan értéket vehet fel, amely az <code>products.id</code> oszlopban létezik. Ez az adatintegritás alapja az OLTP rendszerben. A DWH-ban ezeket a kényszerekat általában <strong>nem</strong> kényszerítik ki – a sebesség fontosabb.</p>
+</div>
+</li>
+</ol>
+<h3 id="duckdb-csillag-sema-feltoltese">DuckDB csillag séma feltöltése<a class="headerlink" href="#duckdb-csillag-sema-feltoltese" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>A harmadik cellában hozzuk létre a DuckDB dimenzió táblákat:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># In-process DuckDB adatbázis – nincs szükség különálló szerverre</span>
+<span class="c1"># A fájl perzisztens: a notebookok között is megmarad az adatbázis</span>
+<span class="n">dcon</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">"/home/jovyan/work/labor04.duckdb"</span><span class="p">)</span>
+
+<span class="c1"># Meglévő táblák törlése újrafuttathatóság érdekében</span>
+<span class="k">for</span> <span class="n">tbl</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'fact_order_item'</span><span class="p">,</span> <span class="s1">'dim_date'</span><span class="p">,</span> <span class="s1">'dim_customer'</span><span class="p">,</span> <span class="s1">'dim_product'</span><span class="p">]:</span>
+    <span class="n">dcon</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">"DROP TABLE IF EXISTS </span><span class="si">{</span><span class="n">tbl</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># dim_customer – az ügyfél dimenzió</span>
+<span class="c1"># Kulcs különbség az OLTP-hez képest: customer_key (surrogate) mellé megtartjuk a customer_id-t (natural)</span>
+<span class="n">dcon</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">    CREATE TABLE dim_customer (</span>
+<span class="s2">        customer_key  INTEGER PRIMARY KEY,   -- DWH belső azonosító (1, 2, 3, ...)</span>
+<span class="s2">        customer_id   INTEGER NOT NULL,       -- Forrásrendszer ID – referencia marad</span>
+<span class="s2">        name          TEXT,</span>
+<span class="s2">        city          TEXT,</span>
+<span class="s2">        country       TEXT</span>
+<span class="s2">    )</span>
+<span class="s2">"""</span><span class="p">)</span>
+
+<span class="c1"># dim_product – a termék dimenzió</span>
+<span class="n">dcon</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">    CREATE TABLE dim_product (</span>
+<span class="s2">        product_key   INTEGER PRIMARY KEY,</span>
+<span class="s2">        product_id    INTEGER NOT NULL,</span>
+<span class="s2">        product_name  TEXT,</span>
+<span class="s2">        category      TEXT,</span>
+<span class="s2">        unit_price    DOUBLE   -- Listaár a dimenzióban (nem a tranzakciós ár!)</span>
+<span class="s2">    )</span>
+<span class="s2">"""</span><span class="p">)</span>
+
+<span class="c1"># fact_order_item – a ténytábla (grain: 1 rendelési tétel)</span>
+<span class="c1"># Csak FK-k és mérőszámok – leírások a dimenziókban vannak</span>
+<span class="n">dcon</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">    CREATE TABLE fact_order_item (</span>
+<span class="s2">        order_item_key INTEGER PRIMARY KEY,</span>
+<span class="s2">        customer_key   INTEGER REFERENCES dim_customer(customer_key),</span>
+<span class="s2">        product_key    INTEGER REFERENCES dim_product(product_key),</span>
+<span class="s2">        order_date     DATE,                 -- Dátum direktben (kis DWH esetén dim_date nem szükséges)</span>
+<span class="s2">        quantity       INTEGER,</span>
+<span class="s2">        unit_price     DOUBLE,               -- Tranzakció idejebeli ár</span>
+<span class="s2">        total_amount   DOUBLE                -- Levezetett mező: quantity × unit_price</span>
+<span class="s2">    )</span>
+<span class="s2">"""</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"DuckDB csillag séma táblák létrehozva."</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>A negyedik cellában töltsük fel a dimenzió táblákat PostgreSQL adatokból:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
+
+<span class="c1"># SQLAlchemy connection string: dialect+driver://user:password@host:port/dbname</span>
+<span class="c1"># Ezt a pd.read_sql() igényli – psycopg2 közvetlen connection-t is elfogad, de deprecated</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s2">"postgresql://labor:labor@postgres:5432/oltp_source"</span><span class="p">)</span>
+
+<span class="c1"># --- dim_customer feltöltése ---</span>
+<span class="n">df_cust</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s2">"SELECT id, name, city, country FROM customers ORDER BY id"</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+<span class="c1"># Surrogate key generálása: sorrend szerinti egész szám, 1-től indul</span>
+<span class="n">df_cust</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'customer_key'</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_cust</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">df_cust</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'customer_key'</span><span class="p">,</span> <span class="s1">'customer_id'</span><span class="p">,</span> <span class="s1">'name'</span><span class="p">,</span> <span class="s1">'city'</span><span class="p">,</span> <span class="s1">'country'</span><span class="p">]</span>
+<span class="c1"># DuckDB közvetlenül tud pandas DataFrame-ből INSERT-elni – nincs szükség row-by-row iterálásra</span>
+<span class="n">dcon</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"INSERT INTO dim_customer SELECT * FROM df_cust"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"dim_customer: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_cust</span><span class="p">)</span><span class="si">}</span><span class="s2"> sor betöltve"</span><span class="p">)</span>
+
+<span class="c1"># --- dim_product feltöltése ---</span>
+<span class="n">df_prod</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
+    <span class="s2">"SELECT id, name, category, unit_price FROM products ORDER BY id"</span><span class="p">,</span> <span class="n">engine</span>
+<span class="p">)</span>
+<span class="n">df_prod</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'product_key'</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_prod</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">df_prod</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'product_key'</span><span class="p">,</span> <span class="s1">'product_id'</span><span class="p">,</span> <span class="s1">'product_name'</span><span class="p">,</span> <span class="s1">'category'</span><span class="p">,</span> <span class="s1">'unit_price'</span><span class="p">]</span>
+<span class="n">dcon</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"INSERT INTO dim_product SELECT * FROM df_prod"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"dim_product:  </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_prod</span><span class="p">)</span><span class="si">}</span><span class="s2"> sor betöltve"</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Miért nem az OLTP id-t használjuk surrogate key-ként?</p>
+<p>Az OLTP rendszer ID-ja változhat: törlés-újraszúrás esetén ugyanaz az objektum más ID-t kaphat, vagy különböző forrásrendszerekből érkező adatoknál ütközhetnek az ID-k. A surrogate key mindig a DWH-on belül generált, garantáltan egyedi, és nem függ a forrásoktól.</p>
+</div>
+</li>
+</ol>
+<h3 id="a-tenytabla-feltoltese">A ténytábla feltöltése<a class="headerlink" href="#a-tenytabla-feltoltese" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Az ötödik cellában valósítsuk meg az ETL transzformációt – a ténytábla feltöltését:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Staging: rendelési tételek kinyerése PostgreSQL-ből, JOIN-okkal összerakva</span>
+<span class="c1"># WHERE status = 'completed': csak teljesített rendelések kerülnek a DWH-ba</span>
+<span class="n">df_orders</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">    SELECT</span>
+<span class="s2">        oi.id              AS order_item_id,</span>
+<span class="s2">        o.customer_id,</span>
+<span class="s2">        oi.product_id,</span>
+<span class="s2">        o.order_date,</span>
+<span class="s2">        oi.quantity,</span>
+<span class="s2">        oi.unit_price,</span>
+<span class="s2">        ROUND(oi.quantity * oi.unit_price, 2) AS total_amount</span>
+<span class="s2">    FROM order_items oi</span>
+<span class="s2">    JOIN orders o ON oi.order_id = o.id</span>
+<span class="s2">    WHERE o.status = 'completed'</span>
+<span class="s2">      AND oi.quantity &gt; 0       -- Negatív mennyiség kiszűrése (adatminőség)</span>
+<span class="s2">      AND oi.unit_price &gt; 0     -- Ingyenes tételek kiszűrése</span>
+<span class="s2">"""</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Staging: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_orders</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> tétel (csak completed rendelések)"</span><span class="p">)</span>
+
+<span class="c1"># NK→SK lookup: natural key → surrogate key leképezés</span>
+<span class="c1"># set_index('customer_id') → index alapján gyors keresés a map() híváshoz</span>
+<span class="n">sk_cust</span> <span class="o">=</span> <span class="n">dcon</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+    <span class="s2">"SELECT customer_id, customer_key FROM dim_customer"</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'customer_id'</span><span class="p">)[</span><span class="s1">'customer_key'</span><span class="p">]</span>
+
+<span class="n">sk_prod</span> <span class="o">=</span> <span class="n">dcon</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+    <span class="s2">"SELECT product_id, product_key FROM dim_product"</span>
+<span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'product_id'</span><span class="p">)[</span><span class="s1">'product_key'</span><span class="p">]</span>
+
+<span class="c1"># NK→SK feloldás: minden natural key-hez megkeressük a megfelelő surrogate key-t</span>
+<span class="c1"># A .map() a Series index alapján végzi a kikeresést – hiányzó kulcsnál NaN-t ad vissza</span>
+<span class="n">df_orders</span><span class="p">[</span><span class="s1">'customer_key'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_orders</span><span class="p">[</span><span class="s1">'customer_id'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">sk_cust</span><span class="p">)</span>
+<span class="n">df_orders</span><span class="p">[</span><span class="s1">'product_key'</span><span class="p">]</span>  <span class="o">=</span> <span class="n">df_orders</span><span class="p">[</span><span class="s1">'product_id'</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">sk_prod</span><span class="p">)</span>
+
+<span class="c1"># TODO: Szűrje ki a NULL-okat, és töltse be a fact táblát!</span>
+<span class="c1">#</span>
+<span class="c1"># Lépések:</span>
+<span class="c1">#   1. Szűrjük ki azokat a sorokat, ahol a customer_key VAGY product_key NaN (NULL):</span>
+<span class="c1">#      df_fact = df_orders.dropna(subset=['customer_key', 'product_key']).copy()</span>
+<span class="c1">#      (Ezek olyan rendelések lennének, amelyekhez nem találtunk dimenziót – hibás adat)</span>
+<span class="c1">#</span>
+<span class="c1">#   2. Alakítsuk egésszé a FK oszlopokat (map() után float típusú lesz):</span>
+<span class="c1">#      df_fact['customer_key'] = df_fact['customer_key'].astype(int)</span>
+<span class="c1">#      df_fact['product_key']  = df_fact['product_key'].astype(int)</span>
+<span class="c1">#</span>
+<span class="c1">#   3. Generáljuk a surrogate key-t:</span>
+<span class="c1">#      df_fact.insert(0, 'order_item_key', range(1, len(df_fact) + 1))</span>
+<span class="c1">#</span>
+<span class="c1">#   4. Töltsük be a DuckDB fact táblába a szükséges oszlopokkal:</span>
+<span class="c1">#      df_insert = df_fact[['order_item_key', 'customer_key', 'product_key',</span>
+<span class="c1">#                            'order_date', 'quantity', 'unit_price', 'total_amount']]</span>
+<span class="c1">#      dcon.execute("INSERT INTO fact_order_item SELECT * FROM df_insert")</span>
+<span class="c1">#      print(f"fact_order_item: {len(df_fact):,} sor betöltve")</span>
+<span class="k">pass</span>
+</code></pre></div>
+<details class="tip">
+<summary>Megoldási útmutató – kattints a tippekért</summary>
+<div class="highlight"><pre><span></span><code><span class="c1"># NULL szűrés: ha egy natural key nem szerepel a dimenzióban, azt a sort kihagyjuk</span>
+<span class="c1"># Ez az ETL "reject" logikája – valós rendszerben ezeket hibanaplóba írjuk</span>
+<span class="n">df_fact</span> <span class="o">=</span> <span class="n">df_orders</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">'customer_key'</span><span class="p">,</span> <span class="s1">'product_key'</span><span class="p">])</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="c1"># A .map() float-tá alakítja az int oszlopot (NaN kezelése miatt)</span>
+<span class="c1"># Az astype(int) visszaalakítja egésszé az INSERT előtt</span>
+<span class="n">df_fact</span><span class="p">[</span><span class="s1">'customer_key'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_fact</span><span class="p">[</span><span class="s1">'customer_key'</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">df_fact</span><span class="p">[</span><span class="s1">'product_key'</span><span class="p">]</span>  <span class="o">=</span> <span class="n">df_fact</span><span class="p">[</span><span class="s1">'product_key'</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="n">df_fact</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">'order_item_key'</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_fact</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="n">df_insert</span> <span class="o">=</span> <span class="n">df_fact</span><span class="p">[[</span><span class="s1">'order_item_key'</span><span class="p">,</span> <span class="s1">'customer_key'</span><span class="p">,</span> <span class="s1">'product_key'</span><span class="p">,</span>
+                      <span class="s1">'order_date'</span><span class="p">,</span> <span class="s1">'quantity'</span><span class="p">,</span> <span class="s1">'unit_price'</span><span class="p">,</span> <span class="s1">'total_amount'</span><span class="p">]]</span>
+<span class="n">dcon</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"INSERT INTO fact_order_item SELECT * FROM df_insert"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"fact_order_item: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_fact</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> sor betöltve"</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Miért .map() és nem JOIN?</strong> A pandas <code>.map(Series)</code> hatékonyabb, mint egy SQL JOIN: a lookup Series index-alapú keresést végez O(1)-es komplexitással, szemben a pandas merge O(n log n)-es viselkedésével. Nagy adatmennyiségnél ez érzékelhetően gyorsabb.</p>
+</details>
+</li>
+<li>
+<p>A hatodik cellában ellenőrizzük az eredményt:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Táblák sorszámainak összesítése – ez lesz a beadandó képernyőkép</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">dcon</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">    SELECT 'dim_customer'    AS tabla, COUNT(*) AS sorok FROM dim_customer   UNION ALL</span>
+<span class="s2">    SELECT 'dim_product',              COUNT(*)          FROM dim_product    UNION ALL</span>
+<span class="s2">    SELECT 'fact_order_item',          COUNT(*)          FROM fact_order_item</span>
+<span class="s2">"""</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+
+<span class="c1"># Üzleti ellenőrző lekérdezés: top 5 kategória bevétel szerint</span>
+<span class="c1"># Ez a JOIN pontosan azt mutatja, amit a csillag séma megkönnyít</span>
+<span class="n">top</span> <span class="o">=</span> <span class="n">dcon</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">    SELECT</span>
+<span class="s2">        dp.category,</span>
+<span class="s2">        COUNT(*)                       AS tetelek,</span>
+<span class="s2">        ROUND(SUM(f.total_amount), 0)  AS bevetel</span>
+<span class="s2">    FROM fact_order_item f</span>
+<span class="s2">    JOIN dim_product dp ON f.product_key = dp.product_key</span>
+<span class="s2">    GROUP BY dp.category</span>
+<span class="s2">    ORDER BY bevetel DESC</span>
+<span class="s2">"""</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Kategóriák bevétel szerint:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">top</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</code></pre></div>
+</li>
+</ol>
+<div class="admonition example">
+<p class="admonition-title">Beadandó – f1.png</p>
+<p>A három tábla nevét és sorainak számát tartalmazó eredménytábla, alatta a kategóriák bevétel szerinti rangsora.</p>
+</div>
+<hr>
+
+    <hr>
+  <div class="md-source-file">
+    <span class="md-source-file__fact"> <span class="md-icon" title="Utolsó frissítés"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z">
+          </path>
+        </svg>
+      </span>
+      <span title="2026. április 2. 10:48:21">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. április 2. 10:48:21 CEST"><span class="timeago" datetime="2026-04-02T10:48:21+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. április 2. 10:48:21 CEST">2026-04-02</span>
+      </span>
+    </span>
+
+    
+
+    <span class="md-source-file__fact">
+      <span class="md-icon" title="Szerzők">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z">
+          </path>
+        </svg>
+      </span>
+      <span>Szerzők</span>
+      <nav></nav>      
+    </span>
+  </div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden="">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"></path></svg>
+            Vissza a tetejére
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © BME VIK AUT
+    </div>
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.top", "search.suggest"], "search": "../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "V\u00e1g\u00f3lapra m\u00e1solva", "clipboard.copy": "M\u00e1sol\u00e1s v\u00e1g\u00f3lapra", "search.result.more.one": "1 tov\u00e1bbi tal\u00e1lat az oldalon", "search.result.more.other": "# tov\u00e1bbi tal\u00e1lat az oldalon", "search.result.none": "Nincs tal\u00e1lat", "search.result.one": "1 egyez\u0151 dokumentum", "search.result.other": "# egyez\u0151 dokumentum", "search.result.placeholder": "Keres\u00e9shez \u00edrj ide valamit", "search.result.term.missing": "\u00dcres", "select.version": "Verzi\u00f3v\u00e1lt\u00e1s"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.2a6f1dda.min.js"></script>
+      
+        <script src="../../../js/timeago.min.js"></script>
+      
+        <script src="../../../js/timeago_mkdocs_material.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

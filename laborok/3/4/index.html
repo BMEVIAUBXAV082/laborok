@@ -1,0 +1,1712 @@
+<!DOCTYPE html><html lang="hu" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Pomázi Krisztián">
+      
+      
+      
+        <link rel="prev" href="../3/">
+      
+      
+        <link rel="next" href="../../../hf/">
+      
+      <link rel="icon" href="../../../favicon.ico">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.14">
+    
+    
+      
+        <title>4. feladat – dbt ELT pipeline - BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.113286f1.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../css/timeago.css">
+    
+      <link rel="stylesheet" href="../../../extra-material-theme.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="aut" data-md-color-primary="red" data-md-color-accent="red">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#4-feladat-dbt-elt-pipeline" class="md-skip">
+          Kihagyás
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Élőfej">
+    <a href="../../.." title="BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok" class="md-header__button md-logo" aria-label="BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok" data-md-component="logo">
+      
+  <img src="../../../logo-bme-aut.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              4. feladat – dbt ELT pipeline
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="aut" data-md-color-primary="red" data-md-color-accent="red" aria-label="Váltás sötét témára" type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Váltás sötét témára" for="__palette_2" hidden="">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"></path></svg>
+            </label>
+          
+        
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="" aria-label="Váltás világos témára" type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Váltás világos témára" for="__palette_1" hidden="">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"></path></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Keresés" placeholder="Keresés" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Keresés">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Törlés" aria-label="Törlés" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Keresés inicializálása
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/viaubxav082/laborok" title="Főoldalra ugrás" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    viaubxav082/laborok
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Lapok" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        Tudnivalók
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../1/" class="md-tabs__link">
+        Lab1
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../2/" class="md-tabs__link">
+        Lab2
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link md-tabs__link--active">
+        Lab3
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../hf/" class="md-tabs__link">
+        Házi
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigáció" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok" class="md-nav__button md-logo" aria-label="BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok" data-md-component="logo">
+      
+  <img src="../../../logo-bme-aut.png" alt="logo">
+
+    </a>
+    BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/viaubxav082/laborok" title="Főoldalra ugrás" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    viaubxav082/laborok
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1">
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+          Tudnivalók
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Tudnivalók
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix="">
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Tárgy ismertető
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tudnivalok/github/GitHub/" class="md-nav__link">
+        Feladatok beadása (GitHub)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tudnivalok/github/GitHub-Actions/" class="md-nav__link">
+        GitHub Actions ismertető
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tudnivalok/github/GitHub-credentials/" class="md-nav__link">
+        Egyetemi laborokban: GitHub belépés
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tudnivalok/github/contributing/" class="md-nav__link">
+        Hozzájárulás az anyaghoz
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Lab1
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Lab1
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix="">
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/" class="md-nav__link">
+        Batch adatfeldolgozó pipeline
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/1/" class="md-nav__link">
+        1. feladat: Szintetikus webshop adatok generálása
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/2/" class="md-nav__link">
+        2. feladat: Adatbázis betöltés és Extract
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/3/" class="md-nav__link">
+        3. feladat: DuckDB transzformációk – Staging, Cleaned, Aggregated
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/4/" class="md-nav__link">
+        4. feladat: SCD Type 2 – Ügyfél dimenzió
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/5/" class="md-nav__link">
+        5. feladat: Gold réteg és teljesítménymérés
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/6/" class="md-nav__link">
+        6. feladat: Adatminőség validáció
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/7/" class="md-nav__link">
+        7. feladat: Particionált Parquet és predicate pushdown
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Lab2
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Lab2
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix="">
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/" class="md-nav__link">
+        Streaming alapú adatfeldolgozás
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/1/" class="md-nav__link">
+        1. feladat – Kafka környezet és első producer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/2/" class="md-nav__link">
+        2. feladat – Consumer és JSON üzenetek
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/3/" class="md-nav__link">
+        3. feladat – Sémavalidáció
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/4/" class="md-nav__link">
+        4. feladat – Consumer groups
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/5/" class="md-nav__link">
+        5. feladat – Stream windowing és aggregáció
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/6/" class="md-nav__link">
+        6. feladat – Dead Letter Queue
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/7/" class="md-nav__link">
+        7. feladat – Parquet export streamből
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/8/" class="md-nav__link">
+        8. feladat – End-to-end streaming pipeline
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked="">
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Lab3
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Lab3
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix="">
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        Adatmodellezés és adattárolási absztrakciók
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../1/" class="md-nav__link">
+        1. feladat – PostgreSQL OLTP forrás és csillag séma ETL
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2/" class="md-nav__link">
+        2. feladat – SCD Type 2 (Slowly Changing Dimensions)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3/" class="md-nav__link">
+        3. feladat – Medallion Lakehouse Delta Lake-kel
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          4. feladat – dbt ELT pipeline
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        4. feladat – dbt ELT pipeline
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tartalomjegyzék">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tartalomjegyzék
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#notebook-letrehozasa" class="md-nav__link">
+    Notebook létrehozása
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#projekt-inicializalas-es-konfiguracio" class="md-nav__link">
+    Projekt inicializálás és konfiguráció
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seeds-referencia-adatok-csvbol" class="md-nav__link">
+    Seeds – referencia adatok CSVből
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#staging-modellek" class="md-nav__link">
+    Staging modellek
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mart-modellek" class="md-nav__link">
+    Mart modellek
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sematesztek" class="md-nav__link">
+    Sématesztek
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dbt-futtatas-teszteles-es-dokumentacio" class="md-nav__link">
+    dbt futtatás, tesztelés és dokumentáció
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5">
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Házi
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Házi
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix="">
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hf/" class="md-nav__link">
+        Opcionális Házi Feladat
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tartalomjegyzék">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tartalomjegyzék
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#notebook-letrehozasa" class="md-nav__link">
+    Notebook létrehozása
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#projekt-inicializalas-es-konfiguracio" class="md-nav__link">
+    Projekt inicializálás és konfiguráció
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seeds-referencia-adatok-csvbol" class="md-nav__link">
+    Seeds – referencia adatok CSVből
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#staging-modellek" class="md-nav__link">
+    Staging modellek
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mart-modellek" class="md-nav__link">
+    Mart modellek
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sematesztek" class="md-nav__link">
+    Sématesztek
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dbt-futtatas-teszteles-es-dokumentacio" class="md-nav__link">
+    dbt futtatás, tesztelés és dokumentáció
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="4-feladat-dbt-elt-pipeline">4. feladat – dbt ELT pipeline<a class="headerlink" href="#4-feladat-dbt-elt-pipeline" title="Permanent link">¶</a></h1>
+<p>A dbt (data build tool) az ELT (Extract → Load → <strong>Transform</strong>) paradigma transzformációs motorja. Szemben az ETL-lel, ahol a transzformáció még betöltés előtt történik, az ELT esetén az adatokat először nyers formában töltjük be, majd az adatbázison belül transzformáljuk SQL segítségével. A dbt SQL modelleket Git-verziókövethető fájlokként kezeli, a <code>ref()</code> macro automatikusan feloldja a függőségi sorrendet, a <code>schema.yml</code> pedig beépített adatminőség-tesztelést biztosít.</p>
+<div class="admonition note">
+<p class="admonition-title">dbt alapfogalmak</p>
+<ul>
+<li><strong><code>ref('model_name')</code></strong> – modell hivatkozás és függőség deklaráció egyben. A dbt ebből építi fel a végrehajtási DAG-ot: automatikusan tudja, melyik modellt kell először lefuttatni.</li>
+<li><strong>Materializáció</strong> – hogyan materializálódjon a modell az adatbázisban:</li>
+<li><code>view</code>: egy nézet, amely mindig friss adatot ad, de nem tárol adatot</li>
+<li><code>table</code>: előre kiszámolt tábla – gyorsabb lekérdezés, de tárhelyet igényel</li>
+<li><code>incremental</code>: csak az új/megváltozott sorokat dolgozza fel – nagy tábláknál hatékony</li>
+<li><strong>Seed</strong> – statikus CSV fájl, amelyet a <code>dbt seed</code> tölt be az adatbázisba (pl. referencia listák).</li>
+<li><strong>Generic test</strong> – YAML-ban deklarált adatminőség-ellenőrzés: <code>not_null</code>, <code>unique</code>, <code>accepted_values</code>, <code>relationships</code>.</li>
+</ul>
+</div>
+<h3 id="notebook-letrehozasa">Notebook létrehozása<a class="headerlink" href="#notebook-letrehozasa" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Hozzunk létre egy új notebookot <code>04_dbt.ipynb</code> néven.</p>
+</li>
+<li>
+<p>Az első cellában telepítsük a dbt-t:</p>
+<div class="highlight"><pre><span></span><code><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="s2">"dbt-core&lt;1.9"</span> <span class="n">dbt</span><span class="o">-</span><span class="n">duckdb</span>
+</code></pre></div>
+<p>A <code>dbt-duckdb</code> adapter teszi lehetővé, hogy a dbt DuckDB-vel dolgozzon. A <code>"dbt-core&lt;1.9"</code> verziókorlát biztosítja a kompatibilitást a labor során használt dbt-duckdb verzióval.</p>
+</li>
+</ol>
+<h3 id="projekt-inicializalas-es-konfiguracio">Projekt inicializálás és konfiguráció<a class="headerlink" href="#projekt-inicializalas-es-konfiguracio" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>A második cellában inicializáljuk a dbt projektet és hozzuk létre a konfigurációs fájlokat:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">subprocess</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">textwrap</span>
+
+<span class="n">PROJECT_DIR</span> <span class="o">=</span> <span class="s2">"/home/jovyan/work/labor04_dbt"</span>   <span class="c1"># A dbt projekt gyökérmappája</span>
+
+<span class="c1"># dbt projekt inicializálása</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">PROJECT_DIR</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">"dbt"</span><span class="p">,</span> <span class="s2">"init"</span><span class="p">,</span> <span class="s2">"labor04_dbt"</span><span class="p">,</span> <span class="s2">"--skip-profile-setup"</span><span class="p">],</span>
+        <span class="n">cwd</span><span class="o">=</span><span class="s2">"/home/jovyan/work"</span><span class="p">,</span>
+        <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span> <span class="ow">or</span> <span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Projekt már létezik, init kihagyva."</span><span class="p">)</span>
+
+<span class="c1"># A dbt init létrehozza a models/example/ mappát demo modellekkel – ezeket törölni kell,</span>
+<span class="c1"># mert a my_first_dbt_model szándékosan NULL sort tartalmaz, ami megbuktatja a tesztet</span>
+<span class="n">example_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">PROJECT_DIR</span><span class="si">}</span><span class="s2">/models/example"</span>
+<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">example_dir</span><span class="p">):</span>
+    <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">example_dir</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"models/example/ törölve."</span><span class="p">)</span>
+
+<span class="c1"># dbt_project.yml – a projekt fő konfigurációs fájlja</span>
+<span class="c1"># Ez határozza meg a projekt nevét, a modell elérési útvonalait és a materializációs alapértékeket</span>
+<span class="c1"># textwrap.dedent: a behúzás eltávolításával pontos YAML-t kapunk</span>
+<span class="n">dbt_project_yml</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">"""</span><span class="se">\</span>
+<span class="s2">    name: 'labor04_dbt'</span>
+<span class="s2">    version: '1.0.0'</span>
+<span class="s2">    profile: 'labor04_dbt'</span>
+
+<span class="s2">    model-paths: ["models"]</span>
+<span class="s2">    seed-paths:  ["seeds"]</span>
+
+<span class="s2">    models:</span>
+<span class="s2">      labor04_dbt:</span>
+<span class="s2">        staging:</span>
+<span class="s2">          +materialized: view    # Staging = VIEW: gyors fejlesztési iteráció, nem tárol adatot</span>
+<span class="s2">        marts:</span>
+<span class="s2">          +materialized: table   # Mart = TABLE: BI eszközök gyorsan tudnak lekérdezni</span>
+<span class="s2">    """</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">PROJECT_DIR</span><span class="si">}</span><span class="s2">/dbt_project.yml"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">dbt_project_yml</span><span class="p">)</span>
+
+<span class="c1"># profiles.yml – a kapcsolati konfiguráció (~/.dbt/profiles.yml)</span>
+<span class="c1"># Ez külön fájlban van, hogy ne kerüljön be a Git repositoryba (jelszavak, elérési utak)</span>
+<span class="n">profiles_yml</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">"""</span><span class="se">\</span>
+<span class="s2">    labor04_dbt:</span>
+<span class="s2">      target: dev</span>
+<span class="s2">      outputs:</span>
+<span class="s2">        dev:</span>
+<span class="s2">          type: duckdb</span>
+<span class="s2">          path: /home/jovyan/work/labor04.duckdb  # Ugyanaz a fájl, mint az 1–2. feladatban</span>
+<span class="s2">          threads: 1</span>
+<span class="s2">    """</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">"~/.dbt"</span><span class="p">),</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">"~/.dbt/profiles.yml"</span><span class="p">),</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">profiles_yml</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dbt_project.yml és profiles.yml megírva."</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Miért ~/.dbt/profiles.yml és nem a projektmappában?</p>
+<p>A <code>profiles.yml</code> tartalmaz kapcsolati adatokat (jelszavak, elérési útvonalak), amelyek gépenként eltérnek és nem kerülhetnek a Git repositoryba. A dbt konvenció szerint ez a fájl a felhasználó home mappájában van, és a <code>.gitignore</code>-ba kerül.</p>
+</div>
+</li>
+</ol>
+<h3 id="seeds-referencia-adatok-csvbol">Seeds – referencia adatok CSVből<a class="headerlink" href="#seeds-referencia-adatok-csvbol" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>A harmadik cellában hozzuk létre a seed CSV fájlokat és futtassuk le a <code>dbt seed</code> parancsot:</p>
+<div class="highlight"><pre><span></span><code><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">PROJECT_DIR</span><span class="si">}</span><span class="s2">/seeds"</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># product_categories.csv – kategória referencia tábla</span>
+<span class="c1"># Statikus adat: ritkán változik, kézzel karbantartható</span>
+<span class="n">cat_csv</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">"""</span><span class="se">\</span>
+<span class="s2">    category,category_group,is_seasonal</span>
+<span class="s2">    Elektronika,Tech,false</span>
+<span class="s2">    Bútor,Otthon,false</span>
+<span class="s2">    Irodaszer,Iroda,false</span>
+<span class="s2">    Élelmiszer,FMCG,true</span>
+<span class="s2">    Sport,Szabadidő,true</span>
+<span class="s2">    """</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">PROJECT_DIR</span><span class="si">}</span><span class="s2">/seeds/product_categories.csv"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cat_csv</span><span class="p">)</span>
+
+<span class="c1"># order_statuses.csv – érvényes rendelési státuszok</span>
+<span class="c1"># Ezt az accepted_values tesztben fogjuk felhasználni</span>
+<span class="n">statuses_csv</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">"""</span><span class="se">\</span>
+<span class="s2">    status,is_final,description</span>
+<span class="s2">    completed,true,Teljesített rendelés</span>
+<span class="s2">    pending,false,Feldolgozás alatt</span>
+<span class="s2">    cancelled,true,Visszavont rendelés</span>
+<span class="s2">    """</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">PROJECT_DIR</span><span class="si">}</span><span class="s2">/seeds/order_statuses.csv"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">statuses_csv</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Seed CSV fájlok létrehozva."</span><span class="p">)</span>
+
+<span class="c1"># DuckDB fájlt csak egy folyamat nyithatja írásra egyszerre – dbt előtt zárjuk be a Python kapcsolatot</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">dcon</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="c1"># dbt seed futtatása – a CSV-k betöltése a DuckDB-be</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">"dbt"</span><span class="p">,</span> <span class="s2">"seed"</span><span class="p">,</span> <span class="s2">"--project-dir"</span><span class="p">,</span> <span class="n">PROJECT_DIR</span><span class="p">],</span>
+    <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"HIBA:"</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+</code></pre></div>
+</li>
+</ol>
+<h3 id="staging-modellek">Staging modellek<a class="headerlink" href="#staging-modellek" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>A negyedik cellában hozzuk létre a staging modell fájlokat:</p>
+<div class="highlight"><pre><span></span><code><span class="n">staging_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">PROJECT_DIR</span><span class="si">}</span><span class="s2">/models/staging"</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">staging_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># stg_customers.sql – dim_customer forrásból (1. feladatból)</span>
+<span class="c1"># A staging modell feladata: normalizált névhasználat, egyszerű tisztítás</span>
+<span class="n">stg_customers_sql</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">"""</span><span class="se">\</span>
+<span class="s2">    -- stg_customers: az ügyfél dimenzió staging rétege</span>
+<span class="s2">    -- Forrás: dim_customer tábla (1. feladatban töltöttük fel)</span>
+<span class="s2">    SELECT</span>
+<span class="s2">        customer_id,                  -- Natural key megőrzése</span>
+<span class="s2">        name    AS customer_name,     -- Átnevezés a DWH névkonvenció szerint</span>
+<span class="s2">        city,</span>
+<span class="s2">        country</span>
+<span class="s2">    FROM dim_customer</span>
+<span class="s2">    """</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">staging_dir</span><span class="si">}</span><span class="s2">/stg_customers.sql"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">stg_customers_sql</span><span class="p">)</span>
+
+<span class="c1"># stg_products.sql – dim_product + product_categories seed JOIN-nal</span>
+<span class="c1"># A ref() macro automatikusan feloldja, hogy a product_categories seed előbb fut</span>
+<span class="n">stg_products_sql</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">"""</span><span class="se">\</span>
+<span class="s2">    -- stg_products: termék dimenzió, kategória referenciával gazdagítva</span>
+<span class="s2">    SELECT</span>
+<span class="s2">        p.product_id,</span>
+<span class="s2">        p.product_name,</span>
+<span class="s2">        p.category,</span>
+<span class="s2">        p.unit_price,</span>
+<span class="s2">        pc.category_group,                    -- Seed-ből jön: Tech, Otthon, Iroda, FMCG, Szabadidő</span>
+<span class="s2">        CAST(pc.is_seasonal AS BOOLEAN) AS is_seasonal  -- CSV-ben string volt, itt konvertálunk</span>
+<span class="s2">    FROM dim_product p</span>
+<span class="s2">    LEFT JOIN {{ ref('product_categories') }} pc ON p.category = pc.category</span>
+<span class="s2">    -- LEFT JOIN: ha egy kategória nincs a seed-ben, a termék akkor is megjelenik (NULL category_group)</span>
+<span class="s2">    """</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">staging_dir</span><span class="si">}</span><span class="s2">/stg_products.sql"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">stg_products_sql</span><span class="p">)</span>
+
+<span class="c1"># stg_orders.sql – a ténytáblából staging, csak completed státuszú tételek</span>
+<span class="n">stg_orders_sql</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">"""</span><span class="se">\</span>
+<span class="s2">    -- stg_orders: rendelési tételek staging – csak teljesített rendelések</span>
+<span class="s2">    -- Forrás: fact_order_item (1. feladatban töltöttük fel)</span>
+<span class="s2">    SELECT</span>
+<span class="s2">        order_item_key,</span>
+<span class="s2">        customer_key,</span>
+<span class="s2">        product_key,</span>
+<span class="s2">        order_date,</span>
+<span class="s2">        quantity,</span>
+<span class="s2">        unit_price,</span>
+<span class="s2">        total_amount</span>
+<span class="s2">    FROM fact_order_item</span>
+<span class="s2">    WHERE total_amount &gt; 0    -- Biztonsági szűrő: negatív összeg nem kerülhet a modellbe</span>
+<span class="s2">    """</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">staging_dir</span><span class="si">}</span><span class="s2">/stg_orders.sql"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">stg_orders_sql</span><span class="p">)</span>
+
+<span class="c1"># schema.yml – staging modellek dokumentációja és tesztjei</span>
+<span class="n">staging_schema</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">"""</span><span class="se">\</span>
+<span class="s2">    version: 2</span>
+
+<span class="s2">    models:</span>
+<span class="s2">      - name: stg_customers</span>
+<span class="s2">        description: "Ügyfél dimenzió staging réteg – normalizált névhasználattal"</span>
+<span class="s2">        columns:</span>
+<span class="s2">          - name: customer_id</span>
+<span class="s2">            description: "Forrásrendszer ügyfél azonosítója (natural key)"</span>
+<span class="s2">            tests: [not_null, unique]</span>
+<span class="s2">          - name: customer_name</span>
+<span class="s2">            tests: [not_null]</span>
+
+<span class="s2">      - name: stg_products</span>
+<span class="s2">        description: "Termék dimenzió staging réteg – kategória referenciával gazdagítva"</span>
+<span class="s2">        columns:</span>
+<span class="s2">          - name: product_id</span>
+<span class="s2">            tests: [not_null, unique]</span>
+<span class="s2">          - name: unit_price</span>
+<span class="s2">            tests: [not_null]</span>
+
+<span class="s2">      - name: stg_orders</span>
+<span class="s2">        description: "Rendelési tételek staging – csak pozitív összegű sorok"</span>
+<span class="s2">        columns:</span>
+<span class="s2">          - name: order_item_key</span>
+<span class="s2">            tests: [not_null, unique]</span>
+<span class="s2">          - name: total_amount</span>
+<span class="s2">            tests: [not_null]</span>
+<span class="s2">    """</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">staging_dir</span><span class="si">}</span><span class="s2">/schema.yml"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">staging_schema</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Staging modellek és schema.yml létrehozva."</span><span class="p">)</span>
+</code></pre></div>
+</li>
+</ol>
+<h3 id="mart-modellek">Mart modellek<a class="headerlink" href="#mart-modellek" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Az ötödik cellában hozzuk létre a <code>mart_daily_revenue.sql</code> modellt:</p>
+<div class="highlight"><pre><span></span><code><span class="n">marts_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">PROJECT_DIR</span><span class="si">}</span><span class="s2">/models/marts"</span>
+<span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">marts_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># mart_daily_revenue.sql – napi bevétel összesítés</span>
+<span class="c1"># Ez a modell aggregál: nem tárol sorokat, hanem napszintű összesítéseket</span>
+<span class="n">mart_daily_sql</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">"""</span><span class="se">\</span>
+<span class="s2">    -- mart_daily_revenue: napszintű bevétel összesítés</span>
+<span class="s2">    -- Grain: 1 sor = 1 nap összes teljesített rendelésének összesítése</span>
+<span class="s2">    SELECT</span>
+<span class="s2">        o.order_date                           AS full_date,</span>
+<span class="s2">        COUNT(o.order_item_key)                AS item_count,         -- Tételek száma</span>
+<span class="s2">        COUNT(DISTINCT o.customer_key)         AS unique_customers,   -- Hány különböző ügyfél rendelt</span>
+<span class="s2">        ROUND(SUM(o.total_amount), 2)          AS total_revenue,</span>
+<span class="s2">        ROUND(AVG(o.total_amount), 2)          AS avg_item_value      -- Átlagos tételérték</span>
+<span class="s2">    FROM {{ ref('stg_orders') }} o</span>
+<span class="s2">    GROUP BY o.order_date</span>
+<span class="s2">    ORDER BY o.order_date</span>
+<span class="s2">    """</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">marts_dir</span><span class="si">}</span><span class="s2">/mart_daily_revenue.sql"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">mart_daily_sql</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"mart_daily_revenue.sql létrehozva."</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>A hatodik cellában valósítsuk meg a <code>mart_customer_ltv.sql</code> modellt – ez a hallgató önálló feladata:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># TODO: Hozzuk létre a mart_customer_ltv.sql fájlt!</span>
+<span class="c1">#</span>
+<span class="c1"># Ez a modell az ügyfelek „lifetime value" (teljes bevétel) összesítését számítja.</span>
+<span class="c1">#</span>
+<span class="c1"># A modell felépítése:</span>
+<span class="c1">#   - Forrás táblák: stg_orders (o) JOIN stg_customers (c) ON o.customer_key = c.customer_id</span>
+<span class="c1">#   - GROUP BY: c.customer_id, c.customer_name, c.city, c.country</span>
+<span class="c1">#   - Számított mezők:</span>
+<span class="c1">#       COUNT(o.order_item_key)        AS total_orders</span>
+<span class="c1">#       ROUND(SUM(o.total_amount), 2)  AS lifetime_value</span>
+<span class="c1">#       ROUND(AVG(o.total_amount), 2)  AS avg_order_value</span>
+<span class="c1">#       MIN(o.order_date)              AS first_order_date</span>
+<span class="c1">#       MAX(o.order_date)              AS last_order_date</span>
+<span class="c1">#   - ORDER BY: lifetime_value DESC</span>
+<span class="c1">#</span>
+<span class="c1"># A fájlt ide kell írni: f"{marts_dir}/mart_customer_ltv.sql"</span>
+<span class="c1"># Fejléc komment: "-- mart_customer_ltv: ügyfélszintű lifetime value összesítés"</span>
+<span class="k">pass</span>
+</code></pre></div>
+<details class="tip">
+<summary>Megoldási útmutató – kattints a tippekért</summary>
+<div class="highlight"><pre><span></span><code><span class="n">mart_ltv_sql</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">"""</span><span class="se">\</span>
+<span class="s2">    -- mart_customer_ltv: ügyfélszintű lifetime value összesítés</span>
+<span class="s2">    -- Grain: 1 sor = 1 ügyfél összes megrendelésének összesítése</span>
+<span class="s2">    SELECT</span>
+<span class="s2">        c.customer_id,</span>
+<span class="s2">        c.customer_name,</span>
+<span class="s2">        c.city,</span>
+<span class="s2">        c.country,</span>
+<span class="s2">        COUNT(o.order_item_key)        AS total_orders,</span>
+<span class="s2">        ROUND(SUM(o.total_amount), 2)  AS lifetime_value,    -- Teljes bevétel az ügyféltől</span>
+<span class="s2">        ROUND(AVG(o.total_amount), 2)  AS avg_order_value,   -- Átlagos tételérték</span>
+<span class="s2">        MIN(o.order_date)              AS first_order_date,   -- Első rendelés napja</span>
+<span class="s2">        MAX(o.order_date)              AS last_order_date     -- Legutolsó rendelés napja</span>
+<span class="s2">    FROM {{ ref('stg_orders') }}    o</span>
+<span class="s2">    JOIN {{ ref('stg_customers') }} c ON o.customer_key = c.customer_id</span>
+<span class="s2">    GROUP BY c.customer_id, c.customer_name, c.city, c.country</span>
+<span class="s2">    ORDER BY lifetime_value DESC</span>
+<span class="s2">    """</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">marts_dir</span><span class="si">}</span><span class="s2">/mart_customer_ltv.sql"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">mart_ltv_sql</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"mart_customer_ltv.sql létrehozva."</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Miért JOIN és nem LEFT JOIN?</strong> A <code>stg_orders</code>-ban csak olyan <code>customer_key</code> értékek vannak, amelyek szerepelnek a <code>dim_customer</code>-ben (az 1. feladatban FK kényszert alkalmaztunk). Így az INNER JOIN nem veszít el sorokat – és a szándékot is jobban kifejezi: csak azokat az ügyfeleket akarjuk megjeleníteni, akiknek van rendelésük.</p>
+</details>
+</li>
+<li>
+<p>A hetedik cellában hozzuk létre az incremental mart modellt:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># mart_daily_revenue_incremental.sql – inkrementális materializáció</span>
+<span class="c1"># Nagy tábláknál csak az új sorokat dolgozza fel – nem futtatja újra az egész aggregációt</span>
+<span class="n">mart_incremental_sql</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">"""</span><span class="se">\</span>
+<span class="s2">    {{ config(materialized='incremental', unique_key='full_date') }}</span>
+
+<span class="s2">    -- mart_daily_revenue_incremental: napi bevétel – csak új napokat dolgoz fel újrafuttatáskor</span>
+<span class="s2">    SELECT</span>
+<span class="s2">        o.order_date                           AS full_date,</span>
+<span class="s2">        COUNT(o.order_item_key)                AS item_count,</span>
+<span class="s2">        ROUND(SUM(o.total_amount), 2)          AS total_revenue</span>
+<span class="s2">    FROM {{ ref('stg_orders') }} o</span>
+
+<span class="s2">    {</span><span class="si">% i</span><span class="s2">f is_incremental() %}</span>
+<span class="s2">        -- is_incremental() = True, ha a tábla már létezik (nem full-refresh futás)</span>
+<span class="s2">        -- Csak azokat a napokat dolgozzuk fel, amelyek újabbak az eddigi maximumnál</span>
+<span class="s2">        WHERE o.order_date &gt; (SELECT MAX(full_date) FROM {{ this }})</span>
+<span class="s2">        -- {{ this }} = az aktuális tábla neve (main.mart_daily_revenue_incremental)</span>
+<span class="s2">    {</span><span class="si">% e</span><span class="s2">ndif %}</span>
+
+<span class="s2">    GROUP BY o.order_date</span>
+<span class="s2">    ORDER BY o.order_date</span>
+<span class="s2">    """</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">marts_dir</span><span class="si">}</span><span class="s2">/mart_daily_revenue_incremental.sql"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">mart_incremental_sql</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"mart_daily_revenue_incremental.sql létrehozva."</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Hogyan működik az is_incremental()?</p>
+<p>Az első <code>dbt run</code> után a <code>mart_daily_revenue_incremental</code> tábla létezik. A következő futásnál a dbt felismeri, hogy a tábla már megvan, és <code>is_incremental()</code> értéke <code>True</code> lesz – a <code>WHERE</code> feltétel csak az utolsó betöltés óta érkezett sorokat dolgozza fel. A <code>--full-refresh</code> flag-gel kényszeríthetjük a teljes újraszámítást.</p>
+</div>
+</li>
+</ol>
+<h3 id="sematesztek">Sématesztek<a class="headerlink" href="#sematesztek" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>A nyolcadik cellában adjuk meg a marts schema.yml tesztjeit:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># TODO: Írjuk meg a marts/schema.yml tesztjeit!</span>
+<span class="c1">#</span>
+<span class="c1"># A következő teszteket kell definiálni:</span>
+<span class="c1">#</span>
+<span class="c1"># mart_daily_revenue modellre:</span>
+<span class="c1">#   - full_date: not_null, unique</span>
+<span class="c1">#   - total_revenue: not_null</span>
+<span class="c1">#</span>
+<span class="c1"># mart_customer_ltv modellre:</span>
+<span class="c1">#   - customer_id: not_null, unique</span>
+<span class="c1">#   - lifetime_value: not_null</span>
+<span class="c1">#</span>
+<span class="c1"># mart_customer_ltv.customer_id → stg_customers.customer_id relationships teszt:</span>
+<span class="c1">#   - name: customer_id</span>
+<span class="c1">#     tests:</span>
+<span class="c1">#       - relationships:</span>
+<span class="c1">#           to: ref('stg_customers')</span>
+<span class="c1">#           field: customer_id</span>
+<span class="c1">#</span>
+<span class="c1"># A fájlt ide kell írni: f"{marts_dir}/schema.yml"</span>
+<span class="c1"># Fejléc: "version: 2\n\nmodels:"</span>
+<span class="k">pass</span>
+</code></pre></div>
+<details class="tip">
+<summary>Megoldási útmutató – kattints a tippekért</summary>
+<div class="highlight"><pre><span></span><code><span class="n">marts_schema</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">"""</span><span class="se">\</span>
+<span class="s2">    version: 2</span>
+
+<span class="s2">    models:</span>
+<span class="s2">      - name: mart_daily_revenue</span>
+<span class="s2">        description: "Napszintű bevétel összesítés – 2023-as rendelési adatokból"</span>
+<span class="s2">        columns:</span>
+<span class="s2">          - name: full_date</span>
+<span class="s2">            description: "A nap dátuma (grain: 1 sor = 1 nap)"</span>
+<span class="s2">            tests: [not_null, unique]</span>
+<span class="s2">          - name: total_revenue</span>
+<span class="s2">            tests: [not_null]</span>
+
+<span class="s2">      - name: mart_customer_ltv</span>
+<span class="s2">        description: "Ügyfélszintű lifetime value összesítés"</span>
+<span class="s2">        columns:</span>
+<span class="s2">          - name: customer_id</span>
+<span class="s2">            tests: [not_null, unique]</span>
+<span class="s2">          - name: lifetime_value</span>
+<span class="s2">            description: "Az ügyfél összes teljesített rendelésének összértéke"</span>
+<span class="s2">            tests: [not_null]</span>
+<span class="s2">          - name: customer_id</span>
+<span class="s2">            tests:</span>
+<span class="s2">              - relationships:</span>
+<span class="s2">                  to: ref('stg_customers')</span>
+<span class="s2">                  field: customer_id</span>
+<span class="s2">    """</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">marts_dir</span><span class="si">}</span><span class="s2">/schema.yml"</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">marts_schema</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Marts schema.yml tesztek megírva."</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>Mit ellenőriz a <code>relationships</code> teszt?</strong> Biztosítja, hogy a <code>mart_customer_ltv.customer_id</code> minden értéke megjelenik a <code>stg_customers.customer_id</code> oszlopban is – azaz nincs „árva" ügyfél a mart táblában. Ez a referenciális integritás adatminőség-alapú ellenőrzése, amelyet a DWH-ban nem kényszerítünk ki FK kényszererel.</p>
+</details>
+</li>
+</ol>
+<h3 id="dbt-futtatas-teszteles-es-dokumentacio">dbt futtatás, tesztelés és dokumentáció<a class="headerlink" href="#dbt-futtatas-teszteles-es-dokumentacio" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>A kilencedik cellában futtassuk le az összes modellt:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># DuckDB fájlt csak egy folyamat nyithatja írásra egyszerre – dbt előtt zárjuk be a Python kapcsolatot</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">dcon</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"=== dbt run ==="</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">"dbt"</span><span class="p">,</span> <span class="s2">"run"</span><span class="p">,</span> <span class="s2">"--project-dir"</span><span class="p">,</span> <span class="n">PROJECT_DIR</span><span class="p">],</span>
+    <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"HIBA:"</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">:])</span>   <span class="c1"># Csak az utolsó 2000 karakter – a lényeg általában a végén van</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Ha valamelyik modell hibás</p>
+<p>A <code>result.stderr</code> tartalmazza a részletes hibaüzenetet. A leggyakoribb ok: a forrástábla neve nem egyezik. Ellenőrizzük a DuckDB-ben lévő táblák nevét:
+</p><div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">duckdb</span>
+<span class="n">dcon</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">"/home/jovyan/work/labor04.duckdb"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dcon</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"SHOW TABLES"</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">()</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</code></pre></div><p></p>
+</div>
+</li>
+<li>
+<p>A tizedik cellában futtassuk le a sémateszteket:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># DuckDB fájlt csak egy folyamat nyithatja írásra egyszerre – dbt előtt zárjuk be a Python kapcsolatot</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">dcon</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"=== dbt test ==="</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">"dbt"</span><span class="p">,</span> <span class="s2">"test"</span><span class="p">,</span> <span class="s2">"--project-dir"</span><span class="p">,</span> <span class="n">PROJECT_DIR</span><span class="p">],</span>
+    <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="c1"># Ha egy teszt megbukik, a dbt kiírja, melyik modell melyik oszlopán és miért</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Sikertelen tesztek:"</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="p">[</span><span class="o">-</span><span class="mi">1500</span><span class="p">:])</span>
+</code></pre></div>
+</li>
+<li>
+<p>A tizenegyedik cellában mutassuk be az incremental modell viselkedését:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">duckdb</span>
+
+<span class="c1"># 1. futás: --full-refresh flag-gel az egész táblát felépíti</span>
+<span class="c1"># dbt subprocess előtt nincs nyitott DuckDB kapcsolat – ezért nem nyitjuk meg előre</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"=== Incremental – 1. futás (full-refresh) ==="</span><span class="p">)</span>
+<span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">"dbt"</span><span class="p">,</span> <span class="s2">"run"</span><span class="p">,</span> <span class="s2">"--project-dir"</span><span class="p">,</span> <span class="n">PROJECT_DIR</span><span class="p">,</span>
+     <span class="s2">"--select"</span><span class="p">,</span> <span class="s2">"mart_daily_revenue_incremental"</span><span class="p">,</span> <span class="s2">"--full-refresh"</span><span class="p">],</span>
+    <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="c1"># dbt befejezése után rövid életű kapcsolat a lekérdezéshez, majd azonnal zárjuk</span>
+<span class="k">with</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">"/home/jovyan/work/labor04.duckdb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">dcon</span><span class="p">:</span>
+    <span class="n">count1</span> <span class="o">=</span> <span class="n">dcon</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="s2">"SELECT COUNT(*) FROM main.mart_daily_revenue_incremental"</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Sorok az 1. futás után: </span><span class="si">{</span><span class="n">count1</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="c1"># 2. futás: is_incremental() = True → csak az új napokat dolgozza fel</span>
+<span class="c1"># Mivel nincs valóban új adat, az INSERT 0 sort érint</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">=== Incremental – 2. futás (inkrementális) ==="</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">"dbt"</span><span class="p">,</span> <span class="s2">"run"</span><span class="p">,</span> <span class="s2">"--project-dir"</span><span class="p">,</span> <span class="n">PROJECT_DIR</span><span class="p">,</span>
+     <span class="s2">"--select"</span><span class="p">,</span> <span class="s2">"mart_daily_revenue_incremental"</span><span class="p">],</span>
+    <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="k">with</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">"/home/jovyan/work/labor04.duckdb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">dcon</span><span class="p">:</span>
+    <span class="n">count2</span> <span class="o">=</span> <span class="n">dcon</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="s2">"SELECT COUNT(*) FROM main.mart_daily_revenue_incremental"</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Sorok a 2. futás után: </span><span class="si">{</span><span class="n">count2</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="c1"># A sorok száma azonos kell legyen – nincs új adat</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">[</span><span class="o">-</span><span class="mi">400</span><span class="p">:])</span>
+</code></pre></div>
+</li>
+<li>
+<p>A tizenkettedik cellában generáljuk a dokumentációt:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># DuckDB fájlt csak egy folyamat nyithatja írásra egyszerre – dbt előtt zárjuk be a Python kapcsolatot</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">dcon</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="c1"># Dokumentáció generálása – catalog.json és manifest.json</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">"dbt"</span><span class="p">,</span> <span class="s2">"docs"</span><span class="p">,</span> <span class="s2">"generate"</span><span class="p">,</span> <span class="s2">"--project-dir"</span><span class="p">,</span> <span class="n">PROJECT_DIR</span><span class="p">],</span>
+    <span class="n">capture_output</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"HIBA a docs generate során:"</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">stderr</span><span class="p">[</span><span class="o">-</span><span class="mi">2000</span><span class="p">:])</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">[</span><span class="o">-</span><span class="mi">400</span><span class="p">:])</span>
+
+<span class="c1"># A catalog.json minden modell minden oszlopát tartalmazza</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">PROJECT_DIR</span><span class="si">}</span><span class="s2">/target/catalog.json"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">catalog</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"dbt modellek és oszlopaik:"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">node_name</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">catalog</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"nodes"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">short_name</span> <span class="o">=</span> <span class="n">node_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>           <span class="c1"># Pl. "mart_daily_revenue"</span>
+    <span class="n">cols</span>       <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">node</span><span class="p">[</span><span class="s2">"columns"</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">short_name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">cols</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">A lineage gráf megtekintéséhez futtasd egy új cellában:"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"  !dbt docs serve --project-dir /home/jovyan/work/labor04_dbt --host 0.0.0.0 --port 8081"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Majd nyisd meg: http://localhost:8081"</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Lineage gráf böngészőben</p>
+<p>A <code>docker-compose.yaml</code>-ban a <code>8081</code> port már fel van véve – ha a konténerek a régi compose fájllal indultak, előbb indítsd újra őket:
+</p><div class="highlight"><pre><span></span><code><span class="n">PS</span><span class="p">&gt;</span> <span class="n">docker</span> <span class="n">compose</span> <span class="n">down</span>
+<span class="n">PS</span><span class="p">&gt;</span> <span class="n">docker</span> <span class="n">compose</span> <span class="n">up</span> <span class="n">-d</span>
+</code></pre></div>
+Ezután futtasd az alábbi parancsot egy <strong>új</strong> notebook cellában (ez blokkoló folyamat – <code>Interrupt Kernel</code>-lel állítható meg):
+<div class="highlight"><pre><span></span><code><span class="err">!</span><span class="n">dbt</span> <span class="n">docs</span> <span class="n">serve</span> <span class="o">--</span><span class="n">project</span><span class="o">-</span><span class="nb">dir</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">jovyan</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">labor04_dbt</span> <span class="o">--</span><span class="n">host</span> <span class="mf">0.0.0.0</span> <span class="o">--</span><span class="n">port</span> <span class="mi">8081</span>
+</code></pre></div>
+Nyisd meg: <strong><a href="http://localhost:8081">http://localhost:8081</a></strong><p></p>
+<p>A <code>--host 0.0.0.0</code> szükséges, mert alapból a szerver csak a konténeren belüli <code>127.0.0.1</code>-re köt – így a host gépről nem érhető el. A <code>0.0.0.0</code> minden hálózati interfészre figyel, és a Docker port forwarding ezen keresztül tud működni.</p>
+</div>
+</li>
+</ol>
+<div class="admonition example">
+<p class="admonition-title">Beadandó – f4.png</p>
+<p>A <code>dbt run</code> kimenete: minden modell sorában <code>OK created</code> vagy <code>OK</code> felirat látható (legalább 5 modell: 3 staging + 2 mart).</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Beadandó – f4b.png</p>
+<p>A dbt docs lineage gráf böngészőben: a <code>mart_daily_revenue</code> vagy <code>mart_customer_ltv</code> modell ki van választva, és láthatók az upstream függőségek.</p>
+</div>
+
+    <hr>
+  <div class="md-source-file">
+    <span class="md-source-file__fact"> <span class="md-icon" title="Utolsó frissítés"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z">
+          </path>
+        </svg>
+      </span>
+      <span title="2026. április 2. 10:48:21">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. április 2. 10:48:21 CEST"><span class="timeago" datetime="2026-04-02T10:48:21+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. április 2. 10:48:21 CEST">2026-04-02</span>
+      </span>
+    </span>
+
+    
+
+    <span class="md-source-file__fact">
+      <span class="md-icon" title="Szerzők">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z">
+          </path>
+        </svg>
+      </span>
+      <span>Szerzők</span>
+      <nav></nav>      
+    </span>
+  </div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden="">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"></path></svg>
+            Vissza a tetejére
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © BME VIK AUT
+    </div>
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.top", "search.suggest"], "search": "../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "V\u00e1g\u00f3lapra m\u00e1solva", "clipboard.copy": "M\u00e1sol\u00e1s v\u00e1g\u00f3lapra", "search.result.more.one": "1 tov\u00e1bbi tal\u00e1lat az oldalon", "search.result.more.other": "# tov\u00e1bbi tal\u00e1lat az oldalon", "search.result.none": "Nincs tal\u00e1lat", "search.result.one": "1 egyez\u0151 dokumentum", "search.result.other": "# egyez\u0151 dokumentum", "search.result.placeholder": "Keres\u00e9shez \u00edrj ide valamit", "search.result.term.missing": "\u00dcres", "select.version": "Verzi\u00f3v\u00e1lt\u00e1s"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.2a6f1dda.min.js"></script>
+      
+        <script src="../../../js/timeago.min.js"></script>
+      
+        <script src="../../../js/timeago_mkdocs_material.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
