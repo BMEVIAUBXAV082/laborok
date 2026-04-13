@@ -1090,6 +1090,9 @@
 <p>Az első cellában telepítsük a szükséges csomagokat:</p>
 <div class="highlight"><pre><span></span><code><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="n">deltalake</span> <span class="n">pandas</span> <span class="n">duckdb</span> <span class="n">pyarrow</span>
 </code></pre></div>
+<p>Ha ez nem működik, próbáljuk meg a következőt:</p>
+<div class="highlight"><pre><span></span><code><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="n">deltalake</span><span class="o">==</span><span class="mf">0.17.0</span> <span class="n">pyarrow</span><span class="o">==</span><span class="mf">14.0.1</span> <span class="n">pandas</span><span class="o">==</span><span class="mf">2.1.4</span> <span class="n">duckdb</span>
+</code></pre></div>
 <p>A <code>deltalake</code> a Delta Lake Python kliens (delta-rs alapú, Rust implementáció – ezért gyors). A <code>pyarrow</code> sémadefiniáláshoz és Parquet olvasáshoz/íráshoz szükséges.</p>
 </li>
 </ol>
@@ -1393,8 +1396,8 @@
           </path>
         </svg>
       </span>
-      <span title="2026. április 2. 10:48:21">
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. április 2. 10:48:21 CEST"><span class="timeago" datetime="2026-04-02T10:48:21+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. április 2. 10:48:21 CEST">2026-04-02</span>
+      <span title="2026. április 13. 09:33:35">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. április 13. 09:33:35 CEST"><span class="timeago" datetime="2026-04-13T09:33:35+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. április 13. 09:33:35 CEST">2026-04-13</span>
       </span>
     </span>
 
