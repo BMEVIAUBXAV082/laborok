@@ -1,0 +1,1845 @@
+<!DOCTYPE html><html lang="hu" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Pomázi Krisztián">
+      
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../2/">
+      
+      <link rel="icon" href="../../../favicon.ico">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.14">
+    
+    
+      
+        <title>1. feladat – Apache Airflow - BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.113286f1.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../css/timeago.css">
+    
+      <link rel="stylesheet" href="../../../extra-material-theme.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="aut" data-md-color-primary="red" data-md-color-accent="red">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#1-feladat-apache-airflow" class="md-skip">
+          Kihagyás
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Élőfej">
+    <a href="../../.." title="BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok" class="md-header__button md-logo" aria-label="BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok" data-md-component="logo">
+      
+  <img src="../../../logo-bme-aut.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1. feladat – Apache Airflow
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="aut" data-md-color-primary="red" data-md-color-accent="red" aria-label="Váltás sötét témára" type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Váltás sötét témára" for="__palette_2" hidden="">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"></path></svg>
+            </label>
+          
+        
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent="" aria-label="Váltás világos témára" type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Váltás világos témára" for="__palette_1" hidden="">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"></path></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Keresés" placeholder="Keresés" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Keresés">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Törlés" aria-label="Törlés" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Keresés inicializálása
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/viaubxav082/laborok" title="Főoldalra ugrás" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    viaubxav082/laborok
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Lapok" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        Tudnivalók
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../1/" class="md-tabs__link">
+        Lab1
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../2/" class="md-tabs__link">
+        Lab2
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../3/" class="md-tabs__link">
+        Lab3
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../" class="md-tabs__link md-tabs__link--active">
+        Lab4
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../hf/" class="md-tabs__link">
+        Házi
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigáció" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok" class="md-nav__button md-logo" aria-label="BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok" data-md-component="logo">
+      
+  <img src="../../../logo-bme-aut.png" alt="logo">
+
+    </a>
+    BMEVIAUBXAV082 - Data Engineering a gyakorlatban laborfeladatok
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/viaubxav082/laborok" title="Főoldalra ugrás" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg>
+  </div>
+  <div class="md-source__repository">
+    viaubxav082/laborok
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1">
+      
+      
+      
+        <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
+          Tudnivalók
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_1">
+          <span class="md-nav__icon md-icon"></span>
+          Tudnivalók
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix="">
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Tárgy ismertető
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tudnivalok/github/GitHub/" class="md-nav__link">
+        Feladatok beadása (GitHub)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tudnivalok/github/GitHub-Actions/" class="md-nav__link">
+        GitHub Actions ismertető
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tudnivalok/github/GitHub-credentials/" class="md-nav__link">
+        Egyetemi laborokban: GitHub belépés
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tudnivalok/github/contributing/" class="md-nav__link">
+        Hozzájárulás az anyaghoz
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2">
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Lab1
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Lab1
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix="">
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/" class="md-nav__link">
+        Batch adatfeldolgozó pipeline
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/1/" class="md-nav__link">
+        1. feladat: Szintetikus webshop adatok generálása
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/2/" class="md-nav__link">
+        2. feladat: Adatbázis betöltés és Extract
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/3/" class="md-nav__link">
+        3. feladat: DuckDB transzformációk – Staging, Cleaned, Aggregated
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/4/" class="md-nav__link">
+        4. feladat: SCD Type 2 – Ügyfél dimenzió
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/5/" class="md-nav__link">
+        5. feladat: Gold réteg és teljesítménymérés
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/6/" class="md-nav__link">
+        6. feladat: Adatminőség validáció
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../1/7/" class="md-nav__link">
+        7. feladat: Particionált Parquet és predicate pushdown
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Lab2
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Lab2
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix="">
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/" class="md-nav__link">
+        Streaming alapú adatfeldolgozás
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/1/" class="md-nav__link">
+        1. feladat – Kafka környezet és első producer
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/2/" class="md-nav__link">
+        2. feladat – Consumer és JSON üzenetek
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/3/" class="md-nav__link">
+        3. feladat – Sémavalidáció
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/4/" class="md-nav__link">
+        4. feladat – Consumer groups
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/5/" class="md-nav__link">
+        5. feladat – Stream windowing és aggregáció
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/6/" class="md-nav__link">
+        6. feladat – Dead Letter Queue
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/7/" class="md-nav__link">
+        7. feladat – Parquet export streamből
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../2/8/" class="md-nav__link">
+        8. feladat – End-to-end streaming pipeline
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4">
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Lab3
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Lab3
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix="">
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3/" class="md-nav__link">
+        Adatmodellezés és adattárolási absztrakciók
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3/1/" class="md-nav__link">
+        1. feladat – PostgreSQL OLTP forrás és csillag séma ETL
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3/2/" class="md-nav__link">
+        2. feladat – SCD Type 2 (Slowly Changing Dimensions)
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3/3/" class="md-nav__link">
+        3. feladat – Medallion Lakehouse Delta Lake-kel
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../3/4/" class="md-nav__link">
+        4. feladat – dbt ELT pipeline
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked="">
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Lab4
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Lab4
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix="">
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        Orchestration – Airflow, Prefect, Dagster és Great Expectations
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          1. feladat – Apache Airflow
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        1. feladat – Apache Airflow
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tartalomjegyzék">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tartalomjegyzék
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#adatforras-elokeszitese" class="md-nav__link">
+    Adatforrás előkészítése
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#az-elso-dag-hello_world" class="md-nav__link">
+    Az első DAG – hello_world
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etl-dag-extract-transform-load-xcom" class="md-nav__link">
+    ETL DAG – extract, transform, load, XCom
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#branchpythonoperator-felteteles-elagazas" class="md-nav__link">
+    BranchPythonOperator – feltételes elágazás
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#taskgroup-taskok-vizualis-csoportositasa" class="md-nav__link">
+    TaskGroup – taskok vizuális csoportosítása
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jinja-templating-es-utemezes" class="md-nav__link">
+    Jinja templating és ütemezés
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2/" class="md-nav__link">
+        2. feladat – Prefect
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../3/" class="md-nav__link">
+        3. feladat – Dagster
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../4/" class="md-nav__link">
+        4. feladat – Great Expectations
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6">
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Házi
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Házi
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix="">
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../hf/" class="md-nav__link">
+        Opcionális Házi Feladat
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tartalomjegyzék">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tartalomjegyzék
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#adatforras-elokeszitese" class="md-nav__link">
+    Adatforrás előkészítése
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#az-elso-dag-hello_world" class="md-nav__link">
+    Az első DAG – hello_world
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#etl-dag-extract-transform-load-xcom" class="md-nav__link">
+    ETL DAG – extract, transform, load, XCom
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#branchpythonoperator-felteteles-elagazas" class="md-nav__link">
+    BranchPythonOperator – feltételes elágazás
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#taskgroup-taskok-vizualis-csoportositasa" class="md-nav__link">
+    TaskGroup – taskok vizuális csoportosítása
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#jinja-templating-es-utemezes" class="md-nav__link">
+    Jinja templating és ütemezés
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="1-feladat-apache-airflow">1. feladat – Apache Airflow<a class="headerlink" href="#1-feladat-apache-airflow" title="Permanent link">¶</a></h1>
+<p>Az Apache Airflow 2014-ben született az Airbnb-nél, ma a legelterjedtebb nyílt forráskódú workflow-orkesztrátor. A pipeline-ok <strong>DAG</strong>-ként (Directed Acyclic Graph) definiálhatók Python fájlokban: a csúcspontok a taskok, az élek a végrehajtási sorrendet definiálják.</p>
+<div class="admonition note">
+<p class="admonition-title">Airflow alapfogalmak</p>
+<ul>
+<li><strong>DAG</strong> – pipeline gráfos leírása Python fájlban. Tartalmazza az ütemezést és a task definíciókat.</li>
+<li><strong>Task / Operator</strong> – pipeline egy elemi lépése. <code>PythonOperator</code>, <code>BashOperator</code>, <code>BranchPythonOperator</code>, stb.</li>
+<li><strong>DAG Run</strong> – egy DAG egyetlen lefutása adott <code>execution_date</code>-tel.</li>
+<li><strong>XCom</strong> – „cross-communication": kis méretű értékek átadása taskok között a metaadat-adatbázison keresztül (max ~48 KB). Nagy adatnál csak a fájlútvonalat tároljuk XCom-ban.</li>
+<li><strong>LocalExecutor</strong> – taskok a scheduler folyamatán belül, külön szálakban futnak. Kis–közepes terhelésre elegendő.</li>
+<li><strong>TaskGroup</strong> – taskok vizuális csoportosítása az Airflow UI Graph nézetében.</li>
+<li><strong>BranchPythonOperator</strong> – feltételes elágazás: a callable visszaadja a következő futtatandó task_id-t.</li>
+<li><strong>catchup=False</strong> – nem futtatja vissza a múltbeli hiányzó napokat.</li>
+</ul>
+</div>
+<h3 id="adatforras-elokeszitese">Adatforrás előkészítése<a class="headerlink" href="#adatforras-elokeszitese" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>A JupyterLab-ban hozzunk létre egy új notebookot <code>00_setup.ipynb</code> néven a <code>work/</code> mappában.</p>
+</li>
+<li>
+<p>Az első cellában telepítsük a csomagokat és hozzuk létre az OLTP sémát:</p>
+<div class="highlight"><pre><span></span><code><span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="n">psycopg2</span><span class="o">-</span><span class="n">binary</span> <span class="n">sqlalchemy</span> <span class="n">faker</span> <span class="n">pandas</span>
+
+<span class="kn">import</span> <span class="nn">psycopg2</span><span class="o">,</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
+
+<span class="c1"># 'postgres-oltp': Docker hálózaton belüli hostnév – csak konténerből érhető el így.</span>
+<span class="c1"># A gazdagépről: localhost:5432.</span>
+<span class="n">conn</span> <span class="o">=</span> <span class="n">psycopg2</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+    <span class="n">host</span><span class="o">=</span><span class="s2">"postgres-oltp"</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">5432</span><span class="p">,</span>
+    <span class="n">user</span><span class="o">=</span><span class="s2">"labor"</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s2">"labor"</span><span class="p">,</span> <span class="n">dbname</span><span class="o">=</span><span class="s2">"oltp_source"</span>
+<span class="p">)</span>
+<span class="n">conn</span><span class="o">.</span><span class="n">autocommit</span> <span class="o">=</span> <span class="kc">True</span>   <span class="c1"># DDL utasítások azonnal commit-olódnak, nem kell conn.commit()</span>
+<span class="n">cur</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+
+<span class="c1"># Idempotens törlés: újrafuttatásnál tiszta állapotból indulunk</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"DROP TABLE IF EXISTS order_items CASCADE"</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"DROP TABLE IF EXISTS orders CASCADE"</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"DROP TABLE IF EXISTS products CASCADE"</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"DROP TABLE IF EXISTS customers CASCADE"</span><span class="p">)</span>
+
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">    CREATE TABLE customers (</span>
+<span class="s2">        id SERIAL PRIMARY KEY, name TEXT, city TEXT, country TEXT DEFAULT 'Hungary'</span>
+<span class="s2">    )</span>
+<span class="s2">"""</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">    CREATE TABLE products (</span>
+<span class="s2">        id SERIAL PRIMARY KEY, name TEXT, category TEXT, unit_price NUMERIC(10,2)</span>
+<span class="s2">    )</span>
+<span class="s2">"""</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">    CREATE TABLE orders (</span>
+<span class="s2">        id SERIAL PRIMARY KEY, customer_id INTEGER REFERENCES customers(id),</span>
+<span class="s2">        order_date DATE, status TEXT DEFAULT 'completed'</span>
+<span class="s2">    )</span>
+<span class="s2">"""</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">    CREATE TABLE order_items (</span>
+<span class="s2">        id SERIAL PRIMARY KEY, order_id INTEGER REFERENCES orders(id),</span>
+<span class="s2">        product_id INTEGER REFERENCES products(id),</span>
+<span class="s2">        quantity INTEGER, unit_price NUMERIC(10,2)</span>
+<span class="s2">    )</span>
+<span class="s2">"""</span><span class="p">)</span>
+
+<span class="n">fake</span> <span class="o">=</span> <span class="n">Faker</span><span class="p">(</span><span class="s1">'hu_HU'</span><span class="p">)</span>
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">cities</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Budapest'</span><span class="p">,</span> <span class="s1">'Debrecen'</span><span class="p">,</span> <span class="s1">'Miskolc'</span><span class="p">,</span> <span class="s1">'Pécs'</span><span class="p">,</span> <span class="s1">'Győr'</span><span class="p">,</span> <span class="s1">'Szeged'</span><span class="p">]</span>
+
+<span class="n">cur</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span>
+    <span class="s2">"INSERT INTO customers (name, city) VALUES (</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span>
+    <span class="p">[(</span><span class="n">fake</span><span class="o">.</span><span class="n">name</span><span class="p">(),</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">cities</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200</span><span class="p">)]</span>
+<span class="p">)</span>
+
+<span class="n">products</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">'Laptop'</span><span class="p">,</span> <span class="s1">'Elektronika'</span><span class="p">,</span> <span class="mi">249999</span><span class="p">),</span> <span class="p">(</span><span class="s1">'Monitor'</span><span class="p">,</span> <span class="s1">'Elektronika'</span><span class="p">,</span> <span class="mi">89999</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'Billentyűzet'</span><span class="p">,</span> <span class="s1">'Elektronika'</span><span class="p">,</span> <span class="mi">14999</span><span class="p">),</span> <span class="p">(</span><span class="s1">'Egér'</span><span class="p">,</span> <span class="s1">'Elektronika'</span><span class="p">,</span> <span class="mi">8999</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'Headset'</span><span class="p">,</span> <span class="s1">'Elektronika'</span><span class="p">,</span> <span class="mi">24999</span><span class="p">),</span> <span class="p">(</span><span class="s1">'Íróasztal'</span><span class="p">,</span> <span class="s1">'Bútor'</span><span class="p">,</span> <span class="mi">59999</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'Forgószék'</span><span class="p">,</span> <span class="s1">'Bútor'</span><span class="p">,</span> <span class="mi">44999</span><span class="p">),</span> <span class="p">(</span><span class="s1">'Könyvespolc'</span><span class="p">,</span> <span class="s1">'Bútor'</span><span class="p">,</span> <span class="mi">29999</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'Tűzőgép'</span><span class="p">,</span> <span class="s1">'Irodaszer'</span><span class="p">,</span> <span class="mi">2999</span><span class="p">),</span> <span class="p">(</span><span class="s1">'Iratrendező'</span><span class="p">,</span> <span class="s1">'Irodaszer'</span><span class="p">,</span> <span class="mi">1999</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'Kávé 500g'</span><span class="p">,</span> <span class="s1">'Élelmiszer'</span><span class="p">,</span> <span class="mi">2499</span><span class="p">),</span> <span class="p">(</span><span class="s1">'Tea mix'</span><span class="p">,</span> <span class="s1">'Élelmiszer'</span><span class="p">,</span> <span class="mi">1799</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'Jóga szőnyeg'</span><span class="p">,</span> <span class="s1">'Sport'</span><span class="p">,</span> <span class="mi">12999</span><span class="p">),</span> <span class="p">(</span><span class="s1">'Kézisúlyzó'</span><span class="p">,</span> <span class="s1">'Sport'</span><span class="p">,</span> <span class="mi">7999</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'Ugrálókötél'</span><span class="p">,</span> <span class="s1">'Sport'</span><span class="p">,</span> <span class="mi">3499</span><span class="p">),</span> <span class="p">(</span><span class="s1">'Notebook'</span><span class="p">,</span> <span class="s1">'Elektronika'</span><span class="p">,</span> <span class="mi">189999</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'Tablet'</span><span class="p">,</span> <span class="s1">'Elektronika'</span><span class="p">,</span> <span class="mi">119999</span><span class="p">),</span> <span class="p">(</span><span class="s1">'Kanapé'</span><span class="p">,</span> <span class="s1">'Bútor'</span><span class="p">,</span> <span class="mi">149999</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">'Ásványvíz 6×'</span><span class="p">,</span> <span class="s1">'Élelmiszer'</span><span class="p">,</span> <span class="mi">899</span><span class="p">),</span> <span class="p">(</span><span class="s1">'Tornazsák'</span><span class="p">,</span> <span class="s1">'Sport'</span><span class="p">,</span> <span class="mi">4999</span><span class="p">),</span>
+<span class="p">]</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span>
+    <span class="s2">"INSERT INTO products (name, category, unit_price) VALUES (</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span> <span class="n">products</span>
+<span class="p">)</span>
+
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"SELECT id FROM customers"</span><span class="p">)</span>
+<span class="n">cust_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()]</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">"SELECT id, unit_price FROM products"</span><span class="p">)</span>
+<span class="n">prod_data</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span>
+    <span class="n">cust_id</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">cust_ids</span><span class="p">)</span>
+    <span class="n">odate</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">364</span><span class="p">))</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="s1">'completed'</span><span class="p">,</span> <span class="s1">'completed'</span><span class="p">,</span> <span class="s1">'completed'</span><span class="p">,</span> <span class="s1">'pending'</span><span class="p">,</span> <span class="s1">'cancelled'</span><span class="p">])</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+        <span class="s2">"INSERT INTO orders (customer_id, order_date, status) VALUES (</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">) RETURNING id"</span><span class="p">,</span>
+        <span class="p">(</span><span class="n">cust_id</span><span class="p">,</span> <span class="n">odate</span><span class="p">,</span> <span class="n">status</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">order_id</span> <span class="o">=</span> <span class="n">cur</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">prod_id</span><span class="p">,</span> <span class="n">base_price</span> <span class="ow">in</span> <span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">prod_data</span><span class="p">,</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)):</span>
+        <span class="n">qty</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="n">price</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">base_price</span><span class="p">)</span> <span class="o">*</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+            <span class="s2">"INSERT INTO order_items (order_id, product_id, quantity, unit_price) VALUES (</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">)"</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">order_id</span><span class="p">,</span> <span class="n">prod_id</span><span class="p">,</span> <span class="n">qty</span><span class="p">,</span> <span class="n">price</span><span class="p">)</span>
+        <span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"OLTP adatok betöltve:"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">tbl</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'customers'</span><span class="p">,</span> <span class="s1">'products'</span><span class="p">,</span> <span class="s1">'orders'</span><span class="p">,</span> <span class="s1">'order_items'</span><span class="p">]:</span>
+    <span class="n">cur</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">f</span><span class="s2">"SELECT COUNT(*) FROM </span><span class="si">{</span><span class="n">tbl</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">tbl</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">cur</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> sor"</span><span class="p">)</span>
+</code></pre></div>
+</li>
+</ol>
+<h3 id="az-elso-dag-hello_world">Az első DAG – hello_world<a class="headerlink" href="#az-elso-dag-hello_world" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>A <code>dags/</code> mappában hozzuk létre a <code>hello_world.py</code> fájlt (szövegszerkesztővel vagy VS Code-dal).</p>
+</li>
+<li>
+<p>A fájl tartalma:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">airflow</span> <span class="kn">import</span> <span class="n">DAG</span>
+<span class="kn">from</span> <span class="nn">airflow.operators.python</span> <span class="kn">import</span> <span class="n">PythonOperator</span>
+<span class="kn">from</span> <span class="nn">airflow.operators.bash</span> <span class="kn">import</span> <span class="n">BashOperator</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+
+<span class="n">default_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'owner'</span><span class="p">:</span> <span class="s1">'labor05'</span><span class="p">,</span>
+    <span class="s1">'retries'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s1">'retry_delay'</span><span class="p">:</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="k">with</span> <span class="n">DAG</span><span class="p">(</span>
+    <span class="n">dag_id</span><span class="o">=</span><span class="s1">'hello_world'</span><span class="p">,</span>
+    <span class="n">default_args</span><span class="o">=</span><span class="n">default_args</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">'Első DAG – hello world'</span><span class="p">,</span>
+    <span class="n">schedule</span><span class="o">=</span><span class="s1">'@daily'</span><span class="p">,</span>
+    <span class="n">start_date</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="n">catchup</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s1">'labor05'</span><span class="p">,</span> <span class="s1">'demo'</span><span class="p">],</span>
+<span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="nf">greet</span><span class="p">(</span><span class="o">**</span><span class="n">context</span><span class="p">):</span>
+        <span class="c1"># context['ds']: az execution_date YYYY-MM-DD formátumban</span>
+        <span class="c1"># Ez NEM az aktuális időpont, hanem a logikai futtatási dátum!</span>
+        <span class="n">execution_date</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s1">'ds'</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Hello, Airflow! Futás dátuma: </span><span class="si">{</span><span class="n">execution_date</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"DAG ID: </span><span class="si">{</span><span class="n">context</span><span class="p">[</span><span class="s1">'dag'</span><span class="p">]</span><span class="o">.</span><span class="n">dag_id</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">"koszontes_kesz"</span>   <span class="c1"># return érték automatikusan XCom-ba kerül</span>
+
+    <span class="n">task_koszontes</span> <span class="o">=</span> <span class="n">PythonOperator</span><span class="p">(</span>
+        <span class="n">task_id</span><span class="o">=</span><span class="s1">'koszontes'</span><span class="p">,</span>
+        <span class="n">python_callable</span><span class="o">=</span><span class="n">greet</span><span class="p">,</span>   <span class="c1"># Csak referencia – az Airflow hívja meg!</span>
+    <span class="p">)</span>
+
+    <span class="n">task_datum</span> <span class="o">=</span> <span class="n">BashOperator</span><span class="p">(</span>
+        <span class="n">task_id</span><span class="o">=</span><span class="s1">'datum_kiiras'</span><span class="p">,</span>
+        <span class="n">bash_command</span><span class="o">=</span><span class="s1">'echo "Szerver idő: $(date +%Y-%m-</span><span class="si">%d</span><span class="se">\\\\</span><span class="s1"> %H:%M:%S)"'</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">task_koszontes</span> <span class="o">&gt;&gt;</span> <span class="n">task_datum</span>   <span class="c1"># &gt;&gt; operátor: bal oldali task fut először</span>
+</code></pre></div>
+</li>
+<li>
+<p>Nyissuk meg az <strong>Airflow UI</strong>-t, és aktiváljuk a DAG-ot:</p>
+<ul>
+<li>A <code>DAGs</code> listában ~30 mp múlva megjelenik (szürke = szüneteltetve).</li>
+<li>Kapcsoljuk be a toggle kapcsolóval (szürke → kék).</li>
+<li><code>▶ Trigger DAG</code> → kézi futtatás.</li>
+<li><code>Graph</code> fülön: <code>koszontes → datum_kiiras</code>. Zöld = sikeres.</li>
+<li><code>koszontes</code> task → <code>Logs</code>: megjelenik a <code>Hello, Airflow!</code> üzenet.</li>
+</ul>
+</li>
+</ol>
+<h3 id="etl-dag-extract-transform-load-xcom">ETL DAG – extract, transform, load, XCom<a class="headerlink" href="#etl-dag-extract-transform-load-xcom" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Hozzuk létre a <code>dags/etl_orders.py</code> fájlt. Az <code>extract</code> és <code>load</code> adott – a <code>transform</code> implementálandó:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">airflow</span> <span class="kn">import</span> <span class="n">DAG</span>
+<span class="kn">from</span> <span class="nn">airflow.operators.python</span> <span class="kn">import</span> <span class="n">PythonOperator</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">OLTP_CONN</span> <span class="o">=</span> <span class="s2">"postgresql://labor:labor@postgres-oltp:5432/oltp_source"</span>
+<span class="n">DATA_DIR</span>   <span class="o">=</span> <span class="s2">"/opt/airflow/data"</span>
+
+<span class="k">def</span> <span class="nf">extract</span><span class="p">(</span><span class="o">**</span><span class="n">context</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Bronze réteg: nyers adatok kimentése Parquet-ba."""</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">DATA_DIR</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">OLTP_CONN</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        SELECT o.id AS order_id, o.customer_id, o.order_date, o.status,</span>
+<span class="sd">               SUM(oi.quantity * oi.unit_price) AS total_amount</span>
+<span class="sd">        FROM orders o</span>
+<span class="sd">        JOIN order_items oi ON oi.order_id = o.id</span>
+<span class="sd">        WHERE o.status = 'completed'</span>
+<span class="sd">        GROUP BY o.id, o.customer_id, o.order_date, o.status</span>
+<span class="sd">        """</span><span class="p">,</span> <span class="n">engine</span>
+    <span class="p">)</span>
+    <span class="n">ds_nodash</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s1">'ds_nodash'</span><span class="p">]</span>   <span class="c1"># pl. '20240615' – fájlnévbe kerül</span>
+    <span class="n">output_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/extract_</span><span class="si">{</span><span class="n">ds_nodash</span><span class="si">}</span><span class="s2">.parquet"</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Kinyerve: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> sor -&gt; </span><span class="si">{</span><span class="n">output_path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output_path</span>   <span class="c1"># XCom: a transform task xcom_pull()-lal olvassa</span>
+
+<span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="o">**</span><span class="n">context</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Silver réteg: havi aggregáció."""</span>
+    <span class="n">ti</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s1">'ti'</span><span class="p">]</span>
+    <span class="n">input_path</span> <span class="o">=</span> <span class="n">ti</span><span class="o">.</span><span class="n">xcom_pull</span><span class="p">(</span><span class="n">task_ids</span><span class="o">=</span><span class="s1">'extract'</span><span class="p">)</span>   <span class="c1"># Előző task return értéke</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">input_path</span><span class="p">)</span>
+
+    <span class="c1"># TODO: Valósítsuk meg a havi aggregációt!</span>
+    <span class="c1">#</span>
+    <span class="c1"># Lépések:</span>
+    <span class="c1">#   1. Alakítsuk datetime-má: df['order_date'] = pd.to_datetime(df['order_date'])</span>
+    <span class="c1">#</span>
+    <span class="c1">#   2. Adjunk year_month oszlopot (pl. '2024-01'):</span>
+    <span class="c1">#      df['year_month'] = df['order_date'].dt.to_period('M').astype(str)</span>
+    <span class="c1">#</span>
+    <span class="c1">#   3. Csoportosítsuk és aggregáljuk:</span>
+    <span class="c1">#      df_agg = df.groupby('year_month').agg(</span>
+    <span class="c1">#          order_count=('order_id', 'count'),</span>
+    <span class="c1">#          total_revenue=('total_amount', 'sum')</span>
+    <span class="c1">#      ).reset_index()</span>
+    <span class="c1">#</span>
+    <span class="c1">#   4. Kerekítsük: df_agg['total_revenue'] = df_agg['total_revenue'].round(2)</span>
+    <span class="c1">#</span>
+    <span class="c1">#   5. Mentsük: output_path = input_path.replace('extract_', 'transform_')</span>
+    <span class="c1">#               df_agg.to_parquet(output_path, index=False)</span>
+    <span class="c1">#</span>
+    <span class="c1">#   6. print(f"Aggregálva: {len(df_agg)} hónap")</span>
+    <span class="c1">#   7. return output_path</span>
+    <span class="k">pass</span>  <span class="c1"># TODO: cseréld le a tényleges implementációra</span>
+
+<span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="o">**</span><span class="n">context</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Gold réteg: összesítő kiírása (valós rendszerben: DWH-ba írás)."""</span>
+    <span class="n">ti</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s1">'ti'</span><span class="p">]</span>
+    <span class="n">input_path</span> <span class="o">=</span> <span class="n">ti</span><span class="o">.</span><span class="n">xcom_pull</span><span class="p">(</span><span class="n">task_ids</span><span class="o">=</span><span class="s1">'transform'</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">input_path</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"=== Havi rendelési összesítő ==="</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'total_revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Éves bevétel: </span><span class="si">{</span><span class="n">total</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2"> Ft | Hónapok: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+<span class="n">default_args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'owner'</span><span class="p">:</span> <span class="s1">'labor05'</span><span class="p">,</span> <span class="s1">'retries'</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">'retry_delay'</span><span class="p">:</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">5</span><span class="p">)}</span>
+
+<span class="k">with</span> <span class="n">DAG</span><span class="p">(</span>
+    <span class="n">dag_id</span><span class="o">=</span><span class="s1">'etl_orders'</span><span class="p">,</span>
+    <span class="n">default_args</span><span class="o">=</span><span class="n">default_args</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">'ETL: PostgreSQL -&gt; Parquet aggregáció'</span><span class="p">,</span>
+    <span class="n">schedule</span><span class="o">=</span><span class="s1">'@daily'</span><span class="p">,</span>
+    <span class="n">start_date</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="n">catchup</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s1">'labor05'</span><span class="p">,</span> <span class="s1">'etl'</span><span class="p">],</span>
+<span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
+    <span class="n">t_extract</span>   <span class="o">=</span> <span class="n">PythonOperator</span><span class="p">(</span><span class="n">task_id</span><span class="o">=</span><span class="s1">'extract'</span><span class="p">,</span>   <span class="n">python_callable</span><span class="o">=</span><span class="n">extract</span><span class="p">)</span>
+    <span class="n">t_transform</span> <span class="o">=</span> <span class="n">PythonOperator</span><span class="p">(</span><span class="n">task_id</span><span class="o">=</span><span class="s1">'transform'</span><span class="p">,</span> <span class="n">python_callable</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+    <span class="n">t_load</span>      <span class="o">=</span> <span class="n">PythonOperator</span><span class="p">(</span><span class="n">task_id</span><span class="o">=</span><span class="s1">'load'</span><span class="p">,</span>      <span class="n">python_callable</span><span class="o">=</span><span class="n">load</span><span class="p">)</span>
+<span class="n">t_extract</span> <span class="o">&gt;&gt;</span> <span class="n">t_transform</span> <span class="o">&gt;&gt;</span> <span class="n">t_load</span>
+</code></pre></div>
+</li>
+</ol>
+<details class="tip">
+<summary>Megoldási útmutató – kattints a tippekért</summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="o">**</span><span class="n">context</span><span class="p">):</span>
+    <span class="n">ti</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s1">'ti'</span><span class="p">]</span>
+    <span class="n">input_path</span> <span class="o">=</span> <span class="n">ti</span><span class="o">.</span><span class="n">xcom_pull</span><span class="p">(</span><span class="n">task_ids</span><span class="o">=</span><span class="s1">'extract'</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">input_path</span><span class="p">)</span>
+
+    <span class="n">df</span><span class="p">[</span><span class="s1">'order_date'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'order_date'</span><span class="p">])</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'year_month'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'order_date'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s1">'M'</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+
+    <span class="n">df_agg</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'year_month'</span><span class="p">)</span>
+        <span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">order_count</span><span class="o">=</span><span class="p">(</span><span class="s1">'order_id'</span><span class="p">,</span> <span class="s1">'count'</span><span class="p">),</span> <span class="n">total_revenue</span><span class="o">=</span><span class="p">(</span><span class="s1">'total_amount'</span><span class="p">,</span> <span class="s1">'sum'</span><span class="p">))</span>
+        <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="p">)</span>
+    <span class="n">df_agg</span><span class="p">[</span><span class="s1">'total_revenue'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_agg</span><span class="p">[</span><span class="s1">'total_revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">output_path</span> <span class="o">=</span> <span class="n">input_path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'extract_'</span><span class="p">,</span> <span class="s1">'transform_'</span><span class="p">)</span>
+    <span class="n">df_agg</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Aggregálva: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_agg</span><span class="p">)</span><span class="si">}</span><span class="s2"> hónap"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output_path</span>
+</code></pre></div>
+<p><strong>Miért <code>reset_index()</code>?</strong> A <code>groupby().agg()</code> az aggregálási kulcsot indexként adja vissza. A <code>reset_index()</code> visszaalakítja normál oszloppá.</p>
+</details>
+<ol>
+<li>
+<p>Az Airflow UI-ban aktiváljuk az <code>etl_orders</code> DAG-ot, és indítsuk el manuálisan. <code>Graph</code> fülön figyeljük, ahogy sorban zöldre váltanak a taskok.</p>
+</li>
+<li>
+<p><code>load</code> task → <code>Logs</code>: a havi összesítő táblázat megjelenik.</p>
+</li>
+<li>
+<p><strong>Admin → XComs</strong>: megjelennek az <code>extract</code> és <code>transform</code> taskok által elmentett fájlútvonalak.</p>
+<div class="admonition tip">
+<p class="admonition-title">XCom méretkorlát</p>
+<p>Az XCom a metaadatbázisban tárol – max. ~48 KB egy értékre. Ha egy DataFrame-et próbálunk XCom-on átadni, a DB megtelik. Mindig csak a fájlútvonalat tároljuk, magát az adatot fájlrendszeren vagy objektumtárolón (S3, GCS).</p>
+</div>
+</li>
+</ol>
+<h3 id="branchpythonoperator-felteteles-elagazas">BranchPythonOperator – feltételes elágazás<a class="headerlink" href="#branchpythonoperator-felteteles-elagazas" title="Permanent link">¶</a></h3>
+<p>A valós pipeline-okban a következő lépés sokszor az előző eredményétől függ: ha az éves bevétel egy küszöb felett van, riasztást küldünk; ha alatta, csak logolunk. A <code>BranchPythonOperator</code> ezt teszi lehetővé.</p>
+<ol>
+<li>
+<p>Hozzuk létre a <code>dags/revenue_alert.py</code> fájlt. Az elágazási logika (<code>check_revenue_threshold</code>) implementálandó:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">airflow</span> <span class="kn">import</span> <span class="n">DAG</span>
+<span class="kn">from</span> <span class="nn">airflow.operators.python</span> <span class="kn">import</span> <span class="n">PythonOperator</span><span class="p">,</span> <span class="n">BranchPythonOperator</span>
+<span class="kn">from</span> <span class="nn">airflow.operators.bash</span> <span class="kn">import</span> <span class="n">BashOperator</span>
+<span class="kn">from</span> <span class="nn">airflow.utils.trigger_rule</span> <span class="kn">import</span> <span class="n">TriggerRule</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span><span class="o">,</span> <span class="nn">glob</span><span class="o">,</span> <span class="nn">os</span>
+
+<span class="n">DATA_DIR</span>           <span class="o">=</span> <span class="s2">"/opt/airflow/data"</span>
+<span class="n">REVENUE_THRESHOLD</span>  <span class="o">=</span> <span class="mi">50_000_000</span>   <span class="c1"># 50 millió Ft éves bevétel</span>
+
+<span class="k">def</span> <span class="nf">load_latest_transform</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""A legfrissebb transform_*.parquet fájlt adja vissza."""</span>
+    <span class="n">files</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/transform_*.parquet"</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">files</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="s2">"Nincs transform Parquet fájl! Futtasd előbb az etl_orders DAG-ot."</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">files</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">check_revenue_threshold</span><span class="p">(</span><span class="o">**</span><span class="n">context</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    BranchPythonOperator callable: visszaadja a következő futtatandó task_id-t.</span>
+<span class="sd">    Ha a bevétel &gt;= küszöb: 'send_alert'; egyébként: 'log_ok'.</span>
+<span class="sd">    """</span>
+    <span class="c1"># TODO: Implementáljuk az elágazási logikát!</span>
+    <span class="c1">#</span>
+    <span class="c1"># Lépések:</span>
+    <span class="c1">#   1. Töltse be a legfrissebb transform fájlt: df = load_latest_transform()</span>
+    <span class="c1">#</span>
+    <span class="c1">#   2. Számítsa ki az éves bevételt: total = df['total_revenue'].sum()</span>
+    <span class="c1">#</span>
+    <span class="c1">#   3. Írja ki: print(f"Éves bevétel: {total:,.0f} Ft | Küszöb: {REVENUE_THRESHOLD:,} Ft")</span>
+    <span class="c1">#</span>
+    <span class="c1">#   4. Ha total &gt;= REVENUE_THRESHOLD: return 'send_alert'</span>
+    <span class="c1">#      Különben:                      return 'log_ok'</span>
+    <span class="c1">#</span>
+    <span class="c1"># FONTOS: A BranchPythonOperator PONTOSAN egy task_id-t vár return értékként.</span>
+    <span class="k">pass</span>  <span class="c1"># TODO: cseréld le a tényleges implementációra</span>
+
+<span class="k">with</span> <span class="n">DAG</span><span class="p">(</span>
+    <span class="n">dag_id</span><span class="o">=</span><span class="s1">'revenue_alert'</span><span class="p">,</span>
+    <span class="n">description</span><span class="o">=</span><span class="s1">'Bevétel-küszöb ellenőrzés BranchPythonOperator-ral'</span><span class="p">,</span>
+    <span class="n">schedule</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>           <span class="c1"># Csak manuálisan triggerelhető</span>
+    <span class="n">start_date</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="n">catchup</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s1">'labor05'</span><span class="p">,</span> <span class="s1">'branch'</span><span class="p">],</span>
+<span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
+
+    <span class="n">task_check</span> <span class="o">=</span> <span class="n">BranchPythonOperator</span><span class="p">(</span>
+        <span class="n">task_id</span><span class="o">=</span><span class="s1">'check_revenue'</span><span class="p">,</span>
+        <span class="n">python_callable</span><span class="o">=</span><span class="n">check_revenue_threshold</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">task_alert</span> <span class="o">=</span> <span class="n">BashOperator</span><span class="p">(</span>
+        <span class="n">task_id</span><span class="o">=</span><span class="s1">'send_alert'</span><span class="p">,</span>
+        <span class="c1"># Valós rendszerben: Slack webhook, email, PagerDuty</span>
+        <span class="n">bash_command</span><span class="o">=</span><span class="s1">'echo "ALERT: Éves bevétel MAGASABB a küszöbnél! Ellenőrzés szükséges."'</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">task_ok</span> <span class="o">=</span> <span class="n">BashOperator</span><span class="p">(</span>
+        <span class="n">task_id</span><span class="o">=</span><span class="s1">'log_ok'</span><span class="p">,</span>
+        <span class="n">bash_command</span><span class="o">=</span><span class="s1">'echo "INFO: Bevétel a küszöb alatt. Minden rendben."'</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># trigger_rule=ALL_DONE: ez a task lefut, bármely ág hajtódott végre</span>
+    <span class="n">task_summary</span> <span class="o">=</span> <span class="n">BashOperator</span><span class="p">(</span>
+        <span class="n">task_id</span><span class="o">=</span><span class="s1">'summary'</span><span class="p">,</span>
+        <span class="n">bash_command</span><span class="o">=</span><span class="s1">'echo "Pipeline befejezve."'</span><span class="p">,</span>
+        <span class="n">trigger_rule</span><span class="o">=</span><span class="n">TriggerRule</span><span class="o">.</span><span class="n">ALL_DONE</span><span class="p">,</span>
+    <span class="p">)</span>
+
+<span class="n">task_check</span> <span class="o">&gt;&gt;</span> <span class="p">[</span><span class="n">task_alert</span><span class="p">,</span> <span class="n">task_ok</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="n">task_summary</span>
+</code></pre></div>
+</li>
+</ol>
+<details class="tip">
+<summary>Megoldási útmutató – kattints a tippekért</summary>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">check_revenue_threshold</span><span class="p">(</span><span class="o">**</span><span class="n">context</span><span class="p">):</span>
+    <span class="n">df</span>    <span class="o">=</span> <span class="n">load_latest_transform</span><span class="p">()</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'total_revenue'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Éves bevétel: </span><span class="si">{</span><span class="n">total</span><span class="si">:</span><span class="s2">,.0f</span><span class="si">}</span><span class="s2"> Ft | Küszöb: </span><span class="si">{</span><span class="n">REVENUE_THRESHOLD</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> Ft"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">total</span> <span class="o">&gt;=</span> <span class="n">REVENUE_THRESHOLD</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">'send_alert'</span>
+    <span class="k">return</span> <span class="s1">'log_ok'</span>
+</code></pre></div>
+<p><strong>Miért <code>TriggerRule.ALL_DONE</code> a summary tasknál?</strong> Alapértelmezetten egy task csak akkor fut, ha az összes upstream task <code>success</code> állapotban van. Elágazásnál azonban az egyik ág taskja mindig <code>skipped</code> lesz – a <code>ALL_DONE</code> szabály minden upstream státust elfogad (success, skipped, failed).</p>
+</details>
+<ol>
+<li>Az Airflow UI-ban aktiváljuk a <code>revenue_alert</code> DAG-ot, és triggerjük manuálisan. A <code>Graph</code> nézetben megjelenik az elágazás: <code>check_revenue → [send_alert, log_ok] → summary</code>. Az egyik ág zöld (executed), a másik szürke (skipped).</li>
+</ol>
+<h3 id="taskgroup-taskok-vizualis-csoportositasa">TaskGroup – taskok vizuális csoportosítása<a class="headerlink" href="#taskgroup-taskok-vizualis-csoportositasa" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Az <code>etl_orders</code> DAG kiegészíthető <code>TaskGroup</code>-okkal, amelyek az Airflow UI-ban összecsukható csoportokat alkotnak. Hozzuk létre a <code>dags/etl_orders_grouped.py</code> fájlt:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">airflow</span> <span class="kn">import</span> <span class="n">DAG</span>
+<span class="kn">from</span> <span class="nn">airflow.operators.python</span> <span class="kn">import</span> <span class="n">PythonOperator</span>
+<span class="kn">from</span> <span class="nn">airflow.utils.task_group</span> <span class="kn">import</span> <span class="n">TaskGroup</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">OLTP_CONN</span> <span class="o">=</span> <span class="s2">"postgresql://labor:labor@postgres-oltp:5432/oltp_source"</span>
+<span class="n">DATA_DIR</span>  <span class="o">=</span> <span class="s2">"/opt/airflow/data"</span>
+
+<span class="c1"># Az etl_orders-ből ismert függvények (rövidítve)</span>
+<span class="k">def</span> <span class="nf">extract</span><span class="p">(</span><span class="o">**</span><span class="n">ctx</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">DATA_DIR</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="n">OLTP_CONN</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_sql</span><span class="p">(</span>
+        <span class="s2">"SELECT o.id AS order_id, o.customer_id, o.order_date, o.status, "</span>
+        <span class="s2">"SUM(oi.quantity * oi.unit_price) AS total_amount "</span>
+        <span class="s2">"FROM orders o JOIN order_items oi ON oi.order_id = o.id "</span>
+        <span class="s2">"WHERE o.status = 'completed' GROUP BY o.id, o.customer_id, o.order_date, o.status"</span><span class="p">,</span>
+        <span class="n">engine</span>
+    <span class="p">)</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">/grp_extract_</span><span class="si">{</span><span class="n">ctx</span><span class="p">[</span><span class="s1">'ds_nodash'</span><span class="p">]</span><span class="si">}</span><span class="s2">.parquet"</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Extraktálva: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2"> sor"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">path</span>
+
+<span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="o">**</span><span class="n">ctx</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Egyszerű DQ ellenőrzés: NULL és negatív értékek."""</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">[</span><span class="s1">'ti'</span><span class="p">]</span><span class="o">.</span><span class="n">xcom_pull</span><span class="p">(</span><span class="n">task_ids</span><span class="o">=</span><span class="s1">'ingestion.extract'</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">null_cnt</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'customer_id'</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">neg_cnt</span>  <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'total_amount'</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"NULL customer_id: </span><span class="si">{</span><span class="n">null_cnt</span><span class="si">}</span><span class="s2"> | Negatív összeg: </span><span class="si">{</span><span class="n">neg_cnt</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">null_cnt</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">neg_cnt</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"DQ ellenőrzés SIKERTELEN: </span><span class="si">{</span><span class="n">null_cnt</span><span class="si">}</span><span class="s2"> NULL, </span><span class="si">{</span><span class="n">neg_cnt</span><span class="si">}</span><span class="s2"> negatív"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"DQ ellenőrzés OK"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">path</span>
+
+<span class="k">def</span> <span class="nf">aggregate</span><span class="p">(</span><span class="o">**</span><span class="n">ctx</span><span class="p">):</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">[</span><span class="s1">'ti'</span><span class="p">]</span><span class="o">.</span><span class="n">xcom_pull</span><span class="p">(</span><span class="n">task_ids</span><span class="o">=</span><span class="s1">'ingestion.validate'</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'order_date'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">'order_date'</span><span class="p">])</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">'year_month'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">'order_date'</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">to_period</span><span class="p">(</span><span class="s1">'M'</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">agg</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'year_month'</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+        <span class="n">order_count</span><span class="o">=</span><span class="p">(</span><span class="s1">'order_id'</span><span class="p">,</span> <span class="s1">'count'</span><span class="p">),</span> <span class="n">revenue</span><span class="o">=</span><span class="p">(</span><span class="s1">'total_amount'</span><span class="p">,</span> <span class="s1">'sum'</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'grp_extract_'</span><span class="p">,</span> <span class="s1">'grp_agg_'</span><span class="p">)</span>
+    <span class="n">agg</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+<span class="k">def</span> <span class="nf">publish</span><span class="p">(</span><span class="o">**</span><span class="n">ctx</span><span class="p">):</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">ctx</span><span class="p">[</span><span class="s1">'ti'</span><span class="p">]</span><span class="o">.</span><span class="n">xcom_pull</span><span class="p">(</span><span class="n">task_ids</span><span class="o">=</span><span class="s1">'transformation.aggregate'</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">to_string</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+
+<span class="k">with</span> <span class="n">DAG</span><span class="p">(</span>
+    <span class="n">dag_id</span><span class="o">=</span><span class="s1">'etl_orders_grouped'</span><span class="p">,</span>
+    <span class="n">schedule</span><span class="o">=</span><span class="s1">'@daily'</span><span class="p">,</span>
+    <span class="n">start_date</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="n">catchup</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s1">'labor05'</span><span class="p">,</span> <span class="s1">'etl'</span><span class="p">,</span> <span class="s1">'taskgroup'</span><span class="p">],</span>
+<span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
+
+    <span class="c1"># TaskGroup 1: adatbefogadás</span>
+    <span class="k">with</span> <span class="n">TaskGroup</span><span class="p">(</span><span class="n">group_id</span><span class="o">=</span><span class="s1">'ingestion'</span><span class="p">)</span> <span class="k">as</span> <span class="n">tg_ingestion</span><span class="p">:</span>
+        <span class="n">t_extract</span>  <span class="o">=</span> <span class="n">PythonOperator</span><span class="p">(</span><span class="n">task_id</span><span class="o">=</span><span class="s1">'extract'</span><span class="p">,</span>  <span class="n">python_callable</span><span class="o">=</span><span class="n">extract</span><span class="p">)</span>
+        <span class="n">t_validate</span> <span class="o">=</span> <span class="n">PythonOperator</span><span class="p">(</span><span class="n">task_id</span><span class="o">=</span><span class="s1">'validate'</span><span class="p">,</span> <span class="n">python_callable</span><span class="o">=</span><span class="n">validate</span><span class="p">)</span>
+        <span class="n">t_extract</span> <span class="o">&gt;&gt;</span> <span class="n">t_validate</span>
+
+    <span class="c1"># TaskGroup 2: transzformáció</span>
+    <span class="k">with</span> <span class="n">TaskGroup</span><span class="p">(</span><span class="n">group_id</span><span class="o">=</span><span class="s1">'transformation'</span><span class="p">)</span> <span class="k">as</span> <span class="n">tg_transform</span><span class="p">:</span>
+        <span class="n">t_agg</span> <span class="o">=</span> <span class="n">PythonOperator</span><span class="p">(</span><span class="n">task_id</span><span class="o">=</span><span class="s1">'aggregate'</span><span class="p">,</span> <span class="n">python_callable</span><span class="o">=</span><span class="n">aggregate</span><span class="p">)</span>
+
+    <span class="c1"># TaskGroup 3: publikálás</span>
+    <span class="k">with</span> <span class="n">TaskGroup</span><span class="p">(</span><span class="n">group_id</span><span class="o">=</span><span class="s1">'serving'</span><span class="p">)</span> <span class="k">as</span> <span class="n">tg_serving</span><span class="p">:</span>
+        <span class="n">t_pub</span> <span class="o">=</span> <span class="n">PythonOperator</span><span class="p">(</span><span class="n">task_id</span><span class="o">=</span><span class="s1">'publish'</span><span class="p">,</span> <span class="n">python_callable</span><span class="o">=</span><span class="n">publish</span><span class="p">)</span>
+
+<span class="n">tg_ingestion</span> <span class="o">&gt;&gt;</span> <span class="n">tg_transform</span> <span class="o">&gt;&gt;</span> <span class="n">tg_serving</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">TaskGroup és XCom – task_ids formátum</p>
+<p>TaskGroup-on belüli task XCom-jára hivatkozáskor a task_id teljes neve: <code>'csoport_neve.task_neve'</code> – például <code>'ingestion.extract'</code>. Ha ezt elfelejtjük, az <code>xcom_pull()</code> <code>None</code>-t ad vissza és a Parquet olvasás <code>FileNotFoundError</code>-t dob.</p>
+</div>
+</li>
+<li>
+<p>Az Airflow UI-ban aktiváljuk az <code>etl_orders_grouped</code> DAG-ot. A <code>Graph</code> nézetben az összecsukható TaskGroup dobozok (ingestion, transformation, serving) láthatók.</p>
+</li>
+</ol>
+<h3 id="jinja-templating-es-utemezes">Jinja templating és ütemezés<a class="headerlink" href="#jinja-templating-es-utemezes" title="Permanent link">¶</a></h3>
+<ol>
+<li>
+<p>Az Airflow DAG-ok Jinja template-eket is támogatnak. Hozzuk létre a <code>dags/templated_example.py</code> fájlt:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">airflow</span> <span class="kn">import</span> <span class="n">DAG</span>
+<span class="kn">from</span> <span class="nn">airflow.operators.bash</span> <span class="kn">import</span> <span class="n">BashOperator</span>
+<span class="kn">from</span> <span class="nn">airflow.operators.python</span> <span class="kn">import</span> <span class="n">PythonOperator</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="k">with</span> <span class="n">DAG</span><span class="p">(</span>
+    <span class="n">dag_id</span><span class="o">=</span><span class="s1">'templated_example'</span><span class="p">,</span>
+    <span class="n">schedule</span><span class="o">=</span><span class="s1">'0 6 * * 1'</span><span class="p">,</span>    <span class="c1"># Minden hétfőn 06:00-kor</span>
+    <span class="n">start_date</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+    <span class="n">catchup</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s1">'labor05'</span><span class="p">,</span> <span class="s1">'demo'</span><span class="p">],</span>
+<span class="p">)</span> <span class="k">as</span> <span class="n">dag</span><span class="p">:</span>
+
+    <span class="c1"># {{ ds }}: execution_date YYYY-MM-DD formátumban – Jinja template.</span>
+    <span class="c1"># Az Airflow a parancs futtatása ELŐTT helyettesíti be az értéket.</span>
+    <span class="n">task_heti</span> <span class="o">=</span> <span class="n">BashOperator</span><span class="p">(</span>
+        <span class="n">task_id</span><span class="o">=</span><span class="s1">'heti_riport'</span><span class="p">,</span>
+        <span class="n">bash_command</span><span class="o">=</span><span class="s1">'echo "Heti riport: {{ ds }} – {{ dag.dag_id }}"'</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">weekly_summary</span><span class="p">(</span><span class="o">**</span><span class="n">context</span><span class="p">):</span>
+        <span class="n">logical_date</span> <span class="o">=</span> <span class="n">context</span><span class="p">[</span><span class="s1">'logical_date'</span><span class="p">]</span>
+        <span class="n">week_number</span>  <span class="o">=</span> <span class="n">logical_date</span><span class="o">.</span><span class="n">isocalendar</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>   <span class="c1"># ISO hétszám</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">logical_date</span><span class="o">.</span><span class="n">year</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">week_number</span><span class="si">}</span><span class="s2">. hét összesítője"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Execution date: </span><span class="si">{</span><span class="n">context</span><span class="p">[</span><span class="s1">'ds'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="n">task_python</span> <span class="o">=</span> <span class="n">PythonOperator</span><span class="p">(</span>
+        <span class="n">task_id</span><span class="o">=</span><span class="s1">'python_summary'</span><span class="p">,</span>
+        <span class="n">python_callable</span><span class="o">=</span><span class="n">weekly_summary</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">task_heti</span> <span class="o">&gt;&gt;</span> <span class="n">task_python</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Cron szintaxis</p>
+<table>
+<thead>
+<tr>
+<th>Kifejezés</th>
+<th>Jelentés</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@daily</code></td>
+<td>Naponta éjfélkor</td>
+</tr>
+<tr>
+<td><code>@hourly</code></td>
+<td>Óránként</td>
+</tr>
+<tr>
+<td><code>0 6 * * 1</code></td>
+<td>Hétfőnként 06:00</td>
+</tr>
+<tr>
+<td><code>0 */4 * * *</code></td>
+<td>4 óránként</td>
+</tr>
+<tr>
+<td><code>None</code></td>
+<td>Csak manuálisan</td>
+</tr>
+</tbody>
+</table>
+</div>
+</li>
+</ol>
+<div class="admonition example">
+<p class="admonition-title">Beadandó – f1.png</p>
+<p>Az <code>etl_orders</code> DAG Graph nézete az Airflow UI-ban: mindhárom task (extract, transform, load) zöld (Succeeded) állapotban.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Beadandó – f2.png</p>
+<p>A <code>revenue_alert</code> DAG Graph nézete: a <code>check_revenue</code> task utáni elágazás látható, egy ág zöld (executed), a másik szürke (skipped).</p>
+</div>
+<hr>
+
+    <hr>
+  <div class="md-source-file">
+    <span class="md-source-file__fact"> <span class="md-icon" title="Utolsó frissítés"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z">
+          </path>
+        </svg>
+      </span>
+      <span title="2026. április 23. 15:40:21">
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago" title="2026. április 23. 15:40:21 CEST"><span class="timeago" datetime="2026-04-23T15:40:21+02:00" locale="hu"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date" title="2026. április 23. 15:40:21 CEST">2026-04-23</span>
+      </span>
+    </span>
+
+    
+
+    <span class="md-source-file__fact">
+      <span class="md-icon" title="Szerzők">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z">
+          </path>
+        </svg>
+      </span>
+      <span>Szerzők</span>
+      <nav></nav>      
+    </span>
+  </div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden="">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"></path></svg>
+            Vissza a tetejére
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright © BME VIK AUT
+    </div>
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tabs", "navigation.instant", "navigation.top", "search.suggest"], "search": "../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "V\u00e1g\u00f3lapra m\u00e1solva", "clipboard.copy": "M\u00e1sol\u00e1s v\u00e1g\u00f3lapra", "search.result.more.one": "1 tov\u00e1bbi tal\u00e1lat az oldalon", "search.result.more.other": "# tov\u00e1bbi tal\u00e1lat az oldalon", "search.result.none": "Nincs tal\u00e1lat", "search.result.one": "1 egyez\u0151 dokumentum", "search.result.other": "# egyez\u0151 dokumentum", "search.result.placeholder": "Keres\u00e9shez \u00edrj ide valamit", "search.result.term.missing": "\u00dcres", "select.version": "Verzi\u00f3v\u00e1lt\u00e1s"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.2a6f1dda.min.js"></script>
+      
+        <script src="../../../js/timeago.min.js"></script>
+      
+        <script src="../../../js/timeago_mkdocs_material.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
